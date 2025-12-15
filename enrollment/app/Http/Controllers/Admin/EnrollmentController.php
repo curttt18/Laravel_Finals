@@ -26,10 +26,22 @@ class EnrollmentController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'student_id' => 'required|exists:students,student_id',
-            'school_year' => 'required|string|max:20',
-            'enrollment_date' => 'required|date',
+            'student_id' => [
+                'required',
+                'exists:students,student_id',
+                // Prevent duplicate enrollment for same student in same school year
+                \Illuminate\Validation\Rule::unique('enrollments')->where(function ($query) use ($request) {
+                    return $query->where('school_year', $request->school_year);
+                }),
+            ],
+            'school_year' => ['required', 'string', 'max:9', 'regex:/^\d{4}-\d{4}$/'],
+            'enrollment_date' => 'required|date|after_or_equal:2000-01-01|before_or_equal:today',
             'status' => 'required|in:pending,enrolled,withdrawn',
+        ], [
+            'student_id.unique' => 'This student is already enrolled for the selected school year.',
+            'school_year.regex' => 'School year must be in format YYYY-YYYY (e.g., 2024-2025).',
+            'enrollment_date.after_or_equal' => 'Enrollment date must be after year 2000.',
+            'enrollment_date.before_or_equal' => 'Enrollment date cannot be in the future.',
         ]);
 
         $enrollment = Enrollment::create($validated);
@@ -52,10 +64,22 @@ class EnrollmentController extends Controller
     public function update(Request $request, Enrollment $enrollment)
     {
         $validated = $request->validate([
-            'student_id' => 'required|exists:students,student_id',
-            'school_year' => 'required|string|max:20',
-            'enrollment_date' => 'required|date',
+            'student_id' => [
+                'required',
+                'exists:students,student_id',
+                // Prevent duplicate enrollment for same student in same school year (ignore current)
+                \Illuminate\Validation\Rule::unique('enrollments')->where(function ($query) use ($request) {
+                    return $query->where('school_year', $request->school_year);
+                })->ignore($enrollment->enrollment_id, 'enrollment_id'),
+            ],
+            'school_year' => ['required', 'string', 'max:9', 'regex:/^\d{4}-\d{4}$/'],
+            'enrollment_date' => 'required|date|after_or_equal:2000-01-01|before_or_equal:today',
             'status' => 'required|in:pending,enrolled,withdrawn',
+        ], [
+            'student_id.unique' => 'This student is already enrolled for the selected school year.',
+            'school_year.regex' => 'School year must be in format YYYY-YYYY (e.g., 2024-2025).',
+            'enrollment_date.after_or_equal' => 'Enrollment date must be after year 2000.',
+            'enrollment_date.before_or_equal' => 'Enrollment date cannot be in the future.',
         ]);
 
         $oldStatus = $enrollment->status;
@@ -85,6 +109,12 @@ class EnrollmentController extends Controller
 
     public function destroy(Enrollment $enrollment)
     {
+        // Prevent deletion of active enrollments
+        if ($enrollment->status === 'enrolled') {
+            return redirect()->route('admin.enrollments.index')
+                ->with('error', 'Cannot delete an active enrollment. Withdraw the student first.');
+        }
+
         $enrollment->delete();
 
         ActivityLog::create([

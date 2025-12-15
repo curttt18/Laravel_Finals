@@ -31,10 +31,23 @@ class PaymentController extends Controller
             'student_id' => 'required|exists:students,student_id',
             'fee_id' => 'required|exists:fees,fee_id',
             'payment_date' => 'required|date',
-            'payment_amount' => 'required|numeric|min:0',
+            'payment_amount' => 'required|numeric|min:0.01|max:999999.99',
             'payment_type' => 'required|in:full,installment',
-            'remarks' => 'nullable|string',
+            'remarks' => 'nullable|string|max:500',
         ]);
+
+        // Check for overpayment
+        $fee = Fee::find($validated['fee_id']);
+        $existingPayments = Payment::where('student_id', $validated['student_id'])
+            ->where('fee_id', $validated['fee_id'])
+            ->sum('payment_amount');
+        $remainingBalance = $fee->amount - $existingPayments;
+
+        if ($validated['payment_amount'] > $remainingBalance) {
+            return back()->withErrors([
+                'payment_amount' => 'Payment amount (₱' . number_format($validated['payment_amount'], 2) . ') exceeds remaining balance (₱' . number_format($remainingBalance, 2) . ').',
+            ])->withInput();
+        }
 
         $payment = Payment::create($validated);
 
@@ -60,10 +73,24 @@ class PaymentController extends Controller
             'student_id' => 'required|exists:students,student_id',
             'fee_id' => 'required|exists:fees,fee_id',
             'payment_date' => 'required|date',
-            'payment_amount' => 'required|numeric|min:0',
+            'payment_amount' => 'required|numeric|min:0.01|max:999999.99',
             'payment_type' => 'required|in:full,installment',
-            'remarks' => 'nullable|string',
+            'remarks' => 'nullable|string|max:500',
         ]);
+
+        // Check for overpayment (exclude current payment from calculation)
+        $fee = Fee::find($validated['fee_id']);
+        $existingPayments = Payment::where('student_id', $validated['student_id'])
+            ->where('fee_id', $validated['fee_id'])
+            ->where('payment_id', '!=', $payment->payment_id)
+            ->sum('payment_amount');
+        $remainingBalance = $fee->amount - $existingPayments;
+
+        if ($validated['payment_amount'] > $remainingBalance) {
+            return back()->withErrors([
+                'payment_amount' => 'Payment amount (₱' . number_format($validated['payment_amount'], 2) . ') exceeds remaining balance (₱' . number_format($remainingBalance, 2) . ').',
+            ])->withInput();
+        }
 
         $payment->update($validated);
 

@@ -9,6 +9,14 @@ class Fee extends Model
 {
     protected $primaryKey = 'fee_id';
 
+    /**
+     * Get the route key for the model.
+     */
+    public function getRouteKeyName(): string
+    {
+        return 'fee_id';
+    }
+
     protected $fillable = [
         'fee_name',
         'amount',

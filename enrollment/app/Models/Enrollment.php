@@ -9,6 +9,14 @@ class Enrollment extends Model
 {
     protected $primaryKey = 'enrollment_id';
 
+    /**
+     * Get the route key for the model.
+     */
+    public function getRouteKeyName(): string
+    {
+        return 'enrollment_id';
+    }
+
     protected $fillable = [
         'student_id',
         'school_year',

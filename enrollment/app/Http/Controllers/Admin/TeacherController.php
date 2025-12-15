@@ -64,6 +64,12 @@ class TeacherController extends Controller
 
     public function destroy(Teacher $teacher)
     {
+        // Prevent deletion if teacher has grade records
+        if ($teacher->grades()->exists()) {
+            return redirect()->route('admin.teachers.index')
+                ->with('error', 'Cannot delete teacher. Grade records exist for this teacher.');
+        }
+
         $name = $teacher->teacher_name;
         $teacher->delete();
 

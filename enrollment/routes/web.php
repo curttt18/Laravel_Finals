@@ -59,26 +59,70 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     Route::get('/logs', [AdminActivityLogController::class, 'index'])->name('logs.index');
 });
 
-// Registrar Routes (same as admin but without users/logs)
+// Registrar Routes (student registration and enrollment management)
 Route::middleware(['auth', 'role:registrar'])->prefix('registrar')->name('registrar.')->group(function () {
-    Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
+    Route::get('/dashboard', function () {
+        $totalStudents = \App\Models\Student::count();
+        $totalTeachers = \App\Models\Teacher::count();
+        $pendingEnrollments = \App\Models\Enrollment::where('status', 'pending')->count();
+        $enrolledStudents = \App\Models\Enrollment::where('status', 'enrolled')->count();
+        
+        $recentEnrollments = \App\Models\Enrollment::with('student')
+            ->orderBy('created_at', 'desc')
+            ->limit(5)
+            ->get();
+        
+        return view('registrar.dashboard', compact(
+            'totalStudents',
+            'totalTeachers',
+            'pendingEnrollments',
+            'enrolledStudents',
+            'recentEnrollments'
+        ));
+    })->name('dashboard');
+    
+    // Student management
     Route::resource('students', AdminStudentController::class)->parameters(['students' => 'student:student_id']);
+    
+    // Teacher management (for assignment to grades)
     Route::resource('teachers', AdminTeacherController::class)->except(['show'])->parameters(['teachers' => 'teacher:teacher_id']);
+    
+    // Enrollment management (core registrar duty)
     Route::resource('enrollments', AdminEnrollmentController::class)->except(['show'])->parameters(['enrollments' => 'enrollment:enrollment_id']);
     Route::post('/enrollments/{enrollment:enrollment_id}/approve', [AdminEnrollmentController::class, 'approve'])->name('enrollments.approve');
-    Route::resource('fees', AdminFeeController::class)->except(['show'])->parameters(['fees' => 'fee:fee_id']);
-    Route::resource('payments', AdminPaymentController::class)->except(['show'])->parameters(['payments' => 'payment:payment_id']);
+    
+    // Grades management (view/create student grades)
     Route::resource('grades', AdminGradeController::class)->except(['show'])->parameters(['grades' => 'grade:grade_id']);
 });
 
-// Cashier Routes (view students, manage payments)
+// Cashier Routes (view students, manage payments - NO DELETE)
 Route::middleware(['auth', 'role:cashier'])->prefix('cashier')->name('cashier.')->group(function () {
     Route::get('/dashboard', function () {
-        return view('cashier.dashboard');
+        $totalPaymentsToday = \App\Models\Payment::whereDate('created_at', today())->sum('payment_amount');
+        $totalPaymentsMonth = \App\Models\Payment::whereMonth('created_at', now()->month)
+            ->whereYear('created_at', now()->year)
+            ->sum('payment_amount');
+        $recentPayments = \App\Models\Payment::with(['student', 'fee'])
+            ->orderBy('created_at', 'desc')
+            ->limit(10)
+            ->get();
+        $pendingStudents = \App\Models\Student::whereHas('enrollments', function ($q) {
+            $q->where('status', 'enrolled');
+        })->count();
+        
+        return view('cashier.dashboard', compact(
+            'totalPaymentsToday',
+            'totalPaymentsMonth',
+            'recentPayments',
+            'pendingStudents'
+        ));
     })->name('dashboard');
     Route::get('/students', [AdminStudentController::class, 'index'])->name('students.index');
     Route::get('/students/{student:student_id}', [AdminStudentController::class, 'show'])->name('students.show');
-    Route::resource('payments', AdminPaymentController::class)->parameters(['payments' => 'payment:payment_id']);
+    // Cashier can create and edit payments, but NOT delete (for audit trail)
+    Route::resource('payments', AdminPaymentController::class)
+        ->except(['show', 'destroy'])
+        ->parameters(['payments' => 'payment:payment_id']);
 });
 
 // Student Portal Routes

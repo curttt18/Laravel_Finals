@@ -28,13 +28,25 @@ class UserController extends Controller
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email',
+            'email' => 'required|email|max:255|unique:users,email',
             'password' => 'required|string|min:8|confirmed',
             'role' => 'required|in:admin,registrar,cashier,student',
-            'student_id' => 'nullable|exists:students,student_id',
+            'student_id' => $request->role === 'student' 
+                ? 'required|exists:students,student_id|unique:users,student_id' 
+                : 'nullable',
+        ], [
+            'student_id.required' => 'A student profile must be selected for student role users.',
+            'student_id.unique' => 'This student already has a user account.',
         ]);
 
+        // Normalize email to lowercase
+        $validated['email'] = strtolower($validated['email']);
         $validated['password'] = Hash::make($validated['password']);
+        
+        // Clear student_id for non-student roles
+        if ($validated['role'] !== 'student') {
+            $validated['student_id'] = null;
+        }
 
         $user = User::create($validated);
 
@@ -57,16 +69,37 @@ class UserController extends Controller
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email,' . $user->id,
+            'email' => 'required|email|max:255|unique:users,email,' . $user->id,
             'password' => 'nullable|string|min:8|confirmed',
             'role' => 'required|in:admin,registrar,cashier,student',
-            'student_id' => 'nullable|exists:students,student_id',
+            'student_id' => $request->role === 'student' 
+                ? 'required|exists:students,student_id|unique:users,student_id,' . $user->id 
+                : 'nullable',
+        ], [
+            'student_id.required' => 'A student profile must be selected for student role users.',
+            'student_id.unique' => 'This student already has a user account.',
         ]);
+
+        // Prevent demoting the last admin
+        if ($user->role === 'admin' && $validated['role'] !== 'admin') {
+            $adminCount = User::where('role', 'admin')->count();
+            if ($adminCount <= 1) {
+                return back()->withErrors(['role' => 'Cannot change role. This is the last admin account.'])->withInput();
+            }
+        }
+
+        // Normalize email to lowercase
+        $validated['email'] = strtolower($validated['email']);
 
         if (!empty($validated['password'])) {
             $validated['password'] = Hash::make($validated['password']);
         } else {
             unset($validated['password']);
+        }
+        
+        // Clear student_id for non-student roles
+        if ($validated['role'] !== 'student') {
+            $validated['student_id'] = null;
         }
 
         $user->update($validated);
@@ -84,6 +117,14 @@ class UserController extends Controller
     {
         if ($user->id === Auth::id()) {
             return redirect()->route('admin.users.index')->with('error', 'You cannot delete your own account!');
+        }
+
+        // Prevent deleting the last admin
+        if ($user->role === 'admin') {
+            $adminCount = User::where('role', 'admin')->count();
+            if ($adminCount <= 1) {
+                return redirect()->route('admin.users.index')->with('error', 'Cannot delete the last admin account!');
+            }
         }
 
         $name = $user->name;

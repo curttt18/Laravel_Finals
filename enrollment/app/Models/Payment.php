@@ -9,6 +9,14 @@ class Payment extends Model
 {
     protected $primaryKey = 'payment_id';
 
+    /**
+     * Get the route key for the model.
+     */
+    public function getRouteKeyName(): string
+    {
+        return 'payment_id';
+    }
+
     protected $fillable = [
         'student_id',
         'fee_id',

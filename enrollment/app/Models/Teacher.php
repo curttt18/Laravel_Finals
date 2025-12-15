@@ -9,6 +9,14 @@ class Teacher extends Model
 {
     protected $primaryKey = 'teacher_id';
 
+    /**
+     * Get the route key for the model.
+     */
+    public function getRouteKeyName(): string
+    {
+        return 'teacher_id';
+    }
+
     protected $fillable = [
         'teacher_name',
         'contact_information',

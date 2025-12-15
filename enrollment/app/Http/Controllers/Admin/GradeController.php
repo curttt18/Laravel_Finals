@@ -28,7 +28,14 @@ class GradeController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'student_id' => 'required|exists:students,student_id',
+            'student_id' => [
+                'required',
+                'exists:students,student_id',
+                // Prevent duplicate grade for same student in same academic period
+                \Illuminate\Validation\Rule::unique('grades')->where(function ($query) use ($request) {
+                    return $query->where('academic_period', $request->academic_period);
+                }),
+            ],
             'teacher_id' => 'required|exists:teachers,teacher_id',
             'academic_period' => 'required|string|in:Q1,Q2,Q3,Q4',
             'cognitive_skills' => 'required|in:excellent,good,satisfactory,needs_improvement',
@@ -37,6 +44,8 @@ class GradeController extends Controller
             'emotional_dev' => 'required|in:excellent,good,satisfactory,needs_improvement',
             'behavior' => 'required|in:excellent,good,satisfactory,needs_improvement',
             'teacher_remarks' => 'nullable|string',
+        ], [
+            'student_id.unique' => 'This student already has a grade for the selected academic period.',
         ]);
 
         $grade = Grade::create($validated);
@@ -60,7 +69,14 @@ class GradeController extends Controller
     public function update(Request $request, Grade $grade)
     {
         $validated = $request->validate([
-            'student_id' => 'required|exists:students,student_id',
+            'student_id' => [
+                'required',
+                'exists:students,student_id',
+                // Prevent duplicate grade for same student in same academic period (ignore current)
+                \Illuminate\Validation\Rule::unique('grades')->where(function ($query) use ($request) {
+                    return $query->where('academic_period', $request->academic_period);
+                })->ignore($grade->grade_id, 'grade_id'),
+            ],
             'teacher_id' => 'required|exists:teachers,teacher_id',
             'academic_period' => 'required|string|in:Q1,Q2,Q3,Q4',
             'cognitive_skills' => 'required|in:excellent,good,satisfactory,needs_improvement',
@@ -69,6 +85,8 @@ class GradeController extends Controller
             'emotional_dev' => 'required|in:excellent,good,satisfactory,needs_improvement',
             'behavior' => 'required|in:excellent,good,satisfactory,needs_improvement',
             'teacher_remarks' => 'nullable|string',
+        ], [
+            'student_id.unique' => 'This student already has a grade for the selected academic period.',
         ]);
 
         $grade->update($validated);

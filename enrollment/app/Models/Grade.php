@@ -9,6 +9,14 @@ class Grade extends Model
 {
     protected $primaryKey = 'grade_id';
 
+    /**
+     * Get the route key for the model.
+     */
+    public function getRouteKeyName(): string
+    {
+        return 'grade_id';
+    }
+
     protected $fillable = [
         'student_id',
         'teacher_id',

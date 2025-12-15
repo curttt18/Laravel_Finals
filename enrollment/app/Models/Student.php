@@ -10,6 +10,14 @@ class Student extends Model
 {
     protected $primaryKey = 'student_id';
 
+    /**
+     * Get the route key for the model.
+     */
+    public function getRouteKeyName(): string
+    {
+        return 'student_id';
+    }
+
     protected $fillable = [
         'student_name',
         'date_of_birth',

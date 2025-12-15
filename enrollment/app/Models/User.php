@@ -6,6 +6,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class User extends Authenticatable
 {
@@ -21,6 +23,8 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role',
+        'student_id',
     ];
 
     /**
@@ -44,5 +48,53 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    /**
+     * Get the student record linked to this user.
+     */
+    public function student(): BelongsTo
+    {
+        return $this->belongsTo(Student::class, 'student_id', 'student_id');
+    }
+
+    /**
+     * Get the activity logs for this user.
+     */
+    public function activityLogs(): HasMany
+    {
+        return $this->hasMany(ActivityLog::class);
+    }
+
+    /**
+     * Check if user is admin.
+     */
+    public function isAdmin(): bool
+    {
+        return $this->role === 'admin';
+    }
+
+    /**
+     * Check if user is registrar.
+     */
+    public function isRegistrar(): bool
+    {
+        return $this->role === 'registrar';
+    }
+
+    /**
+     * Check if user is cashier.
+     */
+    public function isCashier(): bool
+    {
+        return $this->role === 'cashier';
+    }
+
+    /**
+     * Check if user is student.
+     */
+    public function isStudent(): bool
+    {
+        return $this->role === 'student';
     }
 }

@@ -37,8 +37,6 @@ Make sure you have these installed:
 3. Click **Start** next to **MySQL**
 4. Both should turn **GREEN** ✅
 
-![XAMPP should look like this - Apache and MySQL are green]
-
 ---
 
 ## STEP 4: Create the Database
@@ -46,33 +44,43 @@ Make sure you have these installed:
 1. Open your browser
 2. Go to: **http://localhost/phpmyadmin**
 3. Click **"New"** on the left sidebar
-4. Type the database name: `enrollment`
+4. Type the database name: `db_enrollment`
 5. Click **"Create"**
-
-**IMPORTANT:** The database should be empty! Don't add any tables manually.
 
 ---
 
-## STEP 5: Open the Project in VS Code
+## STEP 5: Import the Database File
+
+**Your groupmate should have sent you a file called `db_enrollment.sql`**
+
+1. In phpMyAdmin, click **`db_enrollment`** on the left sidebar
+2. Click the **Import** tab at the top
+3. Click **Choose File**
+4. Select the `.sql` file your groupmate sent
+5. Scroll down and click **Go**
+6. Wait for "Import has been successfully finished" ✅
+
+---
+
+## STEP 6: Open the Project in VS Code
 
 1. Open **VS Code**
 2. Click **File** → **Open Folder**
 3. Navigate to the extracted project folder
-4. Open the **`enrollment`** folder (the one inside Laravel_Finals)
+4. Open the **`db_enrollment`** folder (the one inside Laravel_Finals)
 
 ---
 
-## STEP 6: Create the .env File
+## STEP 7: Create the .env File
 
-1. In VS Code, look at the left sidebar (file explorer)
-2. Find the file named **`.env.example`**
-3. **Right-click** on it → **Copy**
-4. **Right-click** in the same folder → **Paste**
-5. **Rename** the copied file to just **`.env`** (remove the .example part)
+1. In VS Code, find the file named **`.env.example`**
+2. **Right-click** on it → **Copy**
+3. **Right-click** in the same folder → **Paste**
+4. **Rename** the copied file to just **`.env`**
 
 ---
 
-## STEP 7: Edit the .env File
+## STEP 8: Edit the .env File
 
 1. Open the **`.env`** file
 2. Find these lines and make sure they look like this:
@@ -81,149 +89,90 @@ Make sure you have these installed:
 DB_CONNECTION=mysql
 DB_HOST=127.0.0.1
 DB_PORT=3306
-DB_DATABASE=enrollment
+DB_DATABASE=db_enrollment
 DB_USERNAME=root
 DB_PASSWORD=
 ```
-
-**NOTE:** Leave `DB_PASSWORD=` empty (no password) unless you set one in XAMPP.
 
 3. **Save the file** (Ctrl + S)
 
 ---
 
-## STEP 8: Open Terminal in VS Code
+## STEP 9: Open Terminal in VS Code
 
-1. In VS Code, click **Terminal** in the top menu
+1. Click **Terminal** in the top menu
 2. Click **New Terminal**
-3. A terminal window opens at the bottom
-4. Make sure you're in the **enrollment** folder (it should show in the terminal path)
 
 ---
 
-## STEP 9: Install PHP Packages
+## STEP 10: Install PHP Packages
 
-Type this command and press **Enter**:
+Type and press Enter:
 
 ```bash
 composer install
 ```
 
-⏳ **Wait** for it to finish. This may take 2-5 minutes.
+⏳ Wait for it to finish (2-5 minutes)
 
 ---
 
-## STEP 10: Generate App Key
+## STEP 11: Generate App Key
 
-Type this command and press **Enter**:
+Type and press Enter:
 
 ```bash
 php artisan key:generate
 ```
 
-You should see: `Application key set successfully.`
-
 ---
 
-## STEP 11: Create Database Tables
+## STEP 12: Install Frontend Packages
 
-Type this command and press **Enter**:
-
-```bash
-php artisan migrate
-```
-
-If it asks: `Do you want to create it?` → Type **yes** and press Enter.
-
-You should see a list of tables being created ✅
-
----
-
-## STEP 12: (Optional) Add Sample Data
-
-If your project has seeders (sample data), run:
-
-```bash
-php artisan db:seed
-```
-
----
-
-## STEP 13: Install Frontend Packages
-
-Type this command and press **Enter**:
+Type and press Enter:
 
 ```bash
 npm install
 ```
 
-⏳ **Wait** for it to finish.
-
 ---
 
-## STEP 14: Run the Project!
+## STEP 13: Run the Project!
 
-Type this command and press **Enter**:
+Type and press Enter:
 
 ```bash
 php artisan serve
 ```
 
-You should see:
-```
-Starting Laravel development server: http://127.0.0.1:8000
-```
-
 ---
 
-## STEP 15: Open in Browser
+## STEP 14: Open in Browser
 
 1. Open your browser
-2. Go to: **http://127.0.0.1:8000** or **http://localhost:8000**
-3. 🎉 The website should load!
+2. Go to: **http://127.0.0.1:8000**
+3. 🎉 The website should load with all the data!
 
 ---
 
 # ❓ Troubleshooting
 
-### "XAMPP MySQL won't start"
-- Close XAMPP
-- Open Task Manager (Ctrl + Shift + Esc)
-- End any process named "mysqld"
-- Restart XAMPP
-
-### "Composer is not recognized"
-- Restart your computer after installing Composer
-- Make sure you installed Composer globally
-
-### "php is not recognized"
-- You need to add PHP to your system PATH
-- Or use XAMPP's PHP: `C:\xampp\php\php.exe`
-
-### "Table already exists" error
-Run this to reset:
-```bash
-php artisan migrate:fresh
-```
-⚠️ WARNING: This deletes all data!
-
-### "Could not find driver" error
-1. Open `C:\xampp\php\php.ini`
-2. Find `;extension=pdo_mysql`
-3. Remove the `;` at the start
-4. Restart Apache in XAMPP
+| Problem | Solution |
+|---------|----------|
+| XAMPP MySQL won't start | Open Task Manager, end "mysqld" process, restart XAMPP |
+| "Composer is not recognized" | Restart computer after installing Composer |
+| "php is not recognized" | Add PHP to PATH or use `C:\xampp\php\php.exe` |
+| Import fails in phpMyAdmin | Make sure you selected the `enrollment` database first |
+| "Could not find driver" | Edit `C:\xampp\php\php.ini`, remove `;` before `extension=pdo_mysql` |
 
 ---
 
-# 📱 Quick Commands Reference
+# 📱 Quick Commands
 
 | What You Want | Command |
 |---------------|---------|
 | Start the server | `php artisan serve` |
-| Create tables | `php artisan migrate` |
-| Reset database | `php artisan migrate:fresh` |
-| Add sample data | `php artisan db:seed` |
-| Stop the server | Press `Ctrl + C` in terminal |
+| Stop the server | Press `Ctrl + C` |
 
 ---
 

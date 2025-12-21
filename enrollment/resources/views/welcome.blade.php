@@ -166,6 +166,7 @@
             margin-bottom: 20px;
         }
         
+        
         .hero-subtitle {
             font-size: 1.8rem;
             color: white;
@@ -202,6 +203,19 @@
             background: linear-gradient(180deg, #a29bfe 0%, #6c5ce7 100%);
             padding: 60px 20px;
         }
+
+        .activities::before,
+        .game-section::before {
+            content: '🎈 ⭐ 🖍️ 🌈 🧩';
+            position: absolute;
+            font-size: 80px;
+            opacity: 0.08;
+            top: 10%;
+            left: 5%;
+            transform: rotate(-10deg);
+            pointer-events: none;
+        }
+
         
         .section-title {
             font-family: 'Fredoka One', cursive;
@@ -237,6 +251,20 @@
         }
         
         .activity-card:hover { transform: rotateY(180deg); }
+
+        /* Cute wobble instead of stiff hover */
+        @keyframes wobble {
+            0% { transform: rotate(0deg); }
+            25% { transform: rotate(2deg); }
+            50% { transform: rotate(-2deg); }
+            75% { transform: rotate(1deg); }
+            100% { transform: rotate(0deg); }
+        }
+
+        .activity-card:hover {
+            animation: wobble 0.6s ease;
+        }
+
         
         .card-front, .card-back {
             position: absolute;
@@ -252,6 +280,17 @@
             padding: 25px;
             box-shadow: 0 15px 40px rgba(0,0,0,0.3);
         }
+
+        /* Softer cards */
+        .card-front, .card-back,
+        .testimonial-card,
+        .game-container {
+            border-radius: 32px;
+            box-shadow:
+                0 15px 40px rgba(0,0,0,0.2),
+                inset 0 4px 0 rgba(255,255,255,0.4);
+        }
+
         
         .card-front { background: white; }
         .card-back { background: linear-gradient(135deg, #fd79a8, #e84393); transform: rotateY(180deg); color: white; }

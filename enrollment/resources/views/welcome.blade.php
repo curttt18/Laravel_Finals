@@ -205,7 +205,8 @@
         }
 
         .activities::before,
-        .game-section::before {
+        .game-section::before,
+        .testimonials::before {
             content: '🎈 ⭐ 🖍️ 🌈 🧩';
             position: absolute;
             font-size: 80px;
@@ -215,6 +216,50 @@
             transform: rotate(-10deg);
             pointer-events: none;
         }
+
+        .testimonial-marquee {
+            width: 100%;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .testimonial-track {
+            display: flex;
+            width: max-content;
+            animation: marquee 30s linear infinite;
+        }
+
+        .testimonial-avatar-wrap {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            padding: 4px;
+            background: linear-gradient(135deg, #fd79a8, #6c5ce7);
+            margin: 0 auto 15px;
+        }
+
+        .testimonial-avatar-wrap img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            background: white;
+        }
+
+
+        /* .testimonial-track:hover {
+            animation-play-state: paused;
+        } */
+
+        @keyframes marquee {
+            0% {
+                transform: translateX(0);
+            }
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+
 
         
         .section-title {
@@ -349,7 +394,7 @@
             width: max-content;
         }
         
-        .testimonial-track:hover { animation-play-state: paused; }
+        /* .testimonial-track:hover { animation-play-state: paused; } */
         
         @keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
         
@@ -441,9 +486,9 @@
             @auth
                 <a href="{{ url('/dashboard') }}" class="nav-btn nav-btn-login">🎯 Dashboard</a>
             @else
-                <a href="{{ route('login') }}" class="nav-btn nav-btn-login">👋 Login</a>
+                <a href="{{ route('login') }}" class="nav-btn nav-btn-login">Login</a>
                 @if (Route::has('register'))
-                    <a href="{{ route('register') }}" class="nav-btn nav-btn-register">🎉 Join!</a>
+                    <a href="{{ route('register') }}" class="nav-btn nav-btn-register">Join</a>
                 @endif
             @endauth
         @endif
@@ -555,40 +600,81 @@
     <!-- SECTION 4: Testimonials -->
     <section class="testimonials">
         <h2 class="section-title" style="margin-bottom: 50px;">💖 Happy Parents</h2>
-        <div class="testimonial-track">
-            <div class="testimonial-card">
-                <div class="testimonial-avatar">👨‍👩‍👧</div>
-                <p class="testimonial-text">"My daughter can't wait to go to school every day!"</p>
-                <p class="testimonial-name">- Maria & Family</p>
-            </div>
-            <div class="testimonial-card">
-                <div class="testimonial-avatar">👨‍👩‍👦</div>
-                <p class="testimonial-text">"The teachers are amazing and truly care!"</p>
-                <p class="testimonial-name">- Juan's Parents</p>
-            </div>
-            <div class="testimonial-card">
-                <div class="testimonial-avatar">👩‍👧‍👦</div>
-                <p class="testimonial-text">"Best decision we ever made for our kids!"</p>
-                <p class="testimonial-name">- The Garcia Family</p>
-            </div>
-            <div class="testimonial-card">
-                <div class="testimonial-avatar">👨‍👩‍👧‍👦</div>
-                <p class="testimonial-text">"Safe, fun, and educational!"</p>
-                <p class="testimonial-name">- The Santos Family</p>
-            </div>
-            <!-- Duplicates for seamless loop -->
-            <div class="testimonial-card">
-                <div class="testimonial-avatar">👨‍👩‍👧</div>
-                <p class="testimonial-text">"My daughter can't wait to go to school every day!"</p>
-                <p class="testimonial-name">- Maria & Family</p>
-            </div>
-            <div class="testimonial-card">
-                <div class="testimonial-avatar">👨‍👩‍👦</div>
-                <p class="testimonial-text">"The teachers are amazing and truly care!"</p>
-                <p class="testimonial-name">- Juan's Parents</p>
+
+        <div class="testimonial-marquee">
+            <div class="testimonial-track">
+
+                <!-- ORIGINAL SET -->
+                <div class="testimonial-card">
+                    <div class="testimonial-avatar-wrap">
+                        <img src="https://images.unsplash.com/photo-1542037104857-ffbb0b9155fb?q=80&w=1954&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Maria's Family">
+                    </div>
+
+                    <p class="testimonial-text">"My daughter can't wait to go to school every day!"</p>
+                    <p class="testimonial-name">- Maria & Family</p>
+                </div>
+
+                <div class="testimonial-card">
+                    <div class="testimonial-avatar-wrap">
+                        <img src="https://images.unsplash.com/photo-1588979355313-6711a095465f?q=80&w=972&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Juan's Family">
+                    </div>
+                    <p class="testimonial-text">"The teachers are amazing and truly care!"</p>
+                    <p class="testimonial-name">- Juan's Parents</p>
+                </div>
+
+                <div class="testimonial-card">
+                    <div class="testimonial-avatar-wrap">
+                        <img src="https://images.unsplash.com/photo-1559734840-f9509ee5677f?q=80&w=987&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Garcia's Family">
+                    </div>
+                    <p class="testimonial-text">"Best decision we ever made for our kids!"</p>
+                    <p class="testimonial-name">- The Garcia Family</p>
+                </div>
+
+                <div class="testimonial-card">
+                    <div class="testimonial-avatar-wrap">
+                        <img src="https://images.unsplash.com/photo-1529518152792-d08317b26e22?q=80&w=987&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Santos's Family">
+                    </div>
+                    <p class="testimonial-text">"Safe, fun, and educational!"</p>
+                    <p class="testimonial-name">- The Santos Family</p>
+                </div>
+
+                <!-- DUPLICATE SET (exact same order) -->
+                <div class="testimonial-card">
+                    <div class="testimonial-avatar-wrap">
+                        <img src="https://images.unsplash.com/photo-1542037104857-ffbb0b9155fb?q=80&w=1954&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Maria's Family">
+                    </div>
+                    <p class="testimonial-text">"My daughter can't wait to go to school every day!"</p>
+                    <p class="testimonial-name">- Maria & Family</p>
+                </div>
+
+                <div class="testimonial-card">
+                    <div class="testimonial-avatar-wrap">
+                        <img src="https://images.unsplash.com/photo-1588979355313-6711a095465f?q=80&w=972&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Juan's Family">
+                    </div>
+                    <p class="testimonial-text">"The teachers are amazing and truly care!"</p>
+                    <p class="testimonial-name">- Juan's Parents</p>
+                </div>
+
+                <div class="testimonial-card">
+                    <div class="testimonial-avatar-wrap">
+                        <img src="https://images.unsplash.com/photo-1559734840-f9509ee5677f?q=80&w=987&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Garcia's Family">
+                    </div>
+                    <p class="testimonial-text">"Best decision we ever made for our kids!"</p>
+                    <p class="testimonial-name">- The Garcia Family</p>
+                </div>
+
+                <div class="testimonial-card">
+                    <div class="testimonial-avatar-wrap">
+                        <img src="https://images.unsplash.com/photo-1529518152792-d08317b26e22?q=80&w=987&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Santos's Family">
+                    </div>
+                    <p class="testimonial-text">"Safe, fun, and educational!"</p>
+                    <p class="testimonial-name">- The Santos Family</p>
+                </div>
+
             </div>
         </div>
     </section>
+
     
     <!-- SECTION 5: CTA -->
     <section class="cta-section">

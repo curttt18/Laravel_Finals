@@ -199,10 +199,21 @@
         .nav-btn:hover { transform: translateY(-5px) scale(1.1); }
         
         /* ========== SECTION 2: ACTIVITIES ========== */
-        .activities {
-            background: linear-gradient(180deg, #a29bfe 0%, #6c5ce7 100%);
-            padding: 60px 20px;
+        .activities { background:linear-gradient(180deg,#a29bfe 0%,#6c5ce7 100%); padding:60px 20px; }
+
+        .activity-icon {
+            width: 90px;
+            height: 90px;
+            object-fit: contain;
+            margin-bottom: 15px;
+            transition: transform 0.3s ease;
+            filter: drop-shadow(0 6px 10px rgba(0,0,0,0.2));
+            animation: float 3s ease-in-out infinite;
         }
+
+        @keyframes float { 0%,100%{transform:translateY(0);}50%{transform:translateY(-6px);} }
+
+        .activity-card:hover .activity-icon { transform: scale(1.15) rotate(-5deg); }
 
         .activities::before,
         .game-section::before,
@@ -216,6 +227,67 @@
             transform: rotate(-10deg);
             pointer-events: none;
         }
+
+        /* 3D Flip Cards */
+        .activity-grid { display:grid; grid-template-columns:repeat(4,280px); gap:30px; justify-content:center; perspective:1000px; }
+
+        .activity-card {
+            width: 280px;
+            height: 350px;
+            perspective: 1000px;
+            cursor: pointer;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.8s ease;
+        }
+
+        /* Flip the card when hovering the container */
+        .activity-card:hover {
+            transform: rotateY(180deg);
+        }
+
+        /* Front and back sides */
+        .card-front,
+        .card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 25px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 25px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+            pointer-events: none; /* ensures hover applies to the whole card */
+        }
+
+        /* Front stays normal */
+        .card-front {
+            background: white;
+        }
+
+        /* Back rotated */
+        .card-back {
+            transform: rotateY(180deg);
+            background: linear-gradient(135deg, #fd79a8, #e84393);
+            color: white;
+        }
+
+        /* Optional: allow clicks inside card content */
+        .card-front * , .card-back * {
+            pointer-events: auto;
+        }
+
+
+        .card-front .icon { font-size: 80px; margin-bottom:15px; }
+        .card-front h3 { font-family:'Fredoka One', cursive; font-size:1.5rem; color:#6c5ce7; margin-bottom:10px; }
+        .card-front p { color:#666; text-align:center; font-size:1rem; }
+        .card-back h3 { font-size:1.3rem; margin-bottom:15px; }
+        .card-back ul { list-style:none; text-align:left; }
+        .card-back li { padding:6px 0; font-size:1rem; }
+        .card-back li::before { content:'✨ '; }
 
         .testimonial-marquee {
             width: 100%;
@@ -295,7 +367,10 @@
             cursor: pointer;
         }
         
-        .activity-card:hover { transform: rotateY(180deg); }
+        /* Hover flips the card forward the same way */
+        .activity-card:hover {
+            transform: rotateY(180deg);
+        }
 
         /* Cute wobble instead of stiff hover */
         @keyframes wobble {
@@ -306,11 +381,64 @@
             100% { transform: rotate(0deg); }
         }
 
-        .activity-card:hover {
+        /* .activity-card:hover {
             animation: wobble 0.6s ease;
+        } */
+
+        /* Flip effect (already mostly in your CSS) */
+        .activity-card {
+            perspective: 1000px;
+            transition: transform 0.8s ease;
+            transform-style: preserve-3d;
         }
 
-        
+        .card-front, .card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 25px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 25px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+        }
+
+        /* Front stays normal */
+        .card-front { 
+            background: white; 
+        }
+
+        /* Back is rotated by 180° */
+        .card-back {
+            transform: rotateY(180deg);
+            color: white;
+        }
+
+        .card-back-art {
+            background: linear-gradient(135deg, #fd79a8, #e84393); /* pink gradient */
+        }
+
+        .card-back-story {
+            background: linear-gradient(135deg, #74b9ff, #0984e3); /* blue gradient */
+        }
+
+        .card-back-music {
+            background: linear-gradient(135deg, #ffeaa7, #fab1a0); /* yellow-orange */
+        }
+
+        .card-back-play {
+            background: linear-gradient(135deg, #55efc4, #00b894); /* green gradient */
+        }
+
+
+        /* Hover flips the card forward the same way */
+        .activity-card:hover {
+            transform: rotateY(180deg);
+        }
+  
         .card-front, .card-back {
             position: absolute;
             width: 100%;
@@ -338,7 +466,6 @@
 
         
         .card-front { background: white; }
-        .card-back { background: linear-gradient(135deg, #fd79a8, #e84393); transform: rotateY(180deg); color: white; }
         
         .card-front .icon { font-size: 80px; margin-bottom: 15px; }
         .card-front h3 { font-family: 'Fredoka One', cursive; font-size: 1.5rem; color: #6c5ce7; margin-bottom: 10px; }
@@ -523,11 +650,16 @@
         <div class="activity-grid">
             <div class="activity-card">
                 <div class="card-front">
-                    <div class="icon">🎨</div>
+                    <img
+                        src="/img/creativity.png"
+                        alt="Art & Crafts"
+                        class="activity-icon"
+                    />
                     <h3>Art & Crafts</h3>
                     <p>Express yourself!</p>
                 </div>
-                <div class="card-back">
+
+                <div class="card-back card-back-art">
                     <h3>What You'll Create:</h3>
                     <ul>
                         <li>Finger painting</li>
@@ -536,14 +668,19 @@
                     </ul>
                 </div>
             </div>
+
             
             <div class="activity-card">
                 <div class="card-front">
-                    <div class="icon">📚</div>
+                    <img
+                        src="/img/book.png"
+                        alt="Story Time"
+                        class="activity-icon"
+                    />
                     <h3>Story Time</h3>
                     <p>Adventure awaits!</p>
                 </div>
-                <div class="card-back">
+                <div class="card-back card-back-story">
                     <h3>Magical Stories:</h3>
                     <ul>
                         <li>Fairy tales</li>
@@ -555,11 +692,15 @@
             
             <div class="activity-card">
                 <div class="card-front">
-                    <div class="icon">🎵</div>
+                    <img
+                        src="/img/music.png"
+                        alt="Music & Dance"
+                        class="activity-icon"
+                    />
                     <h3>Music & Dance</h3>
                     <p>Let's groove!</p>
                 </div>
-                <div class="card-back">
+                <div class="card-back card-back-music">
                     <h3>Get Moving:</h3>
                     <ul>
                         <li>Sing-along sessions</li>
@@ -571,11 +712,15 @@
             
             <div class="activity-card">
                 <div class="card-front">
-                    <div class="icon">🏃</div>
+                    <img
+                        src="/img/playground.png"
+                        alt="Outdoor Play"
+                        class="activity-icon"
+                    />
                     <h3>Outdoor Play</h3>
                     <p>Fresh air fun!</p>
                 </div>
-                <div class="card-back">
+                <div class="card-back card-back-play">
                     <h3>Outside Fun:</h3>
                     <ul>
                         <li>Playground</li>

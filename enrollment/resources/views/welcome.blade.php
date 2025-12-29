@@ -641,14 +641,30 @@
             background: linear-gradient(180deg, #fd79a8 0%, #e84393 100%);
             padding: 60px 20px;
         }
-
-        /* Clean grid layout — marquee removed for accessibility */
-        .testimonial-grid { margin-top: 10px; }
-        .testimonial-card { transition: transform 220ms ease, box-shadow 220ms ease; }
-        .testimonial-card:focus { outline: 4px solid rgba(108,92,231,0.08); transform: translateY(-6px); box-shadow: 0 20px 60px rgba(0,0,0,0.12); }
-        .testimonial-card.expanded { transform: translateY(-6px) scale(1.02); box-shadow: 0 30px 80px rgba(0,0,0,0.12); }
-        .testimonial-card .avatar img { width: 100%; height: 100%; object-fit: cover; }
-        .testimonial-name { font-weight: 800; color: #6c5ce7; font-size: 1.0rem; margin-top: 10px; }
+        
+        .testimonial-track {
+            display: flex;
+            animation: scroll 25s linear infinite;
+            width: max-content;
+        }
+        
+        /* .testimonial-track:hover { animation-play-state: paused; } */
+        
+        @keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+        
+        .testimonial-card {
+            background: white;
+            border-radius: 25px;
+            padding: 35px;
+            margin: 0 15px;
+            min-width: 320px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+            text-align: center;
+        }
+        
+        .testimonial-avatar { font-size: 60px; margin-bottom: 15px; }
+        .testimonial-text { font-size: 1rem; color: #666; line-height: 1.7; margin-bottom: 15px; }
+        .testimonial-name { font-weight: 800; color: #6c5ce7; font-size: 1.1rem; }
         
         /* ========== SECTION 5: CTA ========== */
         .cta-section {
@@ -900,7 +916,7 @@
     
     <!-- SECTION 4: Testimonials -->
     <section class="testimonials">
-        <h2 class="section-title" style="margin-bottom:        50px;">≡ƒÆû Happy Parents</h2>
+        <h2 class="section-title" style="margin-bottom: 50px;">💖 Happy Parents</h2>
 
         <div class="testimonial-marquee">
             <div class="testimonial-track">
@@ -935,11 +951,11 @@
                     <div class="testimonial-avatar-wrap">
                         <img src="https://images.unsplash.com/photo-1529518152792-d08317b26e22?q=80&w=987&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Santos's Family">
                     </div>
-                    <p class="testimonial-text">"Excellent communication and warm staff."</p>
+                    <p class="testimonial-text">"Safe, fun, and educational!"</p>
                     <p class="testimonial-name">- The Santos Family</p>
                 </div>
 
-                <!-- REPEAT FOR SEAMLESS SCROLL -->
+                <!-- DUPLICATE SET (exact same order) -->
                 <div class="testimonial-card">
                     <div class="testimonial-avatar-wrap">
                         <img src="https://images.unsplash.com/photo-1542037104857-ffbb0b9155fb?q=80&w=1954&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Maria's Family">
@@ -948,11 +964,31 @@
                     <p class="testimonial-name">- Maria & Family</p>
                 </div>
 
-            </div>
-        </div>
+                <div class="testimonial-card">
+                    <div class="testimonial-avatar-wrap">
+                        <img src="https://images.unsplash.com/photo-1588979355313-6711a095465f?q=80&w=972&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Juan's Family">
+                    </div>
+                    <p class="testimonial-text">"The teachers are amazing and truly care!"</p>
+                    <p class="testimonial-name">- Juan's Parents</p>
+                </div>
 
-        <div style="text-align:center; margin-top:28px;">
-            <a href="#" class="btn-primary">Read more reviews</a>
+                <div class="testimonial-card">
+                    <div class="testimonial-avatar-wrap">
+                        <img src="https://images.unsplash.com/photo-1559734840-f9509ee5677f?q=80&w=987&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Garcia's Family">
+                    </div>
+                    <p class="testimonial-text">"Best decision we ever made for our kids!"</p>
+                    <p class="testimonial-name">- The Garcia Family</p>
+                </div>
+
+                <div class="testimonial-card">
+                    <div class="testimonial-avatar-wrap">
+                        <img src="https://images.unsplash.com/photo-1529518152792-d08317b26e22?q=80&w=987&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Santos's Family">
+                    </div>
+                    <p class="testimonial-text">"Safe, fun, and educational!"</p>
+                    <p class="testimonial-name">- The Santos Family</p>
+                </div>
+
+            </div>
         </div>
     </section>
 

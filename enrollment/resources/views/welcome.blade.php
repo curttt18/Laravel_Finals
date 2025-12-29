@@ -1081,8 +1081,211 @@
         
         /* ========== SECTION 4: TESTIMONIALS ========== */
         .testimonials {
-            background: linear-gradient(180deg, #fd79a8 0%, #e84393 100%);
+            background: linear-gradient(135deg, #74b9ff 0%, #0984e3 70%, #6c5ce7 100%);
             padding: 60px 20px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        /* Rainbow border top */
+        .testimonials::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 12px;
+            background: linear-gradient(
+                to right,
+                #ff6b6b 0%,
+                #feca57 16.6%, 
+                #1dd1a1 33.2%, 
+                #00d2d3 49.8%, 
+                #54a0ff 66.4%, 
+                #5f27cd 83%,
+                #8854d0 100%
+            );
+            z-index: 5;
+        }
+        
+        /* Emoji row */
+        .testimonials::after {
+            content: "🎈 🚀 🌟 🎮 🦄 🎨 📚 🎵 🧩";
+            position: absolute;
+            top: 20px;
+            left: 0;
+            width: 100%;
+            font-size: 22px;
+            opacity: 0.2;
+            display: flex;
+            justify-content: space-around;
+            pointer-events: none;
+            z-index: 1;
+        }
+        
+        /* Bouncing decorations */
+        .testimonial-decoration {
+            position: absolute;
+            z-index: 1;
+            pointer-events: none;
+            animation: bounce 3s infinite alternate ease-in-out;
+        }
+        
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(5deg); }
+        }
+        
+        .testimonial-decoration-1 {
+            top: 15%;
+            left: 5%;
+            font-size: 60px;
+            opacity: 0.25;
+            animation-duration: 4s;
+        }
+        
+        .testimonial-decoration-2 {
+            top: 25%;
+            right: 8%;
+            font-size: 50px;
+            opacity: 0.2;
+            animation-duration: 5s;
+            animation-delay: 1s;
+        }
+        
+        .testimonial-decoration-3 {
+            bottom: 20%;
+            left: 10%;
+            font-size: 55px;
+            opacity: 0.25;
+            animation-duration: 3.5s;
+            animation-delay: 0.5s;
+        }
+        
+        .testimonial-decoration-4 {
+            bottom: 30%;
+            right: 12%;
+            font-size: 45px;
+            opacity: 0.2;
+            animation-duration: 4.5s;
+            animation-delay: 1.5s;
+        }
+        
+        .testimonial-decoration-5 {
+            top: 40%;
+            left: 20%;
+            font-size: 48px;
+            opacity: 0.15;
+            animation-duration: 6s;
+        }
+        
+        /* Cloud patterns */
+        .cloud-shape {
+            position: absolute;
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 50px;
+            z-index: 0;
+        }
+        
+        .cloud-shape::before,
+        .cloud-shape::after {
+            content: '';
+            position: absolute;
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+        }
+        
+        .cloud-shape-1 {
+            width: 200px;
+            height: 60px;
+            top: 10%;
+            left: -30px;
+        }
+        
+        .cloud-shape-1::before {
+            width: 80px;
+            height: 80px;
+            top: -40px;
+            left: 30px;
+        }
+        
+        .cloud-shape-1::after {
+            width: 60px;
+            height: 60px;
+            top: -30px;
+            left: 100px;
+        }
+        
+        .cloud-shape-2 {
+            width: 180px;
+            height: 50px;
+            bottom: 15%;
+            right: -40px;
+        }
+        
+        .cloud-shape-2::before {
+            width: 70px;
+            height: 70px;
+            top: -30px;
+            right: 40px;
+        }
+        
+        .cloud-shape-2::after {
+            width: 50px;
+            height: 50px;
+            top: -25px;
+            right: 100px;
+        }
+        
+        /* Rainbow stripe */
+        .rainbow-stripe {
+            position: absolute;
+            height: 30px;
+            width: 100%;
+            left: 0;
+            background: linear-gradient(
+                to right,
+                #ff6b6b 0%,
+                #feca57 16.6%, 
+                #1dd1a1 33.2%, 
+                #00d2d3 49.8%, 
+                #54a0ff 66.4%, 
+                #8854d0 100%
+            );
+            opacity: 0.15;
+            z-index: 0;
+        }
+        
+        .rainbow-stripe-1 {
+            bottom: 40%;
+            transform: rotate(-2deg);
+        }
+        
+        .rainbow-stripe-2 {
+            top: 30%;
+            transform: rotate(3deg);
+        }
+        
+        /* Zigzag pattern */
+        .zigzag {
+            position: absolute;
+            height: 12px;
+            width: 100%;
+            background: 
+                linear-gradient(135deg, rgba(255,255,255,0.15) 25%, transparent 25%) -10px 0,
+                linear-gradient(225deg, rgba(255,255,255,0.15) 25%, transparent 25%) -10px 0,
+                linear-gradient(315deg, rgba(255,255,255,0.15) 25%, transparent 25%),
+                linear-gradient(45deg, rgba(255,255,255,0.15) 25%, transparent 25%);
+            background-size: 20px 20px;
+            z-index: 0;
+        }
+        
+        .zigzag-1 {
+            bottom: 10%;
+        }
+        
+        .zigzag-2 {
+            top: 15%;
         }
         
         .testimonial-track {
@@ -1101,15 +1304,23 @@
             padding: 35px;
             margin: 0 15px;
             min-width: 320px;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+            box-shadow: 
+                0 15px 40px rgba(0,0,0,0.2),
+                inset 0 -5px 0 rgba(108,92,231,0.4),
+                inset 0 5px 0 rgba(253,121,168,0.4);
             text-align: center;
             cursor: pointer;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 3px solid rgba(255,255,255,0.8);
         }
         
         .testimonial-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+            transform: translateY(-10px) scale(1.03);
+            box-shadow: 
+                0 20px 50px rgba(0,0,0,0.3),
+                inset 0 -8px 0 rgba(108,92,231,0.6),
+                inset 0 8px 0 rgba(253,121,168,0.6);
+            border-color: white;
         }
         
         .testimonial-avatar { font-size: 60px; margin-bottom: 15px; }
@@ -1582,6 +1793,25 @@
     
     <!-- SECTION 4: Testimonials -->
     <section class="testimonials">
+        <!-- Decorative elements -->
+        <div class="testimonial-decoration testimonial-decoration-1">🧸</div>
+        <div class="testimonial-decoration testimonial-decoration-2">🎨</div>
+        <div class="testimonial-decoration testimonial-decoration-3">🚂</div>
+        <div class="testimonial-decoration testimonial-decoration-4">🎮</div>
+        <div class="testimonial-decoration testimonial-decoration-5">🧩</div>
+        
+        <!-- Cloud shapes -->
+        <div class="cloud-shape cloud-shape-1"></div>
+        <div class="cloud-shape cloud-shape-2"></div>
+        
+        <!-- Rainbow stripes -->
+        <div class="rainbow-stripe rainbow-stripe-1"></div>
+        <div class="rainbow-stripe rainbow-stripe-2"></div>
+        
+        <!-- Zigzag patterns -->
+        <div class="zigzag zigzag-1"></div>
+        <div class="zigzag zigzag-2"></div>
+        
         <h2 class="section-title" style="margin-bottom: 50px;">💖 Happy Parents</h2>
 
         <div class="testimonial-marquee">

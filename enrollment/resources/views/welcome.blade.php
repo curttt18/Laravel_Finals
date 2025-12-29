@@ -215,9 +215,7 @@
 
         .activity-card:hover .activity-icon { transform: scale(1.15) rotate(-5deg); }
 
-        .activities::before,
-        .game-section::before,
-        .testimonials::before {
+        .activities::before {
             content: '🎈 ⭐ 🖍️ 🌈 🧩';
             position: absolute;
             font-size: 80px;
@@ -226,6 +224,140 @@
             left: 5%;
             transform: rotate(-10deg);
             pointer-events: none;
+        }
+
+        .game-section::before,
+        .game-section::after {
+            content: "";
+            position: absolute;
+            width: 280px;
+            height: 90px;
+            background: #ffffff;
+            border-radius: 100px;
+            opacity: 0.75;
+            pointer-events: none;
+            filter: blur(0.5px);
+        }
+
+        .game-section::before {
+            top: 12%;
+            left: -120px;
+            box-shadow:
+                60px 10px 0 10px #fff,
+                120px -10px 0 15px #fff,
+                180px 5px 0 5px #fff;
+            animation: cloudMove 60s linear infinite;
+        }
+
+        .game-section::after {
+            top: 38%;
+            left: -160px;
+            width: 360px;
+            height: 110px;
+            opacity: 0.6;
+            box-shadow:
+                80px 20px 0 12px #fff,
+                160px -12px 0 18px #fff,
+                240px 10px 0 6px #fff;
+            animation: cloudMove 90s linear infinite;
+        }
+
+        .mountain, .mountain-two, .mountain-three, .mountain-four, .mountain-five {
+            position: absolute;
+            bottom: 0;
+            border-left: 150px solid transparent;
+            border-right: 150px solid transparent;
+            border-bottom: 180px solid #7ac1e4;
+            z-index: 1;
+        }
+        .mountain-two { 
+            left: 80px;
+            bottom: -20px;
+            opacity: .3;
+            z-index: 0;
+        }
+        .mountain-three {
+            left: -60px;
+            bottom:-10px;
+            opacity: .5;
+            z-index: 0;
+        }
+        .mountain-four {
+            left: 880px;
+            bottom: -20px;
+            opacity: .5;
+            z-index: 0;
+        }
+        .mountain-five {
+            left: 1050px;
+            bottom: -10px;
+            opacity: .5;
+            z-index: 0;
+        }
+        .mountain-top {
+            position: absolute;
+            right: -65px;
+            border-left: 65px solid transparent;
+            border-right: 65px solid transparent;
+            border-bottom: 77px solid #ceeaf6;
+            z-index: 2;
+        }
+        .mountain-cap-1, .mountain-cap-2, .mountain-cap-3 {
+            position: absolute;
+            top: 70px;
+            border-left: 25px solid transparent;
+            border-right: 25px solid transparent;
+            border-top: 25px solid #ceeaf6;
+        }
+        .mountain-cap-1 { left: -55px; }
+        .mountain-cap-2 { left: -25px; }
+        .mountain-cap-3 { left: 5px; }
+        .cloud, .cloud:before, .cloud:after {
+        position: absolute;
+        width: 70px;
+            height: 30px;
+            background: #fff;
+            -webkit-border-radius: 100px / 50px;
+            border-radius: 100px / 50px;
+        }
+        .cloud { 
+        bottom: 100px;
+        -webkit-animation: cloud 50s infinite linear;
+                animation: cloud 50s infinite linear;
+        }
+        @-webkit-keyframes cloud {
+            0%   { left: -100px; }
+            100% { left: 1000px; } 
+        }
+        @keyframes cloud {
+        
+            0%   { left: -100px; }
+            100% { left: 1000px; } 
+        }
+        .cloud:before {
+        content: '';
+        left: 50px;
+        }
+        .cloud:after {
+        content: '';
+        left: 25px;
+        top: -10px;
+        }
+
+        @keyframes cloudMove {
+            from {
+                transform: translateX(0);
+            }
+            to {
+                transform: translateX(120vw);
+            }
+        }
+
+
+
+        @keyframes floaty {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(5deg); }
         }
 
         /* 3D Flip Cards */
@@ -605,32 +737,62 @@
 
         /* ========== SECTION 3: GAME ========== */
         .game-section {
-            background: linear-gradient(180deg, #ffeaa7 0%, #fdcb6e 100%);
-            padding: 60px 20px;
+            position: relative;
+            padding: 90px 20px;
+            overflow: hidden;
+
+            background:
+                radial-gradient(circle at 15% 20%, rgba(255,255,255,0.8) 0 60px, transparent 61px),
+                radial-gradient(circle at 80% 30%, rgba(255,255,255,0.7) 0 80px, transparent 81px),
+                radial-gradient(circle at 40% 75%, rgba(255,255,255,0.6) 0 70px, transparent 71px),
+                linear-gradient(180deg, #c7ecee 0%, #a29bfe 45%, #74b9ff 100%);
         }
+
         
         .game-container {
             max-width: 700px;
-            width: 90%;
-            background: white;
-            border-radius: 40px;
+            width: 92%;
+            background: linear-gradient(180deg, #ffffff, #fffdf3);
+            border-radius: 48px;
             padding: 40px;
-            box-shadow: 0 25px 60px rgba(0,0,0,0.2);
+            box-shadow:
+                0 30px 70px rgba(0,0,0,0.18),
+                inset 0 6px 0 rgba(255,255,255,0.7);
+            border: 6px dashed rgb(156 26 184 / 60%);
+            position: relative;
         }
+
         
         .game-title { font-family: 'Fredoka One', cursive; font-size: 2.2rem; color: #e17055; margin-bottom: 20px; text-align: center; }
         
         .catch-game {
-            height: 250px;
-            background: linear-gradient(180deg, #74b9ff, #a29bfe);
-            border-radius: 20px;
+            height: 260px;
+            background:
+                radial-gradient(circle at 20% 30%, #ffffff 0 18px, transparent 19px),
+                radial-gradient(circle at 70% 40%, #ffffff 0 22px, transparent 23px),
+                linear-gradient(180deg, #a29bfe, #74b9ff);
+            border-radius: 28px;
             position: relative;
             overflow: hidden;
             cursor: crosshair;
             margin-bottom: 20px;
+            box-shadow: inset 0 -10px 0 rgba(0,0,0,0.08);
         }
+
         
-        .catch-item { position: absolute; font-size: 45px; cursor: pointer; user-select: none; transition: transform 0.1s; }
+        .catch-item {
+            position: absolute;
+            font-size: 46px;
+            cursor: pointer;
+            user-select: none;
+            animation: pop 1.4s ease-in-out infinite;
+        }
+
+        @keyframes pop {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.25) rotate(8deg); }
+        }
+
         .catch-item:hover { transform: scale(1.3); }
         
         .game-score { font-size: 1.3rem; font-weight: 800; color: #6c5ce7; text-align: center; }
@@ -638,125 +800,33 @@
         
         /* ========== SECTION 4: TESTIMONIALS ========== */
         .testimonials {
-            background: linear-gradient(135deg, #ff9aa2 0%, #fd79a8 30%, #e84393 100%);
-            padding: 80px 20px;
-            position: relative;
-            overflow: hidden;
+            background: linear-gradient(180deg, #fd79a8 0%, #e84393 100%);
+            padding: 60px 20px;
         }
-
-        /* Decorative soft wave (subtle) */
-        .testimonials::before {
-            content: '';
-            position: absolute;
-            left: -10%;
-            top: -12%;
-            width: 120%;
-            height: 220px;
-            background: radial-gradient(circle at 10% 30%, rgba(255,255,255,0.06), transparent 20%), radial-gradient(circle at 90% 70%, rgba(255,255,255,0.05), transparent 20%);
-            transform: rotate(-6deg);
-            pointer-events: none;
-        }
-
-        .testimonials .section-title { color: #fff; text-shadow: 2px 2px 0 rgba(0,0,0,0.12); }
-        .testimonials .section-subtitle { color: rgba(255,255,255,0.95); margin-bottom: 30px; }
-
-        .testimonial-marquee {
-            width: 100%;
-            overflow: hidden;
-            display: block;
-            padding: 8px 0 4px;
-        }
-
+        
         .testimonial-track {
             display: flex;
-            gap: 18px;
-            align-items: stretch;
-            animation: scroll 28s linear infinite;
-            will-change: transform;
-            padding-bottom: 6px;
+            animation: scroll 25s linear infinite;
+            width: max-content;
         }
-
-        /* pause marquee on hover and when any child is focused */
-        .testimonial-marquee:hover .testimonial-track,
-        .testimonial-marquee:focus-within .testimonial-track {
-            animation-play-state: paused;
-        }
-
-        @keyframes scroll {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
-        }
-
+        
+        /* .testimonial-track:hover { animation-play-state: paused; } */
+        
+        @keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+        
         .testimonial-card {
-            background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(255,255,255,0.95));
-            border-radius: 20px;
-            padding: 20px;
-            margin: 0 6px;
-            min-width: 340px;
-            display: flex;
-            gap: 18px;
-            align-items: flex-start;
-            box-shadow: 0 18px 50px rgba(0,0,0,0.12);
-            transition: transform 220ms ease, box-shadow 220ms ease;
-            cursor: pointer;
-            text-align: left;
-            border: 1px solid rgba(255,255,255,0.6);
+            background: white;
+            border-radius: 25px;
+            padding: 35px;
+            margin: 0 15px;
+            min-width: 320px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+            text-align: center;
         }
-
-        .testimonial-card:hover {
-            transform: translateY(-10px) scale(1.02);
-            box-shadow: 0 30px 80px rgba(0,0,0,0.16);
-        }
-
-        .testimonial-avatar-wrap {
-            width: 76px;
-            height: 76px;
-            border-radius: 50%;
-            overflow: hidden;
-            flex: 0 0 76px;
-            display: inline-block;
-            border: 4px solid rgba(255,255,255,0.9);
-            box-shadow: 0 8px 26px rgba(0,0,0,0.12);
-        }
-
-        .testimonial-avatar-wrap img { width: 100%; height: 100%; object-fit: cover; display:block; }
-
-        .testimonial-content { flex: 1 1 auto; }
-        .testimonial-rating { color: #ffbf00; font-size: 0.98rem; margin-bottom: 6px; }
-
-        .testimonial-text {
-            font-size: 0.98rem;
-            color: #4b5563;
-            line-height: 1.6;
-            margin-bottom: 10px;
-            max-height: 3.6em; /* approx 3 lines */
-            overflow: hidden;
-            position: relative;
-        }
-
-        /* show more when expanded (JS toggles `.expanded`) */
-        .testimonial-card.expanded .testimonial-text { max-height: 100vh; }
-
-        .testimonial-text::before {
-            content: '“';
-            font-family: 'Fredoka One', cursive;
-            font-size: 2.2rem;
-            color: rgba(108,92,231,0.14);
-            position: absolute;
-            left: -6px;
-            top: -6px;
-        }
-
-        .testimonial-name { font-weight: 800; color: #6c5ce7; font-size: 1rem; margin-top: 8px; }
-
-        /* responsive behaviour */
-        @media (max-width: 992px) {
-            .testimonial-card { min-width: 300px; }
-        }
-        @media (max-width: 640px) {
-            .testimonial-card { min-width: 260px; padding: 16px; gap: 12px; }
-            .testimonial-avatar-wrap { width: 60px; height: 60px; flex: 0 0 60px; }
-        }
+        
+        .testimonial-avatar { font-size: 60px; margin-bottom: 15px; }
+        .testimonial-text { font-size: 1rem; color: #666; line-height: 1.7; margin-bottom: 15px; }
+        .testimonial-name { font-weight: 800; color: #6c5ce7; font-size: 1.1rem; }
         
         /* ========== SECTION 5: CTA ========== */
         .cta-section {
@@ -998,6 +1068,43 @@
     
     <!-- SECTION 3: Game -->
     <section class="game-section">
+         <!-- Background scenery -->
+        <div class="mountain">
+            <div class="mountain-top">
+                <div class="mountain-cap-1"></div>
+                <div class="mountain-cap-2"></div>
+                <div class="mountain-cap-3"></div>
+            </div>
+        </div>
+        <div class="mountain-two">
+            <div class="mountain-top">
+                <div class="mountain-cap-1"></div>
+                <div class="mountain-cap-2"></div>
+                <div class="mountain-cap-3"></div>
+            </div>
+        </div>
+        <div class="mountain-three">
+            <div class="mountain-top">
+                <div class="mountain-cap-1"></div>
+                <div class="mountain-cap-2"></div>
+                <div class="mountain-cap-3"></div>
+            </div>
+        </div>
+        <div class="mountain-four">
+            <div class="mountain-top">
+                <div class="mountain-cap-1"></div>
+                <div class="mountain-cap-2"></div>
+                <div class="mountain-cap-3"></div>
+            </div>
+        </div>
+        <div class="mountain-five">
+            <div class="mountain-top">
+                <div class="mountain-cap-1"></div>
+                <div class="mountain-cap-2"></div>
+                <div class="mountain-cap-3"></div>
+            </div>
+        </div>
+        <div class="cloud"></div>
         <div class="game-container">
             <h2 class="game-title">🎮 Catch the Stars!</h2>
             <p class="game-instructions">Click the stars as fast as you can!</p>
@@ -1009,24 +1116,6 @@
     <!-- SECTION 4: Testimonials -->
     <section class="testimonials">
         <h2 class="section-title" style="margin-bottom: 50px;">💖 Happy Parents</h2>
-
-        <style>
-            /* Scoped testimonial styles — visual refinement only (marquee behavior preserved) */
-            .testimonials{padding:48px 20px;background:linear-gradient(180deg,#fffaf0 0%,#fff6e8 100%);overflow:hidden}
-            .testimonials .section-title{margin-bottom:34px;color:#2b3340}
-            .testimonial-marquee{overflow:hidden;padding:6px 0}
-            .testimonial-track{display:flex;gap:20px;align-items:stretch;animation:scroll 25s linear infinite}
-            @keyframes scroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
-            .testimonial-card{background:#ffffff;border-radius:14px;padding:18px 20px;min-width:300px;box-shadow:0 10px 25px rgba(15,23,42,0.08);display:flex;flex-direction:column;align-items:center;text-align:center;border:1px solid rgba(9,30,66,0.04)}
-            .testimonial-card:hover{transform:translateY(-6px);transition:transform .18s ease}
-            .testimonial-avatar-wrap{width:72px;height:72px;border-radius:999px;overflow:hidden;margin-bottom:14px;box-shadow:0 6px 18px rgba(15,23,42,0.06)}
-            .testimonial-avatar-wrap img{width:100%;height:100%;object-fit:cover;display:block}
-            .testimonial-text{font-size:0.98rem;color:#44506a;line-height:1.6;margin-bottom:12px}
-            .testimonial-name{font-weight:700;color:#1f2937;font-size:0.95rem}
-            /* Slightly reduce motion preference respect: we don't pause animation on hover to preserve original behavior */
-            @media (prefers-reduced-motion:reduce){.testimonial-track{animation:none}}
-            @media (max-width:640px){.testimonial-card{min-width:250px;padding:14px}}
-        </style>
 
         <div class="testimonial-marquee">
             <div class="testimonial-track">

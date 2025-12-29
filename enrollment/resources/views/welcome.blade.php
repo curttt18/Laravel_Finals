@@ -51,65 +51,157 @@
         
         /* ========== SECTION 1: HERO ========== */
         .hero {
-            background: linear-gradient(180deg, #74b9ff 0%, #81ecec 50%, #55efc4 100%);
+            position: relative;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
+
+        .sky {
+            position: absolute;
+            inset: 0;
+            z-index: 0;
+        }
+
+        /* Day sky */
+        .day-sky {
+            background: linear-gradient(
+                180deg,
+                #87cefa,
+                #b8e7ff
+            );
+            clip-path: polygon(0 0, 55% 0, 45% 100%, 0 100%);
+        }
+
+        /* Night sky */
+        .night-sky {
+            background: linear-gradient(
+                180deg,
+                #2c2c54,
+                #0c1445
+            );
+            clip-path: polygon(55% 0, 100% 0, 100% 100%, 45% 100%);
+        }
+
+
         
         /* Animated clouds */
-        .cloud {
+       .cloud {
             position: absolute;
-            background: white;
-            border-radius: 100px;
-            box-shadow: 0 10px 30px rgba(255,255,255,0.5);
+            width: 180px;
+            height: 60px;
+            background: rgba(255,255,255,0.85);
+            border-radius: 50px;
+            filter: blur(2px);
+            box-shadow:
+                40px 10px 0 rgba(255,255,255,0.8),
+                80px 0 0 rgba(255,255,255,0.75);
+            z-index: 2;
         }
-        
-        .cloud::before, .cloud::after {
-            content: '';
+
+        .cloud-1 {
+            top: 18%;
+            left: 10%;
+        }
+
+        .cloud-2 {
+            top: 28%;
+            left: 28%;
+            transform: scale(0.8);
+        }
+
+        .birds {
             position: absolute;
-            background: white;
-            border-radius: 50%;
+            top: 22%;
+            left: 22%;
+            font-size: 22px;
+            opacity: 0.6;
+            z-index: 3;
         }
-        
-        .cloud-1 { width: 200px; height: 60px; top: 10%; left: -200px; animation: cloudMove 30s linear infinite; }
-        .cloud-1::before { width: 100px; height: 100px; top: -50px; left: 20px; }
-        .cloud-1::after { width: 70px; height: 70px; top: -35px; right: 30px; }
-        
-        .cloud-2 { width: 150px; height: 45px; top: 25%; left: -150px; animation: cloudMove 40s linear infinite; animation-delay: -15s; }
-        .cloud-2::before { width: 70px; height: 70px; top: -35px; left: 15px; }
-        .cloud-2::after { width: 50px; height: 50px; top: -25px; right: 20px; }
-        
-        .cloud-3 { width: 180px; height: 55px; top: 5%; left: -180px; animation: cloudMove 35s linear infinite; animation-delay: -25s; }
-        .cloud-3::before { width: 90px; height: 90px; top: -45px; left: 25px; }
-        .cloud-3::after { width: 60px; height: 60px; top: -30px; right: 25px; }
+
+
         
         @keyframes cloudMove { 0% { left: -250px; } 100% { left: 110%; } }
         
         /* Sun */
         .sun {
             position: absolute;
-            top: 50px;
-            right: 100px;
-            width: 120px;
-            height: 120px;
-            background: radial-gradient(circle, #fff176 0%, #ffeb3b 50%, #ffc107 100%);
+            top: 14%;
+            left: 18%;
+            width: 80px;
+            height: 80px;
+            background-color: #FFD93B; /* bright yellow */
             border-radius: 50%;
-            box-shadow: 0 0 80px #ffeb3b, 0 0 150px rgba(255,235,59,0.5);
-            animation: sunPulse 4s ease-in-out infinite;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 60px;
+            box-shadow:
+                0 0 30px 10px #FFD93B,
+                0 0 50px 20px #FFB74D,
+                0 0 70px 30px #FF8A65; /* glow layers */
+            z-index: 3;
+            animation: sunGlow 3s infinite alternate;
         }
+
+        @keyframes sunGlow {
+            0% { box-shadow: 0 0 30px 10px #FFD93B, 0 0 50px 20px #FFB74D, 0 0 70px 30px #FF8A65; }
+            100% { box-shadow: 0 0 40px 15px #FFD93B, 0 0 60px 25px #FFB74D, 0 0 80px 35px #FF8A65; }
+        }
+
+
+        .moon {
+            position: absolute;
+            top: 14%;
+            right: 18%;
+            width: 100px;
+            height: 100px;
+            
+            background-color: transparent;
+            border-radius: 50%;
+            box-shadow: 25px 10px 0px 0px #d6cbb8;
+            opacity: 0.9;
+            z-index: 3;
+        }
+
+        .stars {
+            position: absolute;
+            right: 0;
+            top: 0;
+            width: 50%;
+            height: 100%;
+            background:
+                radial-gradient(white 1px, transparent 2px),
+                radial-gradient(white 1px, transparent 2px);
+            background-size: 80px 80px, 120px 120px;
+            opacity: 0.4;
+            z-index: 1;
+        }
+
+        /* .ground {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 120px;
+            background: linear-gradient(
+                180deg,
+                #6ab04c,
+                #2ecc71
+            );
+            border-top-left-radius: 50% 40px;
+            border-top-right-radius: 50% 40px;
+            z-index: 4;
+        } */
+
         
         @keyframes sunPulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
         
         /* Ground */
-        .ground {
+        /* .ground {
             position: absolute;
             bottom: 0;
             width: 100%;
             height: 180px;
             background: linear-gradient(180deg, #55efc4 0%, #00b894 50%, #00a085 100%);
-        }
+        } */
         
         /* Interactive Mascot */
         .mascot-container { position: absolute; bottom: 180px; left: 50%; transform: translateX(-50%); z-index: 10; }
@@ -283,13 +375,13 @@
             z-index: 0;
         }
         .mountain-four {
-            left: 880px;
+            left: 1180px;
             bottom: -20px;
             opacity: .5;
             z-index: 0;
         }
         .mountain-five {
-            left: 1050px;
+            left: 1350px;
             bottom: -10px;
             opacity: .5;
             z-index: 0;
@@ -923,24 +1015,68 @@
     
     <!-- SECTION 1: Hero -->
     <section class="hero">
+        <div class="sky day-sky"></div>
+        <div class="sky night-sky"></div>
+
+        <!-- Day elements -->
+        <div class="sun"></div>
         <div class="cloud cloud-1"></div>
         <div class="cloud cloud-2"></div>
-        <div class="cloud cloud-3"></div>
-        <div class="sun">😊</div>
-        
+
+        <!-- Night elements -->
+        <div class="moon"></div>
+        <div class="stars"></div>
+
+        <div class="mountain">
+            <div class="mountain-top">
+                <div class="mountain-cap-1"></div>
+                <div class="mountain-cap-2"></div>
+                <div class="mountain-cap-3"></div>
+            </div>
+        </div>
+        <div class="mountain-two">
+            <div class="mountain-top">
+                <div class="mountain-cap-1"></div>
+                <div class="mountain-cap-2"></div>
+                <div class="mountain-cap-3"></div>
+            </div>
+        </div>
+        <div class="mountain-three">
+            <div class="mountain-top">
+                <div class="mountain-cap-1"></div>
+                <div class="mountain-cap-2"></div>
+                <div class="mountain-cap-3"></div>
+            </div>
+        </div>
+        <div class="mountain-four">
+            <div class="mountain-top">
+                <div class="mountain-cap-1"></div>
+                <div class="mountain-cap-2"></div>
+                <div class="mountain-cap-3"></div>
+            </div>
+        </div>
+        <div class="mountain-five">
+            <div class="mountain-top">
+                <div class="mountain-cap-1"></div>
+                <div class="mountain-cap-2"></div>
+                <div class="mountain-cap-3"></div>
+            </div>
+        </div>
+        <div class="cloud"></div>
+
         <div class="hero-content">
             <h1 class="hero-title">Little Stars Daycare</h1>
             <p class="hero-subtitle">A safe, playful environment for early learning.</p>
         </div>
-        
+
         <div class="mascot-container">
             <div class="speech-bubble" id="speech">Tap the mascot</div>
-            <div class="mascot" id="mascot" onclick="mascotClick()" role="button" aria-label="Mascot" tabindex="0">🧸</div>
+            <div class="mascot" id="mascot" onclick="mascotClick()">🧸</div>
         </div>
-        
-        <!-- Ground -->
+
         <div class="ground"></div>
     </section>
+
     
     <!-- SECTION 2: Activities -->
     <section class="activities">

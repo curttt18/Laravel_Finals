@@ -737,11 +737,11 @@
     <!-- Brand header -->
     <div class="fixed z-50 left-6 top-6">
         <a href="/" class="flex items-center gap-3 text-white no-underline">
-            <x-application-logo class="w-10 h-10" />
+            <!-- <x-application-logo class="w-10 h-10" />
             <div class="hidden md:block">
                 <div class="font-bold text-white text-lg">Little Stars</div>
                 <div class="text-xs text-white/80">Nurturing bright beginnings</div>
-            </div>
+            </div> -->
         </a>
     </div>
 

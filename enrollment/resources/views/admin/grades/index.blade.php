@@ -1,50 +1,93 @@
-@extends('layouts.admin')
+@php
+    $prefix = request()->segment(1);
+    $layout = match($prefix) {
+        'registrar' => 'layouts.registrar',
+        'cashier' => 'layouts.cashier',
+        default => 'layouts.admin'
+    };
+    $roleLabel = ucfirst($prefix);
+@endphp
 
-@section('page-title', 'Grades / Performance')
+@extends($layout)
+
+@section('page-title', 'Grades')
+@section('breadcrumb', $roleLabel . ' / Grades')
+
+@section('page-actions')
+    <a href="{{ route($prefix . '.grades.create') }}" class="btn btn-primary">
+        <i class="ri-add-line"></i> Add Grade
+    </a>
+@endsection
 
 @section('content')
-    <div class="mb-4 flex justify-between items-center">
-        <h3 class="text-lg font-medium">All Grade Records</h3>
-        <a href="{{ route('admin.grades.create') }}" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">+ Add Grade</a>
-    </div>
-
-    <div class="bg-white rounded-lg shadow-md overflow-hidden">
-        <table class="min-w-full divide-y divide-gray-200">
-            <thead class="bg-gray-50">
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">All Grade Records</h3>
+            <span style="color: #64748b; font-size: 0.85rem;">{{ $grades->total() }} total</span>
+        </div>
+        
+        <table>
+            <thead>
                 <tr>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Student</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Period</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Teacher</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Cognitive</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Motor</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Social</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Behavior</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Actions</th>
+                    <th>ID</th>
+                    <th>Student</th>
+                    <th>Period</th>
+                    <th>Teacher</th>
+                    <th>Performance</th>
+                    <th style="text-align: center;">Actions</th>
                 </tr>
             </thead>
-            <tbody class="bg-white divide-y divide-gray-200">
+            <tbody>
                 @forelse($grades as $grade)
                     <tr>
-                        <td class="px-6 py-4 text-sm font-medium text-gray-900">{{ $grade->student->student_name }}</td>
-                        <td class="px-6 py-4 text-sm text-gray-500">{{ $grade->academic_period }}</td>
-                        <td class="px-6 py-4 text-sm text-gray-500">{{ $grade->teacher->teacher_name }}</td>
-                        <td class="px-6 py-4 text-sm capitalize">{{ str_replace('_', ' ', $grade->cognitive_skills) }}</td>
-                        <td class="px-6 py-4 text-sm capitalize">{{ str_replace('_', ' ', $grade->motor_skills) }}</td>
-                        <td class="px-6 py-4 text-sm capitalize">{{ str_replace('_', ' ', $grade->social_skills) }}</td>
-                        <td class="px-6 py-4 text-sm capitalize">{{ str_replace('_', ' ', $grade->behavior) }}</td>
-                        <td class="px-6 py-4 text-sm font-medium">
-                            <a href="{{ route('admin.grades.edit', $grade) }}" class="text-indigo-600 hover:text-indigo-900 mr-3">Edit</a>
-                            <form action="{{ route('admin.grades.destroy', $grade) }}" method="POST" class="inline" onsubmit="return confirm('Are you sure?')">
-                                @csrf @method('DELETE')
-                                <button type="submit" class="text-red-600 hover:text-red-900">Delete</button>
-                            </form>
+                        <td style="color: #64748b; font-weight: 600;">#{{ $grade->grade_id }}</td>
+                        <td>
+                            <div style="display: flex; align-items: center; gap: 10px;">
+                                <div style="width: 32px; height: 32px; background: var(--c-teal); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-weight: 700; font-size: 0.75rem;">
+                                    {{ substr($grade->student->student_name, 0, 1) }}
+                                </div>
+                                <span style="font-weight: 600;">{{ $grade->student->student_name }}</span>
+                            </div>
+                        </td>
+                        <td><span class="badge badge-info">{{ $grade->academic_period }}</span></td>
+                        <td>{{ $grade->teacher->teacher_name }}</td>
+                        <td>
+                            <div style="display: flex; gap: 4px; flex-wrap: wrap;">
+                                <span class="badge badge-{{ $grade->cognitive_skills === 'excellent' ? 'success' : ($grade->cognitive_skills === 'good' ? 'info' : 'warning') }}" style="font-size: 0.65rem;">Cog</span>
+                                <span class="badge badge-{{ $grade->motor_skills === 'excellent' ? 'success' : ($grade->motor_skills === 'good' ? 'info' : 'warning') }}" style="font-size: 0.65rem;">Mot</span>
+                                <span class="badge badge-{{ $grade->social_skills === 'excellent' ? 'success' : ($grade->social_skills === 'good' ? 'info' : 'warning') }}" style="font-size: 0.65rem;">Soc</span>
+                            </div>
+                        </td>
+                        <td>
+                            <div style="display: flex; align-items: center; justify-content: center; gap: 8px;">
+                                <a href="{{ route($prefix . '.grades.edit', $grade) }}" class="btn btn-sm" style="background: var(--c-blue); color: white;" title="Edit">
+                                    <i class="ri-pencil-line"></i>
+                                </a>
+                                <form action="{{ route($prefix . '.grades.destroy', $grade) }}" method="POST" style="display: inline;" onsubmit="return confirm('Are you sure?')">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-sm btn-danger" title="Delete">
+                                        <i class="ri-delete-bin-line"></i>
+                                    </button>
+                                </form>
+                            </div>
                         </td>
                     </tr>
                 @empty
-                    <tr><td colspan="8" class="px-6 py-4 text-center text-gray-500">No grade records found</td></tr>
+                    <tr>
+                        <td colspan="6" style="text-align: center; padding: 48px; color: #94a3b8;">
+                            <i class="ri-award-line" style="font-size: 3rem; display: block; margin-bottom: 12px; opacity: 0.5;"></i>
+                            No grade records found
+                        </td>
+                    </tr>
                 @endforelse
             </tbody>
         </table>
     </div>
-    <div class="mt-4">{{ $grades->links() }}</div>
+
+    @if($grades->hasPages())
+        <div style="margin-top: 20px; display: flex; justify-content: center;">
+            {{ $grades->links() }}
+        </div>
+    @endif
 @endsection

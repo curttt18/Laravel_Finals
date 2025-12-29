@@ -1,44 +1,84 @@
-@extends('layouts.admin')
+@php
+    $prefix = request()->segment(1);
+    $layout = match($prefix) {
+        'registrar' => 'layouts.registrar',
+        'cashier' => 'layouts.cashier',
+        default => 'layouts.admin'
+    };
+    $roleLabel = ucfirst($prefix);
+@endphp
+
+@extends($layout)
 
 @section('page-title', 'Fees')
+@section('breadcrumb', $roleLabel . ' / Fees')
+
+@section('page-actions')
+    @if($prefix === 'admin')
+    <a href="{{ route($prefix . '.fees.create') }}" class="btn btn-primary">
+        <i class="ri-add-line"></i> Add Fee
+    </a>
+    @endif
+@endsection
 
 @section('content')
-    <div class="mb-4 flex justify-between items-center">
-        <h3 class="text-lg font-medium">All Fees</h3>
-        <a href="{{ route('admin.fees.create') }}" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">+ Add Fee</a>
-    </div>
-
-    <div class="bg-white rounded-lg shadow-md overflow-hidden">
-        <table class="min-w-full divide-y divide-gray-200">
-            <thead class="bg-gray-50">
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">All Fees</h3>
+            <span style="color: #64748b; font-size: 0.85rem;">{{ $fees->total() }} total</span>
+        </div>
+        
+        <table>
+            <thead>
                 <tr>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">ID</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Fee Name</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Amount</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Description</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Actions</th>
+                    <th>ID</th>
+                    <th>Fee Name</th>
+                    <th>Amount</th>
+                    <th>Description</th>
+                    @if($prefix === 'admin')
+                    <th style="text-align: center;">Actions</th>
+                    @endif
                 </tr>
             </thead>
-            <tbody class="bg-white divide-y divide-gray-200">
+            <tbody>
                 @forelse($fees as $fee)
                     <tr>
-                        <td class="px-6 py-4 text-sm text-gray-500">{{ $fee->fee_id }}</td>
-                        <td class="px-6 py-4 text-sm font-medium text-gray-900">{{ $fee->fee_name }}</td>
-                        <td class="px-6 py-4 text-sm text-green-600 font-medium">₱{{ number_format($fee->amount, 2) }}</td>
-                        <td class="px-6 py-4 text-sm text-gray-500">{{ $fee->description ?? '-' }}</td>
-                        <td class="px-6 py-4 text-sm font-medium">
-                            <a href="{{ route('admin.fees.edit', $fee) }}" class="text-indigo-600 hover:text-indigo-900 mr-3">Edit</a>
-                            <form action="{{ route('admin.fees.destroy', $fee) }}" method="POST" class="inline" onsubmit="return confirm('Are you sure?')">
-                                @csrf @method('DELETE')
-                                <button type="submit" class="text-red-600 hover:text-red-900">Delete</button>
-                            </form>
+                        <td style="color: #64748b; font-weight: 600;">#{{ $fee->fee_id }}</td>
+                        <td style="font-weight: 600;">{{ $fee->fee_name }}</td>
+                        <td style="color: var(--success); font-weight: 700; font-size: 1rem;">₱{{ number_format($fee->amount, 2) }}</td>
+                        <td style="color: #64748b; font-size: 0.85rem;">{{ $fee->description ?? '-' }}</td>
+                        @if($prefix === 'admin')
+                        <td>
+                            <div style="display: flex; align-items: center; justify-content: center; gap: 8px;">
+                                <a href="{{ route($prefix . '.fees.edit', $fee) }}" class="btn btn-sm" style="background: var(--c-blue); color: white;" title="Edit">
+                                    <i class="ri-pencil-line"></i>
+                                </a>
+                                <form action="{{ route($prefix . '.fees.destroy', $fee) }}" method="POST" style="display: inline;" onsubmit="return confirm('Are you sure?')">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-sm btn-danger" title="Delete">
+                                        <i class="ri-delete-bin-line"></i>
+                                    </button>
+                                </form>
+                            </div>
                         </td>
+                        @endif
                     </tr>
                 @empty
-                    <tr><td colspan="5" class="px-6 py-4 text-center text-gray-500">No fees found</td></tr>
+                    <tr>
+                        <td colspan="{{ $prefix === 'admin' ? 5 : 4 }}" style="text-align: center; padding: 48px; color: #94a3b8;">
+                            <i class="ri-price-tag-3-line" style="font-size: 3rem; display: block; margin-bottom: 12px; opacity: 0.5;"></i>
+                            No fees found
+                        </td>
+                    </tr>
                 @endforelse
             </tbody>
         </table>
     </div>
-    <div class="mt-4">{{ $fees->links() }}</div>
+
+    @if($fees->hasPages())
+        <div style="margin-top: 20px; display: flex; justify-content: center;">
+            {{ $fees->links() }}
+        </div>
+    @endif
 @endsection

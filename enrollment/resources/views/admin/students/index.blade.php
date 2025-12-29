@@ -1,62 +1,111 @@
-@extends('layouts.admin')
+@php
+    $prefix = request()->segment(1);
+    $layout = match($prefix) {
+        'registrar' => 'layouts.registrar',
+        'cashier' => 'layouts.cashier',
+        default => 'layouts.admin'
+    };
+    $roleLabel = ucfirst($prefix);
+@endphp
+
+@extends($layout)
 
 @section('page-title', 'Students')
+@section('breadcrumb', $roleLabel . ' / Students')
+
+@section('page-actions')
+    @if(Route::has($prefix . '.students.create'))
+    <a href="{{ route($prefix . '.students.create') }}" class="btn btn-primary">
+        <i class="ri-add-line"></i> Add Student
+    </a>
+    @endif
+@endsection
 
 @section('content')
-    <div class="mb-4 flex justify-between items-center">
-        <h3 class="text-lg font-medium">All Students</h3>
-        <a href="{{ route('admin.students.create') }}" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">
-            + Add Student
-        </a>
-    </div>
-
-    <div class="bg-white rounded-lg shadow-md overflow-hidden">
-        <table class="min-w-full divide-y divide-gray-200">
-            <thead class="bg-gray-50">
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">All Students</h3>
+            <span style="color: #64748b; font-size: 0.85rem;">{{ $students->total() }} total</span>
+        </div>
+        
+        <table>
+            <thead>
                 <tr>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date of Birth</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Gender</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Guardian</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                    <th>ID</th>
+                    <th>Student</th>
+                    <th>Date of Birth</th>
+                    <th>Gender</th>
+                    <th>Guardian</th>
+                    <th style="text-align: center;">Actions</th>
                 </tr>
             </thead>
-            <tbody class="bg-white divide-y divide-gray-200">
+            <tbody>
                 @forelse($students as $student)
                     <tr>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ $student->student_id }}</td>
-                        <td class="px-6 py-4 whitespace-nowrap">
-                            <div class="text-sm font-medium text-gray-900">{{ $student->student_name }}</div>
-                            <div class="text-sm text-gray-500">{{ $student->contact_information }}</div>
+                        <td style="color: #64748b; font-weight: 600;">#{{ $student->student_id }}</td>
+                        <td>
+                            <div style="display: flex; align-items: center; gap: 12px;">
+                                <div style="width: 40px; height: 40px; background: var(--c-teal); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: white; font-weight: 700; font-size: 0.9rem;">
+                                    {{ substr($student->student_name, 0, 1) }}
+                                </div>
+                                <div>
+                                    <div style="font-weight: 600; color: var(--c-dark);">{{ $student->student_name }}</div>
+                                    <div style="font-size: 0.8rem; color: #64748b;">{{ $student->contact_information }}</div>
+                                </div>
+                            </div>
                         </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ $student->date_of_birth->format('M d, Y') }}</td>
-                        <td class="px-6 py-4 whitespace-nowrap">
-                            <span class="px-2 py-1 text-xs font-medium rounded-full {{ $student->gender === 'male' ? 'bg-blue-100 text-blue-800' : 'bg-pink-100 text-pink-800' }}">
-                                {{ ucfirst($student->gender) }}
-                            </span>
+                        <td>{{ $student->date_of_birth->format('M d, Y') }}</td>
+                        <td>
+                            @if($student->gender === 'male')
+                                <span class="badge badge-info">
+                                    <i class="ri-men-line"></i> Male
+                                </span>
+                            @else
+                                <span class="badge" style="background: #fce7f3; color: #be185d;">
+                                    <i class="ri-women-line"></i> Female
+                                </span>
+                            @endif
                         </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ $student->guardian_name }}</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                            <a href="{{ route('admin.students.show', $student) }}" class="text-blue-600 hover:text-blue-900 mr-3">View</a>
-                            <a href="{{ route('admin.students.edit', $student) }}" class="text-indigo-600 hover:text-indigo-900 mr-3">Edit</a>
-                            <form action="{{ route('admin.students.destroy', $student) }}" method="POST" class="inline" onsubmit="return confirm('Are you sure?')">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="text-red-600 hover:text-red-900">Delete</button>
-                            </form>
+                        <td>{{ $student->guardian_name }}</td>
+                        <td>
+                            <div style="display: flex; align-items: center; justify-content: center; gap: 8px;">
+                                @if(Route::has($prefix . '.students.show'))
+                                <a href="{{ route($prefix . '.students.show', $student) }}" class="btn btn-sm btn-secondary" title="View">
+                                    <i class="ri-eye-line"></i>
+                                </a>
+                                @endif
+                                @if(Route::has($prefix . '.students.edit'))
+                                <a href="{{ route($prefix . '.students.edit', $student) }}" class="btn btn-sm" style="background: var(--c-blue); color: white;" title="Edit">
+                                    <i class="ri-pencil-line"></i>
+                                </a>
+                                @endif
+                                @if(Route::has($prefix . '.students.destroy'))
+                                <form action="{{ route($prefix . '.students.destroy', $student) }}" method="POST" style="display: inline;" onsubmit="return confirm('Are you sure you want to delete this student?')">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-sm btn-danger" title="Delete">
+                                        <i class="ri-delete-bin-line"></i>
+                                    </button>
+                                </form>
+                                @endif
+                            </div>
                         </td>
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="6" class="px-6 py-4 text-center text-gray-500">No students found</td>
+                        <td colspan="6" style="text-align: center; padding: 48px; color: #94a3b8;">
+                            <i class="ri-user-heart-line" style="font-size: 3rem; display: block; margin-bottom: 12px; opacity: 0.5;"></i>
+                            No students found
+                        </td>
                     </tr>
                 @endforelse
             </tbody>
         </table>
     </div>
 
-    <div class="mt-4">
-        {{ $students->links() }}
-    </div>
+    @if($students->hasPages())
+        <div style="margin-top: 20px; display: flex; justify-content: center;">
+            {{ $students->links() }}
+        </div>
+    @endif
 @endsection

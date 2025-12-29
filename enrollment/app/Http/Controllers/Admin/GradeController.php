@@ -12,17 +12,43 @@ use Illuminate\Support\Facades\Auth;
 
 class GradeController extends Controller
 {
+    /**
+     * Get the route prefix based on the current request path.
+     */
+    protected function getRoutePrefix(): string
+    {
+        $path = request()->path();
+        $segments = explode('/', $path);
+        return $segments[0] ?? 'admin';
+    }
+
+    /**
+     * Get the view path.
+     */
+    protected function viewPath(string $view): string
+    {
+        return "admin.{$view}";
+    }
+
+    /**
+     * Get the route name with the correct prefix.
+     */
+    protected function routeName(string $route): string
+    {
+        return $this->getRoutePrefix() . '.' . $route;
+    }
+
     public function index()
     {
         $grades = Grade::with(['student', 'teacher'])->orderBy('created_at', 'desc')->paginate(10);
-        return view('admin.grades.index', compact('grades'));
+        return view($this->viewPath('grades.index'), compact('grades'));
     }
 
     public function create()
     {
         $students = Student::all();
         $teachers = Teacher::all();
-        return view('admin.grades.create', compact('students', 'teachers'));
+        return view($this->viewPath('grades.create'), compact('students', 'teachers'));
     }
 
     public function store(Request $request)
@@ -56,14 +82,14 @@ class GradeController extends Controller
             'description' => 'Created grade for student ID: ' . $grade->student_id . ' (' . $grade->academic_period . ')',
         ]);
 
-        return redirect()->route('admin.grades.index')->with('success', 'Grade created successfully!');
+        return redirect()->route($this->routeName('grades.index'))->with('success', 'Grade created successfully!');
     }
 
     public function edit(Grade $grade)
     {
         $students = Student::all();
         $teachers = Teacher::all();
-        return view('admin.grades.edit', compact('grade', 'students', 'teachers'));
+        return view($this->viewPath('grades.edit'), compact('grade', 'students', 'teachers'));
     }
 
     public function update(Request $request, Grade $grade)
@@ -97,7 +123,7 @@ class GradeController extends Controller
             'description' => 'Updated grade ID: ' . $grade->grade_id,
         ]);
 
-        return redirect()->route('admin.grades.index')->with('success', 'Grade updated successfully!');
+        return redirect()->route($this->routeName('grades.index'))->with('success', 'Grade updated successfully!');
     }
 
     public function destroy(Grade $grade)
@@ -110,6 +136,6 @@ class GradeController extends Controller
             'description' => 'Deleted grade ID: ' . $grade->grade_id,
         ]);
 
-        return redirect()->route('admin.grades.index')->with('success', 'Grade deleted successfully!');
+        return redirect()->route($this->routeName('grades.index'))->with('success', 'Grade deleted successfully!');
     }
 }

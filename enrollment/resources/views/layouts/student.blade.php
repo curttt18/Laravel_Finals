@@ -5,50 +5,82 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ config('app.name', 'Little Stars') }} - Student Portal</title>
-    <link rel="preconnect" href="https://fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=inter:400,500,600,700&display=swap" rel="stylesheet" />
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
     
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
         :root {
-            --primary: #3b82f6;
-            --primary-dark: #2563eb;
-            --bg-light: #f8f9fc;
-            --card-bg: #ffffff;
-            --border: #e5e7eb;
+            --c-coral: #F96E5B;
+            --c-blue: #3F9AAE;
+            --c-teal: #79C9C5;
+            --c-yellow: #FFE2AF;
+            --c-dark: #2D3748;
+            --bg-cream: #FFFCF5;
+            --bg-white: #FFFFFF;
+            --border: #e2e8f0;
             --success: #10b981;
             --warning: #f59e0b;
         }
         
-        body { font-family: 'Inter', sans-serif; background: var(--bg-light); color: #1f2937; min-height: 100vh; }
+        body { 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            background: var(--bg-cream); 
+            color: var(--c-dark); 
+            min-height: 100vh; 
+        }
+        
+        h1, h2, h3, h4 { font-family: 'Fredoka', sans-serif; }
         
         .navbar {
-            background: white;
+            background: var(--bg-white);
             padding: 16px 32px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 1px solid var(--border);
-            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            border-bottom: 2px solid var(--border);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
         }
         
         .navbar-brand {
-            font-size: 1.25rem;
-            font-weight: 700;
-            color: #111827;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
+            text-decoration: none;
         }
         
-        .navbar-brand span {
-            background: var(--primary);
+        .brand-icon {
+            width: 44px;
+            height: 44px;
+            background: var(--c-coral);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             color: white;
-            padding: 6px 10px;
-            border-radius: 6px;
-            font-size: 0.75rem;
+            font-size: 1.4rem;
+        }
+        
+        .brand-text {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--c-dark);
+        }
+        
+        .brand-text span {
+            display: block;
+            font-size: 0.7rem;
+            color: var(--c-blue);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 2px;
         }
         
         .navbar-user {
@@ -57,21 +89,44 @@
             gap: 16px;
         }
         
-        .navbar-user .name {
-            font-weight: 500;
-            color: #374151;
+        .user-greeting {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            background: var(--c-teal);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+        
+        .user-name {
+            font-weight: 600;
+            color: var(--c-dark);
         }
         
         .logout-btn {
-            padding: 8px 16px;
-            background: #f3f4f6;
-            color: #374151;
-            border: 1px solid var(--border);
-            border-radius: 6px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 18px;
+            background: var(--bg-cream);
+            color: var(--c-dark);
+            border: 2px solid var(--border);
+            border-radius: 10px;
             font-size: 0.875rem;
-            font-weight: 500;
+            font-weight: 600;
             cursor: pointer;
             transition: all 0.2s;
+            font-family: inherit;
         }
         
         .logout-btn:hover {
@@ -93,12 +148,13 @@
         .welcome-header h1 {
             font-size: 1.75rem;
             font-weight: 700;
-            color: #111827;
+            color: var(--c-dark);
             margin-bottom: 8px;
         }
         
         .welcome-header p {
-            color: #6b7280;
+            color: #64748b;
+            font-size: 0.95rem;
         }
         
         .cards-grid {
@@ -108,11 +164,11 @@
         }
         
         .card {
-            background: var(--card-bg);
-            border-radius: 12px;
+            background: var(--bg-white);
+            border-radius: 16px;
             padding: 24px;
-            border: 1px solid var(--border);
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            border: 2px solid var(--border);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
         }
         
         .card-header {
@@ -124,43 +180,42 @@
             border-bottom: 1px solid var(--border);
         }
         
-        .card-header svg {
-            width: 24px;
-            height: 24px;
-            color: var(--primary);
+        .card-header i {
+            font-size: 1.5rem;
+            color: var(--c-coral);
         }
         
         .card-header h3 {
-            font-size: 1rem;
+            font-size: 1.1rem;
             font-weight: 600;
-            color: #111827;
+            color: var(--c-dark);
         }
         
         .info-row {
             display: flex;
             justify-content: space-between;
-            padding: 12px 0;
-            border-bottom: 1px solid #f3f4f6;
+            padding: 14px 0;
+            border-bottom: 1px solid #f1f5f9;
         }
         
         .info-row:last-child { border-bottom: none; }
         
-        .info-label { color: #6b7280; font-size: 0.875rem; }
-        .info-value { color: #111827; font-weight: 500; font-size: 0.875rem; }
+        .info-label { color: #64748b; font-size: 0.9rem; font-weight: 500; }
+        .info-value { color: var(--c-dark); font-weight: 600; font-size: 0.9rem; }
         
         .badge {
             display: inline-block;
-            padding: 4px 10px;
+            padding: 5px 12px;
             border-radius: 20px;
             font-size: 0.75rem;
-            font-weight: 500;
+            font-weight: 600;
         }
         
         .badge-success { background: #d1fae5; color: #065f46; }
         .badge-warning { background: #fef3c7; color: #92400e; }
         .badge-info { background: #dbeafe; color: #1e40af; }
         
-        .amount { color: var(--success); font-weight: 600; }
+        .amount { color: var(--success); font-weight: 700; }
         
         .grade-grid {
             display: grid;
@@ -171,30 +226,39 @@
         
         .grade-item {
             text-align: center;
-            padding: 12px 8px;
-            background: #f9fafb;
-            border-radius: 8px;
+            padding: 14px 8px;
+            background: var(--bg-cream);
+            border-radius: 12px;
+            border: 1px solid var(--border);
         }
         
         .grade-item .label {
             font-size: 0.7rem;
-            color: #6b7280;
-            margin-bottom: 4px;
+            color: #64748b;
+            margin-bottom: 6px;
             text-transform: uppercase;
             letter-spacing: 0.5px;
+            font-weight: 600;
         }
         
         .grade-item .value {
-            font-weight: 600;
-            color: var(--primary);
+            font-weight: 700;
+            color: var(--c-blue);
             text-transform: capitalize;
-            font-size: 0.8rem;
+            font-size: 0.85rem;
         }
         
         .empty-state {
             text-align: center;
-            color: #9ca3af;
-            padding: 24px;
+            color: #94a3b8;
+            padding: 32px;
+        }
+        
+        .empty-state i {
+            font-size: 3rem;
+            display: block;
+            margin-bottom: 12px;
+            opacity: 0.5;
         }
         
         @media (max-width: 768px) {
@@ -202,20 +266,24 @@
             .main { padding: 16px; }
             .cards-grid { grid-template-columns: 1fr; }
             .grade-grid { grid-template-columns: repeat(3, 1fr); }
+            .user-name { display: none; }
         }
     </style>
 </head>
 <body>
     <nav class="navbar">
-        <div class="navbar-brand">
-            <span>LS</span>
-            Little Stars - Student Portal
-        </div>
+        <a href="#" class="navbar-brand">
+            <div class="brand-icon"><i class="ri-shining-2-fill"></i></div>
+            <div class="brand-text">Little Stars<span>Student Portal</span></div>
+        </a>
         <div class="navbar-user">
-            <span class="name">Welcome, {{ Auth::user()->name }}</span>
+            <div class="user-greeting">
+                <div class="user-avatar">{{ substr(Auth::user()->name, 0, 2) }}</div>
+                <span class="user-name">{{ Auth::user()->name }}</span>
+            </div>
             <form method="POST" action="{{ route('logout') }}" style="margin: 0;">
                 @csrf
-                <button type="submit" class="logout-btn">Logout</button>
+                <button type="submit" class="logout-btn"><i class="ri-logout-box-r-line"></i> Logout</button>
             </form>
         </div>
     </nav>

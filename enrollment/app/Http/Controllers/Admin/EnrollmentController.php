@@ -11,16 +11,45 @@ use Illuminate\Support\Facades\Auth;
 
 class EnrollmentController extends Controller
 {
+    /**
+     * Get the route prefix based on the current request path.
+     * Returns 'admin', 'registrar', 'cashier', etc.
+     */
+    protected function getRoutePrefix(): string
+    {
+        $path = request()->path();
+        $segments = explode('/', $path);
+        return $segments[0] ?? 'admin';
+    }
+
+    /**
+     * Get the view path with the correct prefix.
+     */
+    protected function viewPath(string $view): string
+    {
+        $prefix = $this->getRoutePrefix();
+        // All views are in admin folder, but we use the prefix for routing
+        return "admin.{$view}";
+    }
+
+    /**
+     * Get the route name with the correct prefix.
+     */
+    protected function routeName(string $route): string
+    {
+        return $this->getRoutePrefix() . '.' . $route;
+    }
+
     public function index()
     {
         $enrollments = Enrollment::with('student')->orderBy('created_at', 'desc')->paginate(10);
-        return view('admin.enrollments.index', compact('enrollments'));
+        return view($this->viewPath('enrollments.index'), compact('enrollments'));
     }
 
     public function create()
     {
         $students = Student::all();
-        return view('admin.enrollments.create', compact('students'));
+        return view($this->viewPath('enrollments.create'), compact('students'));
     }
 
     public function store(Request $request)
@@ -52,13 +81,13 @@ class EnrollmentController extends Controller
             'description' => 'Created enrollment for student ID: ' . $enrollment->student_id,
         ]);
 
-        return redirect()->route('admin.enrollments.index')->with('success', 'Enrollment created successfully!');
+        return redirect()->route($this->routeName('enrollments.index'))->with('success', 'Enrollment created successfully!');
     }
 
     public function edit(Enrollment $enrollment)
     {
         $students = Student::all();
-        return view('admin.enrollments.edit', compact('enrollment', 'students'));
+        return view($this->viewPath('enrollments.edit'), compact('enrollment', 'students'));
     }
 
     public function update(Request $request, Enrollment $enrollment)
@@ -91,7 +120,7 @@ class EnrollmentController extends Controller
             'description' => 'Updated enrollment ID: ' . $enrollment->enrollment_id . ($oldStatus !== $validated['status'] ? ' (Status: ' . $oldStatus . ' → ' . $validated['status'] . ')' : ''),
         ]);
 
-        return redirect()->route('admin.enrollments.index')->with('success', 'Enrollment updated successfully!');
+        return redirect()->route($this->routeName('enrollments.index'))->with('success', 'Enrollment updated successfully!');
     }
 
     public function approve(Enrollment $enrollment)
@@ -104,14 +133,14 @@ class EnrollmentController extends Controller
             'description' => 'Approved enrollment for: ' . $enrollment->student->student_name,
         ]);
 
-        return redirect()->route('admin.enrollments.index')->with('success', 'Enrollment approved successfully!');
+        return redirect()->route($this->routeName('enrollments.index'))->with('success', 'Enrollment approved successfully!');
     }
 
     public function destroy(Enrollment $enrollment)
     {
         // Prevent deletion of active enrollments
         if ($enrollment->status === 'enrolled') {
-            return redirect()->route('admin.enrollments.index')
+            return redirect()->route($this->routeName('enrollments.index'))
                 ->with('error', 'Cannot delete an active enrollment. Withdraw the student first.');
         }
 
@@ -123,6 +152,6 @@ class EnrollmentController extends Controller
             'description' => 'Deleted enrollment ID: ' . $enrollment->enrollment_id,
         ]);
 
-        return redirect()->route('admin.enrollments.index')->with('success', 'Enrollment deleted successfully!');
+        return redirect()->route($this->routeName('enrollments.index'))->with('success', 'Enrollment deleted successfully!');
     }
 }

@@ -1,45 +1,83 @@
-@extends('layouts.admin')
+@php
+    $prefix = request()->segment(1);
+    $layout = match($prefix) {
+        'registrar' => 'layouts.registrar',
+        'cashier' => 'layouts.cashier',
+        default => 'layouts.admin'
+    };
+    $roleLabel = ucfirst($prefix);
+@endphp
+
+@extends($layout)
 
 @section('page-title', 'Teachers')
+@section('breadcrumb', $roleLabel . ' / Teachers')
+
+@section('page-actions')
+    <a href="{{ route($prefix . '.teachers.create') }}" class="btn btn-primary">
+        <i class="ri-add-line"></i> Add Teacher
+    </a>
+@endsection
 
 @section('content')
-    <div class="mb-4 flex justify-between items-center">
-        <h3 class="text-lg font-medium">All Teachers</h3>
-        <a href="{{ route('admin.teachers.create') }}" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">
-            + Add Teacher
-        </a>
-    </div>
-
-    <div class="bg-white rounded-lg shadow-md overflow-hidden">
-        <table class="min-w-full divide-y divide-gray-200">
-            <thead class="bg-gray-50">
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">All Teachers</h3>
+            <span style="color: #64748b; font-size: 0.85rem;">{{ $teachers->total() }} total</span>
+        </div>
+        
+        <table>
+            <thead>
                 <tr>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">ID</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Name</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Contact</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Actions</th>
+                    <th>ID</th>
+                    <th>Teacher</th>
+                    <th>Contact</th>
+                    <th style="text-align: center;">Actions</th>
                 </tr>
             </thead>
-            <tbody class="bg-white divide-y divide-gray-200">
+            <tbody>
                 @forelse($teachers as $teacher)
                     <tr>
-                        <td class="px-6 py-4 text-sm text-gray-500">{{ $teacher->teacher_id }}</td>
-                        <td class="px-6 py-4 text-sm font-medium text-gray-900">{{ $teacher->teacher_name }}</td>
-                        <td class="px-6 py-4 text-sm text-gray-500">{{ $teacher->contact_information }}</td>
-                        <td class="px-6 py-4 text-sm font-medium">
-                            <a href="{{ route('admin.teachers.edit', $teacher) }}" class="text-indigo-600 hover:text-indigo-900 mr-3">Edit</a>
-                            <form action="{{ route('admin.teachers.destroy', $teacher) }}" method="POST" class="inline" onsubmit="return confirm('Are you sure?')">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="text-red-600 hover:text-red-900">Delete</button>
-                            </form>
+                        <td style="color: #64748b; font-weight: 600;">#{{ $teacher->teacher_id }}</td>
+                        <td>
+                            <div style="display: flex; align-items: center; gap: 12px;">
+                                <div style="width: 40px; height: 40px; background: var(--c-blue); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: white; font-weight: 700; font-size: 0.9rem;">
+                                    {{ substr($teacher->teacher_name, 0, 1) }}
+                                </div>
+                                <div style="font-weight: 600; color: var(--c-dark);">{{ $teacher->teacher_name }}</div>
+                            </div>
+                        </td>
+                        <td>{{ $teacher->contact_information }}</td>
+                        <td>
+                            <div style="display: flex; align-items: center; justify-content: center; gap: 8px;">
+                                <a href="{{ route($prefix . '.teachers.edit', $teacher) }}" class="btn btn-sm" style="background: var(--c-blue); color: white;" title="Edit">
+                                    <i class="ri-pencil-line"></i>
+                                </a>
+                                <form action="{{ route($prefix . '.teachers.destroy', $teacher) }}" method="POST" style="display: inline;" onsubmit="return confirm('Are you sure you want to delete this teacher?')">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-sm btn-danger" title="Delete">
+                                        <i class="ri-delete-bin-line"></i>
+                                    </button>
+                                </form>
+                            </div>
                         </td>
                     </tr>
                 @empty
-                    <tr><td colspan="4" class="px-6 py-4 text-center text-gray-500">No teachers found</td></tr>
+                    <tr>
+                        <td colspan="4" style="text-align: center; padding: 48px; color: #94a3b8;">
+                            <i class="ri-user-star-line" style="font-size: 3rem; display: block; margin-bottom: 12px; opacity: 0.5;"></i>
+                            No teachers found
+                        </td>
+                    </tr>
                 @endforelse
             </tbody>
         </table>
     </div>
-    <div class="mt-4">{{ $teachers->links() }}</div>
+
+    @if($teachers->hasPages())
+        <div style="margin-top: 20px; display: flex; justify-content: center;">
+            {{ $teachers->links() }}
+        </div>
+    @endif
 @endsection

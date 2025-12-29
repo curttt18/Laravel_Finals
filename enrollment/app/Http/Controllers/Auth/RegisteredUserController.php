@@ -19,8 +19,7 @@ class RegisteredUserController extends Controller
      */
     public function create(): View
     {
-        // Registration is disabled - users must be created by admin
-        abort(403, 'Public registration is disabled. Please contact the administrator to create an account.');
+        return view('auth.register');
     }
 
     /**
@@ -30,7 +29,34 @@ class RegisteredUserController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        // Registration is disabled - users must be created by admin
-        abort(403, 'Public registration is disabled. Please contact the administrator to create an account.');
+        $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
+            'password' => [
+                'required',
+                'confirmed',
+                'min:8',
+                'regex:/[A-Z]/',      // At least 1 uppercase
+                'regex:/[a-z]/',      // At least 1 lowercase
+                'regex:/[0-9]/',      // At least 1 number
+                'regex:/[@$!%*?&#]/', // At least 1 special character
+            ],
+        ], [
+            'password.min' => 'Password must be at least 8 characters.',
+            'password.regex' => 'Password must contain at least 1 uppercase letter, 1 lowercase letter, 1 number, and 1 special character (@$!%*?&#).',
+        ]);
+
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'role' => 'student', // Default role for new registrations
+        ]);
+
+        event(new Registered($user));
+
+        Auth::login($user);
+
+        return redirect(route('dashboard', absolute: false));
     }
 }

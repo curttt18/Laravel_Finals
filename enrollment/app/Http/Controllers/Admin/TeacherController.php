@@ -10,15 +10,41 @@ use Illuminate\Support\Facades\Auth;
 
 class TeacherController extends Controller
 {
+    /**
+     * Get the route prefix based on the current request path.
+     */
+    protected function getRoutePrefix(): string
+    {
+        $path = request()->path();
+        $segments = explode('/', $path);
+        return $segments[0] ?? 'admin';
+    }
+
+    /**
+     * Get the view path.
+     */
+    protected function viewPath(string $view): string
+    {
+        return "admin.{$view}";
+    }
+
+    /**
+     * Get the route name with the correct prefix.
+     */
+    protected function routeName(string $route): string
+    {
+        return $this->getRoutePrefix() . '.' . $route;
+    }
+
     public function index()
     {
         $teachers = Teacher::orderBy('created_at', 'desc')->paginate(10);
-        return view('admin.teachers.index', compact('teachers'));
+        return view($this->viewPath('teachers.index'), compact('teachers'));
     }
 
     public function create()
     {
-        return view('admin.teachers.create');
+        return view($this->viewPath('teachers.create'));
     }
 
     public function store(Request $request)
@@ -36,12 +62,12 @@ class TeacherController extends Controller
             'description' => 'Created teacher: ' . $teacher->teacher_name,
         ]);
 
-        return redirect()->route('admin.teachers.index')->with('success', 'Teacher created successfully!');
+        return redirect()->route($this->routeName('teachers.index'))->with('success', 'Teacher created successfully!');
     }
 
     public function edit(Teacher $teacher)
     {
-        return view('admin.teachers.edit', compact('teacher'));
+        return view($this->viewPath('teachers.edit'), compact('teacher'));
     }
 
     public function update(Request $request, Teacher $teacher)
@@ -59,14 +85,14 @@ class TeacherController extends Controller
             'description' => 'Updated teacher: ' . $teacher->teacher_name,
         ]);
 
-        return redirect()->route('admin.teachers.index')->with('success', 'Teacher updated successfully!');
+        return redirect()->route($this->routeName('teachers.index'))->with('success', 'Teacher updated successfully!');
     }
 
     public function destroy(Teacher $teacher)
     {
         // Prevent deletion if teacher has grade records
         if ($teacher->grades()->exists()) {
-            return redirect()->route('admin.teachers.index')
+            return redirect()->route($this->routeName('teachers.index'))
                 ->with('error', 'Cannot delete teacher. Grade records exist for this teacher.');
         }
 
@@ -79,6 +105,6 @@ class TeacherController extends Controller
             'description' => 'Deleted teacher: ' . $name,
         ]);
 
-        return redirect()->route('admin.teachers.index')->with('success', 'Teacher deleted successfully!');
+        return redirect()->route($this->routeName('teachers.index'))->with('success', 'Teacher deleted successfully!');
     }
 }

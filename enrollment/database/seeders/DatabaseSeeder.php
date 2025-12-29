@@ -19,11 +19,18 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        // Strong passwords meeting validation requirements:
+        // - Min 8 characters
+        // - At least 1 uppercase letter
+        // - At least 1 lowercase letter
+        // - At least 1 number
+        // - At least 1 special character (@$!%*?&#)
+        
         // Create Admin User
         User::create([
             'name' => 'Admin User',
             'email' => 'admin@daycare.com',
-            'password' => Hash::make('password'),
+            'password' => Hash::make('Admin@123'),
             'role' => 'admin',
         ]);
 
@@ -31,7 +38,7 @@ class DatabaseSeeder extends Seeder
         User::create([
             'name' => 'Registrar User',
             'email' => 'registrar@daycare.com',
-            'password' => Hash::make('password'),
+            'password' => Hash::make('Registrar@123'),
             'role' => 'registrar',
         ]);
 
@@ -39,7 +46,7 @@ class DatabaseSeeder extends Seeder
         User::create([
             'name' => 'Cashier User',
             'email' => 'cashier@daycare.com',
-            'password' => Hash::make('password'),
+            'password' => Hash::make('Cashier@123'),
             'role' => 'cashier',
         ]);
 
@@ -105,7 +112,7 @@ class DatabaseSeeder extends Seeder
         User::create([
             'name' => 'Juan Dela Cruz Jr.',
             'email' => 'juan.student@daycare.com',
-            'password' => Hash::make('password'),
+            'password' => Hash::make('Student@123'),
             'role' => 'student',
             'student_id' => $student1->student_id,
         ]);

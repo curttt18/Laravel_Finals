@@ -93,6 +93,12 @@ Route::middleware(['auth', 'role:registrar'])->prefix('registrar')->name('regist
     
     // Grades management (view/create student grades)
     Route::resource('grades', AdminGradeController::class)->except(['show'])->parameters(['grades' => 'grade:grade_id']);
+    
+    // Fees (view only for registrar)
+    Route::get('/fees', [AdminFeeController::class, 'index'])->name('fees.index');
+    
+    // Payments (view only for registrar)
+    Route::get('/payments', [AdminPaymentController::class, 'index'])->name('payments.index');
 });
 
 // Cashier Routes (view students, manage payments - NO DELETE)

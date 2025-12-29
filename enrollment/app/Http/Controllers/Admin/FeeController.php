@@ -10,15 +10,41 @@ use Illuminate\Support\Facades\Auth;
 
 class FeeController extends Controller
 {
+    /**
+     * Get the route prefix based on the current request path.
+     */
+    protected function getRoutePrefix(): string
+    {
+        $path = request()->path();
+        $segments = explode('/', $path);
+        return $segments[0] ?? 'admin';
+    }
+
+    /**
+     * Get the view path.
+     */
+    protected function viewPath(string $view): string
+    {
+        return "admin.{$view}";
+    }
+
+    /**
+     * Get the route name with the correct prefix.
+     */
+    protected function routeName(string $route): string
+    {
+        return $this->getRoutePrefix() . '.' . $route;
+    }
+
     public function index()
     {
         $fees = Fee::orderBy('created_at', 'desc')->paginate(10);
-        return view('admin.fees.index', compact('fees'));
+        return view($this->viewPath('fees.index'), compact('fees'));
     }
 
     public function create()
     {
-        return view('admin.fees.create');
+        return view($this->viewPath('fees.create'));
     }
 
     public function store(Request $request)
@@ -37,12 +63,12 @@ class FeeController extends Controller
             'description' => 'Created fee: ' . $fee->fee_name,
         ]);
 
-        return redirect()->route('admin.fees.index')->with('success', 'Fee created successfully!');
+        return redirect()->route($this->routeName('fees.index'))->with('success', 'Fee created successfully!');
     }
 
     public function edit(Fee $fee)
     {
-        return view('admin.fees.edit', compact('fee'));
+        return view($this->viewPath('fees.edit'), compact('fee'));
     }
 
     public function update(Request $request, Fee $fee)
@@ -66,14 +92,14 @@ class FeeController extends Controller
             'description' => 'Updated fee: ' . $fee->fee_name,
         ]);
 
-        return redirect()->route('admin.fees.index')->with('success', 'Fee updated successfully!');
+        return redirect()->route($this->routeName('fees.index'))->with('success', 'Fee updated successfully!');
     }
 
     public function destroy(Fee $fee)
     {
         // Prevent deletion if payments exist
         if ($fee->payments()->exists()) {
-            return redirect()->route('admin.fees.index')
+            return redirect()->route($this->routeName('fees.index'))
                 ->with('error', 'Cannot delete fee. Payment records exist for this fee type.');
         }
 
@@ -86,6 +112,6 @@ class FeeController extends Controller
             'description' => 'Deleted fee: ' . $name,
         ]);
 
-        return redirect()->route('admin.fees.index')->with('success', 'Fee deleted successfully!');
+        return redirect()->route($this->routeName('fees.index'))->with('success', 'Fee deleted successfully!');
     }
 }

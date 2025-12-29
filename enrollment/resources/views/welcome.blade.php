@@ -1007,101 +1007,95 @@
     </section>
     
     <!-- SECTION 4: Testimonials -->
-    <section class="testimonials" aria-label="Parent testimonials">
-        <h2 class="section-title" style="margin-bottom: 8px;">💖 Happy Parents</h2>
-        <p class="section-subtitle" style="margin-bottom: 30px;">Real stories from families who trust Little Stars.</p>
+    <section class="testimonials">
+        <h2 class="section-title" style="margin-bottom: 50px;">💖 Happy Parents</h2>
 
-        <div class="testimonial-marquee" tabindex="0" aria-label="Testimonials carousel">
-            <div class="testimonial-track" role="list">
+        <style>
+            /* Scoped testimonial styles — visual refinement only (marquee behavior preserved) */
+            .testimonials{padding:48px 20px;background:linear-gradient(180deg,#fffaf0 0%,#fff6e8 100%);overflow:hidden}
+            .testimonials .section-title{margin-bottom:34px;color:#2b3340}
+            .testimonial-marquee{overflow:hidden;padding:6px 0}
+            .testimonial-track{display:flex;gap:20px;align-items:stretch;animation:scroll 25s linear infinite}
+            @keyframes scroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+            .testimonial-card{background:#ffffff;border-radius:14px;padding:18px 20px;min-width:300px;box-shadow:0 10px 25px rgba(15,23,42,0.08);display:flex;flex-direction:column;align-items:center;text-align:center;border:1px solid rgba(9,30,66,0.04)}
+            .testimonial-card:hover{transform:translateY(-6px);transition:transform .18s ease}
+            .testimonial-avatar-wrap{width:72px;height:72px;border-radius:999px;overflow:hidden;margin-bottom:14px;box-shadow:0 6px 18px rgba(15,23,42,0.06)}
+            .testimonial-avatar-wrap img{width:100%;height:100%;object-fit:cover;display:block}
+            .testimonial-text{font-size:0.98rem;color:#44506a;line-height:1.6;margin-bottom:12px}
+            .testimonial-name{font-weight:700;color:#1f2937;font-size:0.95rem}
+            /* Slightly reduce motion preference respect: we don't pause animation on hover to preserve original behavior */
+            @media (prefers-reduced-motion:reduce){.testimonial-track{animation:none}}
+            @media (max-width:640px){.testimonial-card{min-width:250px;padding:14px}}
+        </style>
 
-                <!-- ORIGINAL SET (redesigned markup) -->
-                <div class="testimonial-card" role="listitem" tabindex="0" aria-label="Maria testimonial">
+        <div class="testimonial-marquee">
+            <div class="testimonial-track">
+
+                <!-- ORIGINAL SET -->
+                <div class="testimonial-card">
                     <div class="testimonial-avatar-wrap">
                         <img src="https://images.unsplash.com/photo-1542037104857-ffbb0b9155fb?q=80&w=1954&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Maria's Family">
                     </div>
-                    <div class="testimonial-content">
-                        <div class="testimonial-rating" aria-hidden="true">⭐️⭐️⭐️⭐️⭐️</div>
-                        <blockquote class="testimonial-text">"My daughter can't wait to go to school every day!"</blockquote>
-                        <p class="testimonial-name">— Maria & Family</p>
-                    </div>
+
+                    <p class="testimonial-text">"My daughter can't wait to go to school every day!"</p>
+                    <p class="testimonial-name">- Maria & Family</p>
                 </div>
 
-                <div class="testimonial-card" role="listitem" tabindex="0" aria-label="Juan testimonial">
+                <div class="testimonial-card">
                     <div class="testimonial-avatar-wrap">
                         <img src="https://images.unsplash.com/photo-1588979355313-6711a095465f?q=80&w=972&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Juan's Family">
                     </div>
-                    <div class="testimonial-content">
-                        <div class="testimonial-rating" aria-hidden="true">⭐️⭐️⭐️⭐️☆</div>
-                        <blockquote class="testimonial-text">"The teachers are amazing and truly care!"</blockquote>
-                        <p class="testimonial-name">— Juan's Parents</p>
-                    </div>
+                    <p class="testimonial-text">"The teachers are amazing and truly care!"</p>
+                    <p class="testimonial-name">- Juan's Parents</p>
                 </div>
 
-                <div class="testimonial-card" role="listitem" tabindex="0" aria-label="Garcia testimonial">
+                <div class="testimonial-card">
                     <div class="testimonial-avatar-wrap">
                         <img src="https://images.unsplash.com/photo-1559734840-f9509ee5677f?q=80&w=987&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Garcia's Family">
                     </div>
-                    <div class="testimonial-content">
-                        <div class="testimonial-rating" aria-hidden="true">⭐️⭐️⭐️⭐️⭐️</div>
-                        <blockquote class="testimonial-text">"Best decision we ever made for our kids!"</blockquote>
-                        <p class="testimonial-name">— The Garcia Family</p>
-                    </div>
+                    <p class="testimonial-text">"Best decision we ever made for our kids!"</p>
+                    <p class="testimonial-name">- The Garcia Family</p>
                 </div>
 
-                <div class="testimonial-card" role="listitem" tabindex="0" aria-label="Santos testimonial">
+                <div class="testimonial-card">
                     <div class="testimonial-avatar-wrap">
                         <img src="https://images.unsplash.com/photo-1529518152792-d08317b26e22?q=80&w=987&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Santos's Family">
                     </div>
-                    <div class="testimonial-content">
-                        <div class="testimonial-rating" aria-hidden="true">⭐️⭐️⭐️⭐️⭐️</div>
-                        <blockquote class="testimonial-text">"Safe, fun, and educational!"</blockquote>
-                        <p class="testimonial-name">— The Santos Family</p>
-                    </div>
+                    <p class="testimonial-text">"Safe, fun, and educational!"</p>
+                    <p class="testimonial-name">- The Santos Family</p>
                 </div>
 
-                <!-- DUPLICATE SET (for seamless marquee) -->
-                <div class="testimonial-card" role="listitem" tabindex="0" aria-label="Maria testimonial duplicate">
+                <!-- DUPLICATE SET (exact same order) -->
+                <div class="testimonial-card">
                     <div class="testimonial-avatar-wrap">
                         <img src="https://images.unsplash.com/photo-1542037104857-ffbb0b9155fb?q=80&w=1954&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Maria's Family">
                     </div>
-                    <div class="testimonial-content">
-                        <div class="testimonial-rating" aria-hidden="true">⭐️⭐️⭐️⭐️⭐️</div>
-                        <blockquote class="testimonial-text">"My daughter can't wait to go to school every day!"</blockquote>
-                        <p class="testimonial-name">— Maria & Family</p>
-                    </div>
+                    <p class="testimonial-text">"My daughter can't wait to go to school every day!"</p>
+                    <p class="testimonial-name">- Maria & Family</p>
                 </div>
 
-                <div class="testimonial-card" role="listitem" tabindex="0" aria-label="Juan testimonial duplicate">
+                <div class="testimonial-card">
                     <div class="testimonial-avatar-wrap">
                         <img src="https://images.unsplash.com/photo-1588979355313-6711a095465f?q=80&w=972&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Juan's Family">
                     </div>
-                    <div class="testimonial-content">
-                        <div class="testimonial-rating" aria-hidden="true">⭐️⭐️⭐️⭐️☆</div>
-                        <blockquote class="testimonial-text">"The teachers are amazing and truly care!"</blockquote>
-                        <p class="testimonial-name">— Juan's Parents</p>
-                    </div>
+                    <p class="testimonial-text">"The teachers are amazing and truly care!"</p>
+                    <p class="testimonial-name">- Juan's Parents</p>
                 </div>
 
-                <div class="testimonial-card" role="listitem" tabindex="0" aria-label="Garcia testimonial duplicate">
+                <div class="testimonial-card">
                     <div class="testimonial-avatar-wrap">
                         <img src="https://images.unsplash.com/photo-1559734840-f9509ee5677f?q=80&w=987&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Garcia's Family">
                     </div>
-                    <div class="testimonial-content">
-                        <div class="testimonial-rating" aria-hidden="true">⭐️⭐️⭐️⭐️⭐️</div>
-                        <blockquote class="testimonial-text">"Best decision we ever made for our kids!"</blockquote>
-                        <p class="testimonial-name">— The Garcia Family</p>
-                    </div>
+                    <p class="testimonial-text">"Best decision we ever made for our kids!"</p>
+                    <p class="testimonial-name">- The Garcia Family</p>
                 </div>
 
-                <div class="testimonial-card" role="listitem" tabindex="0" aria-label="Santos testimonial duplicate">
+                <div class="testimonial-card">
                     <div class="testimonial-avatar-wrap">
                         <img src="https://images.unsplash.com/photo-1529518152792-d08317b26e22?q=80&w=987&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Santos's Family">
                     </div>
-                    <div class="testimonial-content">
-                        <div class="testimonial-rating" aria-hidden="true">⭐️⭐️⭐️⭐️⭐️</div>
-                        <blockquote class="testimonial-text">"Safe, fun, and educational!"</blockquote>
-                        <p class="testimonial-name">— The Santos Family</p>
-                    </div>
+                    <p class="testimonial-text">"Safe, fun, and educational!"</p>
+                    <p class="testimonial-name">- The Santos Family</p>
                 </div>
 
             </div>

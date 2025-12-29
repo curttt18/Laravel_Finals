@@ -136,13 +136,13 @@
         }
         
         .main {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
-            padding: 32px 24px;
+            padding: 32px 40px;
         }
         
         .welcome-header {
-            margin-bottom: 32px;
+            margin-bottom: 28px;
         }
         
         .welcome-header h1 {
@@ -157,9 +157,65 @@
             font-size: 0.95rem;
         }
         
-        .cards-grid {
+        /* Quick Stats Row */
+        .quick-stats {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin-bottom: 28px;
+        }
+        
+        .stat-item {
+            background: var(--bg-white);
+            border-radius: 16px;
+            padding: 20px 24px;
+            border: 2px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            transition: all 0.2s;
+        }
+        
+        .stat-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+        }
+        
+        .stat-item i {
+            font-size: 2rem;
+            color: var(--c-coral);
+        }
+        
+        .stat-content {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--c-dark);
+            font-family: 'Fredoka', sans-serif;
+        }
+        
+        .stat-label {
+            font-size: 0.8rem;
+            color: #64748b;
+            font-weight: 600;
+        }
+        
+        /* Main 2-column grid */
+        .main-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            margin-bottom: 24px;
+        }
+        
+        /* Full width section */
+        .full-width-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
             gap: 24px;
         }
         
@@ -189,19 +245,204 @@
             font-size: 1.1rem;
             font-weight: 600;
             color: var(--c-dark);
+            flex: 1;
         }
         
-        .info-row {
+        .card-badge {
+            font-size: 0.75rem;
+            padding: 4px 12px;
+            background: var(--bg-cream);
+            border-radius: 20px;
+            color: #64748b;
+            font-weight: 600;
+        }
+        
+        /* Info grid for student details */
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+        
+        .info-item {
+            padding: 14px;
+            background: var(--bg-cream);
+            border-radius: 10px;
+            border: 1px solid var(--border);
+        }
+        
+        .info-item.full-width {
+            grid-column: span 2;
+        }
+        
+        .info-label { 
+            display: block;
+            color: #64748b; 
+            font-size: 0.75rem; 
+            font-weight: 600; 
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 4px;
+        }
+        
+        .info-value { 
+            color: var(--c-dark); 
+            font-weight: 600; 
+            font-size: 0.95rem; 
+        }
+        
+        /* Enrollment items */
+        .enrollment-item {
             display: flex;
             justify-content: space-between;
-            padding: 14px 0;
+            align-items: center;
+            padding: 16px;
+            background: var(--bg-cream);
+            border-radius: 10px;
+            margin-bottom: 12px;
+            border: 1px solid var(--border);
+        }
+        
+        .enrollment-item:last-child {
+            margin-bottom: 0;
+        }
+        
+        .enrollment-info {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        
+        .school-year {
+            font-weight: 700;
+            color: var(--c-dark);
+        }
+        
+        .enrollment-date {
+            font-size: 0.8rem;
+            color: #64748b;
+        }
+        
+        /* Payment table styles */
+        .payments-table {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .table-header, .table-row {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 12px;
+            padding: 14px 16px;
+            align-items: center;
+        }
+        
+        .table-header {
+            background: var(--bg-cream);
+            border-radius: 10px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+        }
+        
+        .table-row {
             border-bottom: 1px solid #f1f5f9;
         }
         
-        .info-row:last-child { border-bottom: none; }
+        .table-row:last-child {
+            border-bottom: none;
+        }
         
-        .info-label { color: #64748b; font-size: 0.9rem; font-weight: 500; }
-        .info-value { color: var(--c-dark); font-weight: 600; font-size: 0.9rem; }
+        .fee-name {
+            font-weight: 600;
+            color: var(--c-dark);
+        }
+        
+        .fee-date {
+            color: #64748b;
+            font-size: 0.9rem;
+        }
+        
+        .amount {
+            font-weight: 700;
+            color: var(--success);
+            text-align: right;
+        }
+        
+        /* Grade card styles */
+        .grade-card {
+            background: var(--bg-cream);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 16px;
+            border: 1px solid var(--border);
+        }
+        
+        .grade-card:last-child {
+            margin-bottom: 0;
+        }
+        
+        .grade-header {
+            margin-bottom: 16px;
+        }
+        
+        .grade-period {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .teacher-name {
+            font-size: 0.85rem;
+            color: #64748b;
+        }
+        
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 10px;
+        }
+        
+        .skill-item {
+            text-align: center;
+            padding: 12px 8px;
+            background: var(--bg-white);
+            border-radius: 10px;
+            border: 2px solid var(--border);
+        }
+        
+        .skill-item.excellent, .skill-item.outstanding { border-color: #10b981; background: #ecfdf5; }
+        .skill-item.good, .skill-item.satisfactory { border-color: #3b82f6; background: #eff6ff; }
+        .skill-item.needs_improvement { border-color: #f59e0b; background: #fffbeb; }
+        
+        .skill-label {
+            display: block;
+            font-size: 0.65rem;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        
+        .skill-value {
+            font-weight: 700;
+            color: var(--c-dark);
+            font-size: 0.75rem;
+        }
+        
+        .remarks {
+            margin-top: 14px;
+            padding: 12px;
+            background: var(--bg-white);
+            border-radius: 8px;
+            font-size: 0.85rem;
+            color: #64748b;
+            border: 1px solid var(--border);
+        }
         
         .badge {
             display: inline-block;
@@ -215,39 +456,6 @@
         .badge-warning { background: #fef3c7; color: #92400e; }
         .badge-info { background: #dbeafe; color: #1e40af; }
         
-        .amount { color: var(--success); font-weight: 700; }
-        
-        .grade-grid {
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: 12px;
-            margin-top: 12px;
-        }
-        
-        .grade-item {
-            text-align: center;
-            padding: 14px 8px;
-            background: var(--bg-cream);
-            border-radius: 12px;
-            border: 1px solid var(--border);
-        }
-        
-        .grade-item .label {
-            font-size: 0.7rem;
-            color: #64748b;
-            margin-bottom: 6px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            font-weight: 600;
-        }
-        
-        .grade-item .value {
-            font-weight: 700;
-            color: var(--c-blue);
-            text-transform: capitalize;
-            font-size: 0.85rem;
-        }
-        
         .empty-state {
             text-align: center;
             color: #94a3b8;
@@ -255,17 +463,30 @@
         }
         
         .empty-state i {
-            font-size: 3rem;
+            font-size: 2.5rem;
             display: block;
             margin-bottom: 12px;
             opacity: 0.5;
         }
         
+        @media (max-width: 1024px) {
+            .quick-stats { grid-template-columns: repeat(2, 1fr); }
+            .main-grid { grid-template-columns: 1fr; }
+            .full-width-section { grid-template-columns: 1fr; }
+            .skills-grid { grid-template-columns: repeat(3, 1fr); }
+        }
+        
         @media (max-width: 768px) {
             .navbar { padding: 12px 16px; }
             .main { padding: 16px; }
-            .cards-grid { grid-template-columns: 1fr; }
-            .grade-grid { grid-template-columns: repeat(3, 1fr); }
+            .quick-stats { grid-template-columns: 1fr 1fr; gap: 12px; }
+            .stat-item { padding: 16px; }
+            .stat-value { font-size: 1.2rem; }
+            .info-grid { grid-template-columns: 1fr; }
+            .info-item.full-width { grid-column: span 1; }
+            .table-header, .table-row { grid-template-columns: 1fr 1fr; }
+            .table-header span:nth-child(2), .table-row .fee-date { display: none; }
+            .skills-grid { grid-template-columns: repeat(2, 1fr); }
             .user-name { display: none; }
         }
     </style>

@@ -29,10 +29,10 @@
         <table>
             <thead>
                 <tr>
-                    <th>ID</th>
-                    <th>Student</th>
-                    <th>Period</th>
-                    <th>Teacher</th>
+                    <th class="sortable" data-sort-type="number">ID</th>
+                    <th class="sortable">Student</th>
+                    <th class="sortable">Period</th>
+                    <th class="sortable">Teacher</th>
                     <th>Performance</th>
                     <th style="text-align: center;">Actions</th>
                 </tr>

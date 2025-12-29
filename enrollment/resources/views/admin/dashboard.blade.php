@@ -6,32 +6,55 @@
 @section('content')
     <!-- Stats Grid -->
     <div class="stats-grid">
-        <div class="stat-card">
+        <div class="stat-card stat-card-clickable" onclick="window.location.href='{{ route('admin.students.index') }}'">
             <div class="label">Total Students</div>
             <div class="value">{{ $totalStudents }}</div>
+            <p class="change positive">View all</p>
         </div>
-        <div class="stat-card">
+        <div class="stat-card stat-card-clickable" onclick="window.location.href='{{ route('admin.enrollments.index') }}'">
             <div class="label">Enrolled</div>
             <div class="value">{{ $enrolledStudents }}</div>
             <p class="change positive">Active enrollments</p>
         </div>
-        <div class="stat-card">
+        <div class="stat-card stat-card-clickable" id="pending-card" onclick="window.location.href='{{ route('admin.enrollments.index', ['status' => 'pending']) }}'">
             <div class="label">Pending</div>
-            <div class="value">{{ $pendingEnrollments }}</div>
-            <p class="change {{ $pendingEnrollments > 0 ? 'negative' : 'positive' }}">Awaiting approval</p>
+            <div class="value" id="pending-count">{{ $pendingEnrollments }}</div>
+            <p class="change {{ $pendingEnrollments > 0 ? 'negative' : 'positive' }}">
+                @if($pendingEnrollments > 0)
+                    Click to review
+                @else
+                    All caught up!
+                @endif
+            </p>
+            @if($pendingEnrollments > 0)
+            <div class="pending-preview">
+                <div class="preview-title">Awaiting Approval</div>
+                @foreach($pendingEnrollmentsList as $pending)
+                <div class="preview-item">
+                    <span class="preview-name">{{ $pending->student->student_name }}</span>
+                    <span class="preview-date">{{ $pending->enrollment_date->format('M d') }}</span>
+                </div>
+                @endforeach
+                @if($pendingEnrollments > 5)
+                <div class="preview-more">+{{ $pendingEnrollments - 5 }} more...</div>
+                @endif
+            </div>
+            @endif
         </div>
-        <div class="stat-card">
+        <div class="stat-card stat-card-clickable" onclick="window.location.href='{{ route('admin.teachers.index') }}'">
             <div class="label">Teachers</div>
             <div class="value">{{ $totalTeachers }}</div>
+            <p class="change positive">View all</p>
         </div>
-        <div class="stat-card">
+        <div class="stat-card stat-card-clickable" onclick="window.location.href='{{ route('admin.payments.index') }}'">
             <div class="label">Total Payments</div>
             <div class="value">₱{{ number_format($totalPayments, 0) }}</div>
             <p class="change positive">All time</p>
         </div>
-        <div class="stat-card">
+        <div class="stat-card stat-card-clickable" onclick="window.location.href='{{ route('admin.users.index') }}'">
             <div class="label">System Users</div>
             <div class="value">{{ $totalUsers }}</div>
+            <p class="change positive">View all</p>
         </div>
     </div>
     

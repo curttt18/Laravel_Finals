@@ -5,22 +5,26 @@
 
 @section('content')
     <div class="stats-grid">
-        <div class="stat-card">
+        <div class="stat-card stat-card-clickable" onclick="window.location.href='{{ route('cashier.payments.index') }}'">
             <div class="label">Today's Payments</div>
             <div class="value" style="color: var(--success);">₱{{ number_format($totalPaymentsToday, 2) }}</div>
+            <p class="change positive">View all payments</p>
         </div>
-        <div class="stat-card">
+        <div class="stat-card stat-card-clickable" onclick="window.location.href='{{ route('cashier.payments.index') }}'">
             <div class="label">This Month</div>
             <div class="value" style="color: var(--primary);">₱{{ number_format($totalPaymentsMonth, 2) }}</div>
+            <p class="change positive">View all payments</p>
         </div>
-        <div class="stat-card">
+        <div class="stat-card stat-card-clickable" onclick="window.location.href='{{ route('cashier.students.index') }}'">
             <div class="label">Enrolled Students</div>
             <div class="value">{{ $pendingStudents }}</div>
+            <p class="change positive">View all students</p>
         </div>
-        <div class="stat-card" style="display: flex; align-items: center; justify-content: center;">
-            <a href="{{ route('cashier.payments.create') }}" class="btn btn-success" style="width: 100%; justify-content: center;">
-                <i class="ri-add-line"></i> Record New Payment
-            </a>
+        <div class="stat-card stat-card-clickable" style="display: flex; align-items: center; justify-content: center;" onclick="window.location.href='{{ route('cashier.payments.create') }}'">
+            <div style="text-align: center;">
+                <i class="ri-add-line" style="font-size: 1.5rem; color: var(--success);"></i>
+                <div class="label" style="margin-top: 8px;">Record New Payment</div>
+            </div>
         </div>
     </div>
 

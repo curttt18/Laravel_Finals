@@ -31,6 +31,13 @@ class DashboardController extends Controller
             ->limit(5)
             ->get();
 
+        // Get details of pending enrollments for preview
+        $pendingEnrollmentsList = Enrollment::with('student')
+            ->where('status', 'pending')
+            ->orderBy('created_at', 'desc')
+            ->limit(5)
+            ->get();
+
         return view('admin.dashboard', compact(
             'totalStudents',
             'totalTeachers',
@@ -39,7 +46,8 @@ class DashboardController extends Controller
             'totalPayments',
             'totalUsers',
             'recentEnrollments',
-            'recentPayments'
+            'recentPayments',
+            'pendingEnrollmentsList'
         ));
     }
 }

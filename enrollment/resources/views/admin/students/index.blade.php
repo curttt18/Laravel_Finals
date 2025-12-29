@@ -31,11 +31,11 @@
         <table>
             <thead>
                 <tr>
-                    <th>ID</th>
-                    <th>Student</th>
-                    <th>Date of Birth</th>
-                    <th>Gender</th>
-                    <th>Guardian</th>
+                    <th class="sortable" data-sort-type="number">ID</th>
+                    <th class="sortable">Student</th>
+                    <th class="sortable" data-sort-type="date">Date of Birth</th>
+                    <th class="sortable">Gender</th>
+                    <th class="sortable">Guardian</th>
                     <th style="text-align: center;">Actions</th>
                 </tr>
             </thead>

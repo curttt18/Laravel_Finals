@@ -31,12 +31,12 @@
         <table>
             <thead>
                 <tr>
-                    <th>ID</th>
-                    <th>Student</th>
-                    <th>Fee</th>
-                    <th>Amount</th>
-                    <th>Type</th>
-                    <th>Date</th>
+                    <th class="sortable" data-sort-type="number">ID</th>
+                    <th class="sortable">Student</th>
+                    <th class="sortable">Fee</th>
+                    <th class="sortable" data-sort-type="number">Amount</th>
+                    <th class="sortable">Type</th>
+                    <th class="sortable" data-sort-type="date">Date</th>
                     @if($prefix !== 'registrar')
                     <th style="text-align: center;">Actions</th>
                     @endif

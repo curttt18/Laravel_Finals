@@ -324,6 +324,82 @@
         .stat-card .change.positive { color: var(--success); }
         .stat-card .change.negative { color: var(--danger); }
         
+        /* Clickable Stat Card */
+        .stat-card-clickable {
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .stat-card-clickable:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+            border-color: var(--c-coral);
+        }
+        
+        .stat-card-clickable:hover .pending-preview {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        
+        /* Pending Preview Dropdown */
+        .pending-preview {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: white;
+            border-radius: 0 0 16px 16px;
+            padding: 12px 16px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+            z-index: 100;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.2s ease;
+            border: 2px solid var(--c-coral);
+            border-top: none;
+        }
+        
+        .preview-title {
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--c-coral);
+            margin-bottom: 8px;
+            padding-bottom: 6px;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .preview-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 6px 0;
+            font-size: 0.8rem;
+        }
+        
+        .preview-name {
+            font-weight: 600;
+            color: var(--c-dark);
+        }
+        
+        .preview-date {
+            color: #64748b;
+            font-size: 0.75rem;
+        }
+        
+        .preview-more {
+            font-size: 0.75rem;
+            color: var(--c-blue);
+            font-weight: 600;
+            text-align: center;
+            padding-top: 8px;
+            margin-top: 4px;
+            border-top: 1px dashed var(--border);
+        }
+        
         /* ============ TABLES ============ */
         table {
             width: 100%;
@@ -354,6 +430,39 @@
         
         tr:hover td {
             background: #fafafa;
+        }
+        
+        /* Sortable table headers */
+        th.sortable {
+            cursor: pointer;
+            user-select: none;
+            position: relative;
+            padding-right: 24px;
+            transition: background 0.2s;
+        }
+        
+        th.sortable:hover {
+            background: #e2e8f0;
+        }
+        
+        th.sortable::after {
+            content: '↕';
+            position: absolute;
+            right: 8px;
+            opacity: 0.4;
+            font-size: 0.7rem;
+        }
+        
+        th.sortable.asc::after {
+            content: '↑';
+            opacity: 1;
+            color: var(--c-blue);
+        }
+        
+        th.sortable.desc::after {
+            content: '↓';
+            opacity: 1;
+            color: var(--c-blue);
         }
         
         /* ============ BUTTONS ============ */
@@ -629,5 +738,66 @@
             @yield('content')
         </main>
     </div>
+    
+    <script>
+    // Sortable Table Functionality
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('th.sortable').forEach(function(header) {
+            header.addEventListener('click', function() {
+                const table = this.closest('table');
+                const tbody = table.querySelector('tbody');
+                const rows = Array.from(tbody.querySelectorAll('tr'));
+                const columnIndex = Array.from(this.parentElement.children).indexOf(this);
+                const sortType = this.dataset.sortType || 'text';
+                
+                // Toggle sort direction
+                const isAsc = this.classList.contains('asc');
+                
+                // Remove sort classes from all headers in this table
+                table.querySelectorAll('th.sortable').forEach(th => {
+                    th.classList.remove('asc', 'desc');
+                });
+                
+                // Add appropriate class
+                this.classList.add(isAsc ? 'desc' : 'asc');
+                
+                // Sort rows
+                rows.sort(function(a, b) {
+                    const aCell = a.cells[columnIndex];
+                    const bCell = b.cells[columnIndex];
+                    
+                    if (!aCell || !bCell) return 0;
+                    
+                    let aVal = aCell.textContent.trim();
+                    let bVal = bCell.textContent.trim();
+                    
+                    // Handle number sorting
+                    if (sortType === 'number') {
+                        aVal = parseFloat(aVal.replace(/[₱,#]/g, '')) || 0;
+                        bVal = parseFloat(bVal.replace(/[₱,#]/g, '')) || 0;
+                        return isAsc ? bVal - aVal : aVal - bVal;
+                    }
+                    
+                    // Handle date sorting
+                    if (sortType === 'date') {
+                        aVal = new Date(aVal);
+                        bVal = new Date(bVal);
+                        return isAsc ? bVal - aVal : aVal - bVal;
+                    }
+                    
+                    // Default text sorting
+                    return isAsc 
+                        ? bVal.localeCompare(aVal) 
+                        : aVal.localeCompare(bVal);
+                });
+                
+                // Re-append sorted rows
+                rows.forEach(function(row) {
+                    tbody.appendChild(row);
+                });
+            });
+        });
+    });
+    </script>
 </body>
 </html>

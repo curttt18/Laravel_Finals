@@ -29,9 +29,9 @@
         <table>
             <thead>
                 <tr>
-                    <th>ID</th>
-                    <th>Teacher</th>
-                    <th>Contact</th>
+                    <th class="sortable" data-sort-type="number">ID</th>
+                    <th class="sortable">Teacher</th>
+                    <th class="sortable">Contact</th>
                     <th style="text-align: center;">Actions</th>
                 </tr>
             </thead>

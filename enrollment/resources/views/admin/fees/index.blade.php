@@ -31,10 +31,10 @@
         <table>
             <thead>
                 <tr>
-                    <th>ID</th>
-                    <th>Fee Name</th>
-                    <th>Amount</th>
-                    <th>Description</th>
+                    <th class="sortable" data-sort-type="number">ID</th>
+                    <th class="sortable">Fee Name</th>
+                    <th class="sortable" data-sort-type="number">Amount</th>
+                    <th class="sortable">Description</th>
                     @if($prefix === 'admin')
                     <th style="text-align: center;">Actions</th>
                     @endif

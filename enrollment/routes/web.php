@@ -72,12 +72,20 @@ Route::middleware(['auth', 'role:registrar'])->prefix('registrar')->name('regist
             ->limit(5)
             ->get();
         
+        // Get details of pending enrollments for preview
+        $pendingEnrollmentsList = \App\Models\Enrollment::with('student')
+            ->where('status', 'pending')
+            ->orderBy('created_at', 'desc')
+            ->limit(5)
+            ->get();
+        
         return view('registrar.dashboard', compact(
             'totalStudents',
             'totalTeachers',
             'pendingEnrollments',
             'enrolledStudents',
-            'recentEnrollments'
+            'recentEnrollments',
+            'pendingEnrollmentsList'
         ));
     })->name('dashboard');
     

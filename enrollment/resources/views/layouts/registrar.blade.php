@@ -105,6 +105,30 @@
         .alert-success { background: #d1fae5; color: #065f46; border: 1px solid #a7f3d0; }
         .alert-error { background: #fee2e2; color: #991b1b; border: 1px solid #fecaca; }
         
+        
+        /* Clickable Stat Card */
+        .stat-card .change { font-size: 0.75rem; font-weight: 600; margin-top: 6px; }
+        .stat-card .change.positive { color: var(--success); }
+        .stat-card .change.negative { color: var(--danger); }
+        .stat-card-clickable { cursor: pointer; transition: all 0.2s ease; }
+        .stat-card-clickable:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.12); border-color: var(--primary); }
+        .stat-card-clickable:hover .pending-preview { opacity: 1; visibility: visible; transform: translateY(0); }
+        
+        /* Pending Preview Dropdown */
+        .pending-preview { position: absolute; top: 100%; left: 0; right: 0; background: white; border-radius: 0 0 16px 16px; padding: 12px 16px; box-shadow: 0 8px 24px rgba(0,0,0,0.15); z-index: 100; opacity: 0; visibility: hidden; transform: translateY(-10px); transition: all 0.2s ease; border: 2px solid var(--primary); border-top: none; }
+        .preview-title { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--primary); margin-bottom: 8px; padding-bottom: 6px; border-bottom: 1px solid var(--border); }
+        .preview-item { display: flex; justify-content: space-between; align-items: center; padding: 6px 0; font-size: 0.8rem; }
+        .preview-name { font-weight: 600; color: var(--c-dark); }
+        .preview-date { color: #64748b; font-size: 0.75rem; }
+        .preview-more { font-size: 0.75rem; color: var(--c-blue); font-weight: 600; text-align: center; padding-top: 8px; margin-top: 4px; border-top: 1px dashed var(--border); }
+        
+        /* Sortable table headers */
+        th.sortable { cursor: pointer; user-select: none; position: relative; padding-right: 24px; transition: background 0.2s; }
+        th.sortable:hover { background: #e2e8f0; }
+        th.sortable::after { content: '↕'; position: absolute; right: 8px; opacity: 0.4; font-size: 0.7rem; }
+        th.sortable.asc::after { content: '↑'; opacity: 1; color: var(--primary); }
+        th.sortable.desc::after { content: '↓'; opacity: 1; color: var(--primary); }
+        
         @media (max-width: 1024px) { .sidebar { width: 80px; } .brand-text, .nav-section-title, .nav-item span, .user-details, .logout-btn span { display: none; } .nav-item { justify-content: center; } .main { margin-left: 80px; } }
         @media (max-width: 768px) { .sidebar { display: none; } .main { margin-left: 0; padding: 16px; } }
     </style>
@@ -182,5 +206,32 @@
             @yield('content')
         </main>
     </div>
+    
+    <script>
+    // Sortable Table Functionality
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('th.sortable').forEach(function(header) {
+            header.addEventListener('click', function() {
+                const table = this.closest('table');
+                const tbody = table.querySelector('tbody');
+                const rows = Array.from(tbody.querySelectorAll('tr'));
+                const columnIndex = Array.from(this.parentElement.children).indexOf(this);
+                const sortType = this.dataset.sortType || 'text';
+                const isAsc = this.classList.contains('asc');
+                table.querySelectorAll('th.sortable').forEach(th => th.classList.remove('asc', 'desc'));
+                this.classList.add(isAsc ? 'desc' : 'asc');
+                rows.sort(function(a, b) {
+                    const aCell = a.cells[columnIndex], bCell = b.cells[columnIndex];
+                    if (!aCell || !bCell) return 0;
+                    let aVal = aCell.textContent.trim(), bVal = bCell.textContent.trim();
+                    if (sortType === 'number') { aVal = parseFloat(aVal.replace(/[₱,#]/g, '')) || 0; bVal = parseFloat(bVal.replace(/[₱,#]/g, '')) || 0; return isAsc ? bVal - aVal : aVal - bVal; }
+                    if (sortType === 'date') { aVal = new Date(aVal); bVal = new Date(bVal); return isAsc ? bVal - aVal : aVal - bVal; }
+                    return isAsc ? bVal.localeCompare(aVal) : aVal.localeCompare(bVal);
+                });
+                rows.forEach(function(row) { tbody.appendChild(row); });
+            });
+        });
+    });
+    </script>
 </body>
 </html>

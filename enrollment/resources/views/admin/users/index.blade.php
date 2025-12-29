@@ -19,10 +19,10 @@
         <table>
             <thead>
                 <tr>
-                    <th>ID</th>
-                    <th>User</th>
-                    <th>Email</th>
-                    <th>Role</th>
+                    <th class="sortable" data-sort-type="number">ID</th>
+                    <th class="sortable">User</th>
+                    <th class="sortable">Email</th>
+                    <th class="sortable">Role</th>
                     <th style="text-align: center;">Actions</th>
                 </tr>
             </thead>

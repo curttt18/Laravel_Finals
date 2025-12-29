@@ -900,108 +900,55 @@
     
     <!-- SECTION 4: Testimonials -->
     <section class="testimonials">
-        <h2 class="section-title" style="margin-bottom: 10px;">What Families Say</h2>
-        <p class="section-subtitle" style="margin-bottom: 30px;">Short stories from parents who trusted us with their little ones.</p>
+        <h2 class="section-title" style="margin-bottom:        50px;">≡ƒÆû Happy Parents</h2>
 
-        <div id="testimonialCarousel" class="testimonial-carousel" role="region" aria-label="Testimonials carousel" tabindex="0">
-            <style>
-                .testimonial-carousel .testimonial-slide{display:none}
-                .testimonial-carousel .testimonial-slide.active{display:block}
-                .carousel-controls{display:flex;justify-content:center;gap:8px;margin-top:12px}
-                .carousel-prev,.carousel-next{background:none;border:1px solid var(--color-primary, #3b82f6);padding:6px 10px;border-radius:6px;cursor:pointer}
-                .carousel-dots{display:flex;justify-content:center;gap:6px;margin-top:10px}
-                .carousel-dot{background:transparent;border:1px solid #d1d5db;width:10px;height:10px;border-radius:50%;display:inline-block;margin:0 4px;cursor:pointer}
-                .carousel-dot.active{background:var(--color-accent, #f59e0b);border-color:var(--color-accent, #f59e0b)}
-            </style>
+        <div class="testimonial-marquee">
+            <div class="testimonial-track">
 
-            <div class="carousel-track">
-                <div id="slide-0" class="testimonial-slide active" aria-hidden="false">
-                    <div class="testimonial-card" role="group" aria-label="Testimonial by Maria and Family">
-                        <div class="avatar"><img src="https://images.unsplash.com/photo-1542037104857-ffbb0b9155fb?q=80&w=1954&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Maria's Family"></div>
-                        <div class="stars" aria-hidden="true">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" class="star text-yellow-400 inline-block mr-1"><path d="M12 .587l3.668 7.431L23.5 9.748l-5.75 5.6L19.336 23 12 18.897 4.664 23 6.75 15.348.999 9.748l7.832-1.73L12 .587z"/></svg>
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" class="star text-yellow-400 inline-block mr-1"><path d="M12 .587l3.668 7.431L23.5 9.748l-5.75 5.6L19.336 23 12 18.897 4.664 23 6.75 15.348.999 9.748l7.832-1.73L12 .587z"/></svg>
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" class="star text-yellow-400 inline-block mr-1"><path d="M12 .587l3.668 7.431L23.5 9.748l-5.75 5.6L19.336 23 12 18.897 4.664 23 6.75 15.348.999 9.748l7.832-1.73L12 .587z"/></svg>
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" class="star text-yellow-400 inline-block mr-1"><path d="M12 .587l3.668 7.431L23.5 9.748l-5.75 5.6L19.336 23 12 18.897 4.664 23 6.75 15.348.999 9.748l7.832-1.73L12 .587z"/></svg>
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" class="star text-yellow-400 inline-block mr-0"><path d="M12 .587l3.668 7.431L23.5 9.748l-5.75 5.6L19.336 23 12 18.897 4.664 23 6.75 15.348.999 9.748l7.832-1.73L12 .587z"/></svg>
-                        </div>
-                        <p class="testimonial-text">My daughter looks forward to every day at Little Stars — she’s grown more confident and curious.</p>
-                        <p class="testimonial-name">— Maria & Family</p>
+                <!-- ORIGINAL SET -->
+                <div class="testimonial-card">
+                    <div class="testimonial-avatar-wrap">
+                        <img src="https://images.unsplash.com/photo-1542037104857-ffbb0b9155fb?q=80&w=1954&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Maria's Family">
                     </div>
+
+                    <p class="testimonial-text">"My daughter can't wait to go to school every day!"</p>
+                    <p class="testimonial-name">- Maria & Family</p>
                 </div>
 
-                <div id="slide-1" class="testimonial-slide" aria-hidden="true">
-                    <div class="testimonial-card" role="group" aria-label="Testimonial by Juan's Parents">
-                        <div class="avatar"><img src="https://images.unsplash.com/photo-1588979355313-6711a095465f?q=80&w=972&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Juan's Family"></div>
-                        <div class="stars" aria-hidden="true">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" class="star text-yellow-400 inline-block mr-1"><path d="M12 .587l3.668 7.431L23.5 9.748l-5.75 5.6L19.336 23 12 18.897 4.664 23 6.75 15.348.999 9.748l7.832-1.73L12 .587z"/></svg>
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" class="star text-yellow-400 inline-block mr-1"><path d="M12 .587l3.668 7.431L23.5 9.748l-5.75 5.6L19.336 23 12 18.897 4.664 23 6.75 15.348.999 9.748l7.832-1.73L12 .587z"/></svg>
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" class="star text-yellow-400 inline-block mr-1"><path d="M12 .587l3.668 7.431L23.5 9.748l-5.75 5.6L19.336 23 12 18.897 4.664 23 6.75 15.348.999 9.748l7.832-1.73L12 .587z"/></svg>
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" class="star text-yellow-400 inline-block mr-1"><path d="M12 .587l3.668 7.431L23.5 9.748l-5.75 5.6L19.336 23 12 18.897 4.664 23 6.75 15.348.999 9.748l7.832-1.73L12 .587z"/></svg>
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" class="star text-yellow-400 inline-block mr-0"><path d="M12 .587l3.668 7.431L23.5 9.748l-5.75 5.6L19.336 23 12 18.897 4.664 23 6.75 15.348.999 9.748l7.832-1.73L12 .587z"/></svg>
-                        </div>
-                        <p class="testimonial-text">The teachers are caring and communicate well — I feel like my child is in good hands.</p>
-                        <p class="testimonial-name">— Juan's Parents</p>
+                <div class="testimonial-card">
+                    <div class="testimonial-avatar-wrap">
+                        <img src="https://images.unsplash.com/photo-1588979355313-6711a095465f?q=80&w=972&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Juan's Family">
                     </div>
+                    <p class="testimonial-text">"The teachers are amazing and truly care!"</p>
+                    <p class="testimonial-name">- Juan's Parents</p>
                 </div>
 
-                <div id="slide-2" class="testimonial-slide" aria-hidden="true">
-                    <div class="testimonial-card" role="group" aria-label="Testimonial by The Garcia Family">
-                        <div class="avatar"><img src="https://images.unsplash.com/photo-1559734840-f9509ee5677f?q=80&w=987&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Garcia's Family"></div>
-                        <div class="stars" aria-hidden="true">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" class="star text-yellow-400 inline-block mr-1"><path d="M12 .587l3.668 7.431L23.5 9.748l-5.75 5.6L19.336 23 12 18.897 4.664 23 6.75 15.348.999 9.748l7.832-1.73L12 .587z"/></svg>
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" class="star text-yellow-400 inline-block mr-1"><path d="M12 .587l3.668 7.431L23.5 9.748l-5.75 5.6L19.336 23 12 18.897 4.664 23 6.75 15.348.999 9.748l7.832-1.73L12 .587z"/></svg>
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" class="star text-yellow-400 inline-block mr-1"><path d="M12 .587l3.668 7.431L23.5 9.748l-5.75 5.6L19.336 23 12 18.897 4.664 23 6.75 15.348.999 9.748l7.832-1.73L12 .587z"/></svg>
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" class="star text-yellow-400 inline-block mr-1"><path d="M12 .587l3.668 7.431L23.5 9.748l-5.75 5.6L19.336 23 12 18.897 4.664 23 6.75 15.348.999 9.748l7.832-1.73L12 .587z"/></svg>
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" class="star text-yellow-400 inline-block mr-0"><path d="M12 .587l3.668 7.431L23.5 9.748l-5.75 5.6L19.336 23 12 18.897 4.664 23 6.75 15.348.999 9.748l7.832-1.73L12 .587z"/></svg>
-                        </div>
-                        <p class="testimonial-text">Choosing Little Stars was the best decision — they balance learning and play perfectly.</p>
-                        <p class="testimonial-name">— The Garcia Family</p>
+                <div class="testimonial-card">
+                    <div class="testimonial-avatar-wrap">
+                        <img src="https://images.unsplash.com/photo-1559734840-f9509ee5677f?q=80&w=987&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Garcia's Family">
                     </div>
+                    <p class="testimonial-text">"Best decision we ever made for our kids!"</p>
+                    <p class="testimonial-name">- The Garcia Family</p>
                 </div>
-            </div>
 
-            <div class="carousel-controls">
-                <button class="carousel-prev" aria-controls="testimonialCarousel" aria-label="Previous testimonial">‹</button>
-                <button class="carousel-next" aria-controls="testimonialCarousel" aria-label="Next testimonial">›</button>
-            </div>
+                <div class="testimonial-card">
+                    <div class="testimonial-avatar-wrap">
+                        <img src="https://images.unsplash.com/photo-1529518152792-d08317b26e22?q=80&w=987&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Santos's Family">
+                    </div>
+                    <p class="testimonial-text">"Excellent communication and warm staff."</p>
+                    <p class="testimonial-name">- The Santos Family</p>
+                </div>
 
-            <div class="carousel-dots" role="tablist" aria-label="Testimonials navigation">
-                <button class="carousel-dot active" role="tab" aria-selected="true" aria-controls="slide-0" data-index="0"></button>
-                <button class="carousel-dot" role="tab" aria-selected="false" aria-controls="slide-1" data-index="1"></button>
-                <button class="carousel-dot" role="tab" aria-selected="false" aria-controls="slide-2" data-index="2"></button>
-            </div>
+                <!-- REPEAT FOR SEAMLESS SCROLL -->
+                <div class="testimonial-card">
+                    <div class="testimonial-avatar-wrap">
+                        <img src="https://images.unsplash.com/photo-1542037104857-ffbb0b9155fb?q=80&w=1954&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Maria's Family">
+                    </div>
+                    <p class="testimonial-text">"My daughter can't wait to go to school every day!"</p>
+                    <p class="testimonial-name">- Maria & Family</p>
+                </div>
 
-            <script>
-                (function(){
-                    const carousel = document.getElementById('testimonialCarousel');
-                    const slides = Array.from(carousel.querySelectorAll('.testimonial-slide'));
-                    const prevBtn = carousel.querySelector('.carousel-prev');
-                    const nextBtn = carousel.querySelector('.carousel-next');
-                    const dots = Array.from(carousel.querySelectorAll('.carousel-dot'));
-                    let current = 0;
-                    let interval = null;
-                    const show = (index)=>{
-                        slides.forEach((s,i)=>{ s.classList.toggle('active', i===index); s.setAttribute('aria-hidden', i===index? 'false':'true'); });
-                        dots.forEach((d,i)=>{ d.classList.toggle('active', i===index); d.setAttribute('aria-selected', i===index? 'true':'false'); });
-                        current = index;
-                    };
-                    const next = ()=> show((current+1)%slides.length);
-                    const prev = ()=> show((current-1+slides.length)%slides.length);
-                    const start = ()=> { interval = setInterval(next, 4500); };
-                    const stop = ()=> { if(interval){ clearInterval(interval); interval = null; } };
-                    prevBtn.addEventListener('click', ()=>{ prev(); stop(); start(); });
-                    nextBtn.addEventListener('click', ()=>{ next(); stop(); start(); });
-                    dots.forEach((d,i)=> d.addEventListener('click', ()=>{ show(i); stop(); start(); }));
-                    carousel.addEventListener('mouseenter', stop);
-                    carousel.addEventListener('mouseleave', start);
-                    carousel.addEventListener('focusin', stop);
-                    carousel.addEventListener('focusout', start);
-                    carousel.addEventListener('keydown', (e)=>{ if(e.key === 'ArrowLeft'){ prev(); } if(e.key === 'ArrowRight'){ next(); } });
-                    show(0);
-                    start();
-                })();
-            </script>
+            </div>
         </div>
 
         <div style="text-align:center; margin-top:28px;">

@@ -485,12 +485,13 @@
             transition: transform 220ms ease, box-shadow 220ms ease;
             border-radius: 25px;
             background: transparent;
+            will-change: transform;
         }
 
         /* Pop-up effect on hover */
         .activity-card:hover {
-            transform: translateY(-12px) scale(1.02);
-            box-shadow: 0 25px 60px rgba(0,0,0,0.18);
+            transform: translateY(-14px) scale(1.03) rotate(-0.5deg);
+            box-shadow: 0 30px 70px rgba(0,0,0,0.16);
         }
 
         /* Inner element handles the 3D flip (controlled via class, not hover) */
@@ -498,9 +499,11 @@
             position: relative;
             width: 100%;
             height: 100%;
-            transition: transform 700ms cubic-bezier(.2,1,.2,1);
+            transition: transform 640ms cubic-bezier(.2,1,.2,1);
             transform-style: preserve-3d;
             border-radius: inherit;
+            background: linear-gradient(180deg, rgba(255,255,255,0.95), rgba(255,255,255,0.96));
+            overflow: hidden;
         }
 
         /* Flip only when the card has the `flipped` class */
@@ -521,16 +524,84 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            padding: 25px;
+            padding: 26px;
         }
 
-        .card-back {
-            transform: rotateY(180deg);
+        /* Activity icon wrap */
+        .activity-icon-wrap {
+            width: 110px;
+            height: 110px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, rgba(108,92,231,0.12), rgba(253,121,168,0.12));
+            box-shadow: 0 10px 30px rgba(0,0,0,0.06) inset;
+            margin-bottom: 14px;
         }
 
-        .card-front { transform: rotateY(0); }
+        .activity-icon { width: 68px; height: 68px; object-fit: contain; }
 
-        .card-front *, .card-back * { pointer-events: auto; }
+        .activity-title { font-size: 1.2rem; color: #6c5ce7; margin-bottom: 6px; }
+        .activity-lead { font-size: 0.95rem; color: #6b7280; text-align: center; }
+
+        /* Small badge (corner) */
+        .activity-badge {
+            position: absolute;
+            top: 14px;
+            right: 14px;
+            background: linear-gradient(135deg,#ffb86b,#fd79a8);
+            color: white;
+            font-weight: 700;
+            padding: 6px 10px;
+            border-radius: 999px;
+            font-size: 0.85rem;
+            box-shadow: 0 6px 18px rgba(253,121,168,0.18);
+        }
+
+        /* Back content */
+        .card-back { color: white; padding: 22px; }
+        .card-back h3 { margin-bottom: 12px; font-size: 1.1rem; }
+        .card-back ul { margin-bottom: 14px; }
+        .card-back .btn-small { padding: 8px 14px; border-radius: 999px; font-size: 0.9rem; font-weight: 700; color: white; background: linear-gradient(90deg, rgba(0,206,201,0.95), rgba(0,184,148,0.95)); box-shadow: 0 10px 30px rgba(0,206,201,0.12); text-decoration: none; display: inline-block; }
+
+        /* Testimonials grid */
+        .testimonial-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0,1fr));
+            gap: 20px;
+            width: 100%;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .testimonial-card {
+            background: white;
+            padding: 24px;
+            border-radius: 18px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.08);
+            text-align: left;
+        }
+
+        .testimonial-card .avatar { width: 68px; height: 68px; border-radius: 50%; overflow: hidden; margin-bottom: 12px; }
+        .testimonial-name { font-weight: 800; color: #6c5ce7; margin-top: 10px; }
+        .testimonial-text { color: #4b5563; line-height: 1.6; }
+        .stars { color: #ffbf00; margin-bottom: 8px; }
+
+        .testimonial-actions { margin-top: 14px; }
+
+        /* Footer */
+        .site-footer { background: linear-gradient(180deg,#2d3436 0%, #2b2f36 100%); color: rgba(255,255,255,0.92); padding: 48px 20px; }
+        .site-footer a { color: rgba(255,255,255,0.9); text-decoration: none; }
+        .site-footer .col { min-width: 200px; }
+
+        @media (max-width: 992px) {
+            .testimonial-grid { grid-template-columns: repeat(2, minmax(0,1fr)); }
+        }
+        @media (max-width: 640px) {
+            .testimonial-grid { grid-template-columns: 1fr; }
+            .activity-card { width: 90%; transform: none; }
+        }
 
         /* ========== SECTION 3: GAME ========== */
         .game-section {
@@ -570,30 +641,14 @@
             background: linear-gradient(180deg, #fd79a8 0%, #e84393 100%);
             padding: 60px 20px;
         }
-        
-        .testimonial-track {
-            display: flex;
-            animation: scroll 25s linear infinite;
-            width: max-content;
-        }
-        
-        /* .testimonial-track:hover { animation-play-state: paused; } */
-        
-        @keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
-        
-        .testimonial-card {
-            background: white;
-            border-radius: 25px;
-            padding: 35px;
-            margin: 0 15px;
-            min-width: 320px;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
-            text-align: center;
-        }
-        
-        .testimonial-avatar { font-size: 60px; margin-bottom: 15px; }
-        .testimonial-text { font-size: 1rem; color: #666; line-height: 1.7; margin-bottom: 15px; }
-        .testimonial-name { font-weight: 800; color: #6c5ce7; font-size: 1.1rem; }
+
+        /* Clean grid layout — marquee removed for accessibility */
+        .testimonial-grid { margin-top: 10px; }
+        .testimonial-card { transition: transform 220ms ease, box-shadow 220ms ease; }
+        .testimonial-card:focus { outline: 4px solid rgba(108,92,231,0.08); transform: translateY(-6px); box-shadow: 0 20px 60px rgba(0,0,0,0.12); }
+        .testimonial-card.expanded { transform: translateY(-6px) scale(1.02); box-shadow: 0 30px 80px rgba(0,0,0,0.12); }
+        .testimonial-card .avatar img { width: 100%; height: 100%; object-fit: cover; }
+        .testimonial-name { font-weight: 800; color: #6c5ce7; font-size: 1.0rem; margin-top: 10px; }
         
         /* ========== SECTION 5: CTA ========== */
         .cta-section {
@@ -718,22 +773,24 @@
             <div class="activity-card" role="button" tabindex="0" aria-pressed="false" aria-label="Art & Crafts details">
                 <div class="activity-card-inner">
                     <div class="card-front">
-                        <img
-                            src="/img/creativity.png"
-                            alt="Art & Crafts"
-                            class="activity-icon"
-                        />
-                        <h3>Art & Crafts</h3>
-                        <p>Express yourself!</p>
+                        <span class="activity-badge">Popular</span>
+                        <div class="activity-icon-wrap">
+                            <img src="/img/creativity.png" alt="Art & Crafts" class="activity-icon" />
+                        </div>
+                        <h3 class="activity-title">Art & Crafts</h3>
+                        <p class="activity-lead muted-text">Hands-on creative play and simple projects.</p>
                     </div>
 
                     <div class="card-back card-back-art">
-                        <h3>What You'll Create:</h3>
+                        <h3>What You'll Create</h3>
                         <ul>
                             <li>Finger painting</li>
                             <li>Paper craft animals</li>
                             <li>Colorful collages</li>
                         </ul>
+                        <div class="testimonial-actions">
+                            <a href="#" class="btn-small">Learn more</a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -742,21 +799,22 @@
             <div class="activity-card" role="button" tabindex="0" aria-pressed="false" aria-label="Story Time details">
                 <div class="activity-card-inner">
                     <div class="card-front">
-                        <img
-                            src="/img/book.png"
-                            alt="Story Time"
-                            class="activity-icon"
-                        />
-                        <h3>Story Time</h3>
-                        <p>Adventure awaits!</p>
+                        <div class="activity-icon-wrap">
+                            <img src="/img/book.png" alt="Story Time" class="activity-icon" />
+                        </div>
+                        <h3 class="activity-title">Story Time</h3>
+                        <p class="activity-lead muted-text">Interactive reading and puppetry to spark imagination.</p>
                     </div>
                     <div class="card-back card-back-story">
-                        <h3>Magical Stories:</h3>
+                        <h3>Magical Stories</h3>
                         <ul>
                             <li>Fairy tales</li>
                             <li>Interactive stories</li>
                             <li>Puppet shows</li>
                         </ul>
+                        <div class="testimonial-actions">
+                            <a href="#" class="btn-small">Learn more</a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -764,21 +822,22 @@
             <div class="activity-card" role="button" tabindex="0" aria-pressed="false" aria-label="Music & Dance details">
                 <div class="activity-card-inner">
                     <div class="card-front">
-                        <img
-                            src="/img/music.png"
-                            alt="Music & Dance"
-                            class="activity-icon"
-                        />
-                        <h3>Music & Dance</h3>
-                        <p>Let's groove!</p>
+                        <div class="activity-icon-wrap">
+                            <img src="/img/music.png" alt="Music & Dance" class="activity-icon" />
+                        </div>
+                        <h3 class="activity-title">Music & Dance</h3>
+                        <p class="activity-lead muted-text">Sing-along and movement to build confidence.</p>
                     </div>
                     <div class="card-back card-back-music">
-                        <h3>Get Moving:</h3>
+                        <h3>Get Moving</h3>
                         <ul>
                             <li>Sing-along sessions</li>
                             <li>Dance parties</li>
                             <li>Instruments</li>
                         </ul>
+                        <div class="testimonial-actions">
+                            <a href="#" class="btn-small">Learn more</a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -786,21 +845,22 @@
             <div class="activity-card" role="button" tabindex="0" aria-pressed="false" aria-label="Outdoor Play details">
                 <div class="activity-card-inner">
                     <div class="card-front">
-                        <img
-                            src="/img/playground.png"
-                            alt="Outdoor Play"
-                            class="activity-icon"
-                        />
-                        <h3>Outdoor Play</h3>
-                        <p>Fresh air fun!</p>
+                        <div class="activity-icon-wrap">
+                            <img src="/img/playground.png" alt="Outdoor Play" class="activity-icon" />
+                        </div>
+                        <h3 class="activity-title">Outdoor Play</h3>
+                        <p class="activity-lead muted-text">Playground, nature walks, and group games.</p>
                     </div>
                     <div class="card-back card-back-play">
-                        <h3>Outside Fun:</h3>
+                        <h3>Outside Fun</h3>
                         <ul>
                             <li>Playground</li>
                             <li>Nature walks</li>
                             <li>Sports games</li>
                         </ul>
+                        <div class="testimonial-actions">
+                            <a href="#" class="btn-small">Learn more</a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -819,48 +879,34 @@
     
     <!-- SECTION 4: Testimonials -->
     <section class="testimonials">
-        <h2 class="section-title" style="margin-bottom: 50px;">💖 Happy Parents</h2>
+        <h2 class="section-title" style="margin-bottom: 10px;">What Families Say</h2>
+        <p class="section-subtitle" style="margin-bottom: 30px;">Short stories from parents who trusted us with their little ones.</p>
 
-        <div class="testimonial-marquee">
-            <div class="testimonial-track">
-
-                <!-- ORIGINAL SET -->
-                <div class="testimonial-card">
-                    <div class="testimonial-avatar-wrap">
-                        <img src="https://images.unsplash.com/photo-1542037104857-ffbb0b9155fb?q=80&w=1954&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Maria's Family">
-                    </div>
-
-                    <p class="testimonial-text">"My daughter can't wait to go to school every day!"</p>
-                    <p class="testimonial-name">- Maria & Family</p>
-                </div>
-
-                <div class="testimonial-card">
-                    <div class="testimonial-avatar-wrap">
-                        <img src="https://images.unsplash.com/photo-1588979355313-6711a095465f?q=80&w=972&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Juan's Family">
-                    </div>
-                    <p class="testimonial-text">"The teachers are amazing and truly care!"</p>
-                    <p class="testimonial-name">- Juan's Parents</p>
-                </div>
-
-                <div class="testimonial-card">
-                    <div class="testimonial-avatar-wrap">
-                        <img src="https://images.unsplash.com/photo-1559734840-f9509ee5677f?q=80&w=987&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Garcia's Family">
-                    </div>
-                    <p class="testimonial-text">"Best decision we ever made for our kids!"</p>
-                    <p class="testimonial-name">- The Garcia Family</p>
-                </div>
-
-                <div class="testimonial-card">
-                    <div class="testimonial-avatar-wrap">
-                        <img src="https://images.unsplash.com/photo-1529518152792-d08317b26e22?q=80&w=987&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Santos's Family">
-                    </div>
-                    <p class="testimonial-text">"Safe, fun, and educational!"</p>
-                    <p class="testimonial-name">- The Santos Family</p>
-                </div>
-
-
-
+        <div class="testimonial-grid" role="list">
+            <div class="testimonial-card" tabindex="0" role="listitem" aria-label="Testimonial by Maria and Family">
+                <div class="avatar"><img src="https://images.unsplash.com/photo-1542037104857-ffbb0b9155fb?q=80&w=1954&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Maria's Family"></div>
+                <div class="stars">⭐⭐⭐⭐⭐</div>
+                <p class="testimonial-text">My daughter looks forward to every day at Little Stars — she’s grown more confident and curious.</p>
+                <p class="testimonial-name">— Maria & Family</p>
             </div>
+
+            <div class="testimonial-card" tabindex="0" role="listitem" aria-label="Testimonial by Juan's Parents">
+                <div class="avatar"><img src="https://images.unsplash.com/photo-1588979355313-6711a095465f?q=80&w=972&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Juan's Family"></div>
+                <div class="stars">⭐⭐⭐⭐⭐</div>
+                <p class="testimonial-text">The teachers are caring and communicate well — I feel like my child is in good hands.</p>
+                <p class="testimonial-name">— Juan's Parents</p>
+            </div>
+
+            <div class="testimonial-card" tabindex="0" role="listitem" aria-label="Testimonial by The Garcia Family">
+                <div class="avatar"><img src="https://images.unsplash.com/photo-1559734840-f9509ee5677f?q=80&w=987&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Garcia's Family"></div>
+                <div class="stars">⭐⭐⭐⭐⭐</div>
+                <p class="testimonial-text">Choosing Little Stars was the best decision — they balance learning and play perfectly.</p>
+                <p class="testimonial-name">— The Garcia Family</p>
+            </div>
+        </div>
+
+        <div style="text-align:center; margin-top:28px;">
+            <a href="#" class="btn-primary">Read more reviews</a>
         </div>
     </section>
 
@@ -872,9 +918,27 @@
             <h2>Ready for an Adventure? 🚀</h2>
             <p>Join Little Stars and watch your child shine!</p>
             <a href="{{ route('register') }}" class="btn-primary text-2xl py-5 px-10">Enroll now</a>
-            <p class="footer-text">© {{ date('Y') }} Little Stars Daycare | <a href="{{ route('login') }}">Staff Portal</a></p>
+            <p class="footer-text" style="margin-top:28px;">© {{ date('Y') }} Little Stars Daycare</p>
         </div>
     </section>
+
+    <!-- SITE FOOTER -->
+    <footer class="site-footer">
+        <div style="max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 240px;gap:30px;align-items:flex-start;">
+            <div>
+                <h3 style="font-family: 'Fredoka One', cursive; color: white; margin-bottom:8px;">Little Stars</h3>
+                <p style="color: rgba(255,255,255,0.8); max-width:600px;">We provide a safe, caring, and imaginative space for early childhood development. Contact us for visits and enrollment information.</p>
+                <p style="margin-top:12px; color: rgba(255,255,255,0.85);">Phone: <a href="tel:+1234567890">+1 (234) 567-890</a> • Email: <a href="mailto:hello@littlestars.example">hello@littlestars.example</a></p>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:10px;align-items:flex-end;">
+                <div>
+                    <a class="btn-primary" href="{{ route('register') }}">Enroll now</a>
+                </div>
+                <div style="margin-top:8px; color: rgba(255,255,255,0.7); font-size:0.95rem;">Staff portal: <a href="{{ route('login') }}">Sign in</a></div>
+                <div style="margin-top:18px; color: rgba(255,255,255,0.7); font-size:0.85rem;">Made with care in our community.</div>
+            </div>
+        </div>
+    </footer>
     
     <script>
         // Generate stars for CTA section
@@ -1049,6 +1113,19 @@
                 } else if (e.key === 'Escape' && card.classList.contains('flipped')) {
                     card.classList.remove('flipped');
                     card.setAttribute('aria-pressed', 'false');
+                }
+            });
+        });
+
+        // Testimonial interactions — toggle expanded state on click/keyboard
+        document.querySelectorAll('.testimonial-card').forEach(card => {
+            card.addEventListener('click', () => {
+                card.classList.toggle('expanded');
+            });
+            card.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    card.classList.toggle('expanded');
                 }
             });
         });

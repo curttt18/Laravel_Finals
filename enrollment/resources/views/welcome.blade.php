@@ -356,213 +356,178 @@
         .nav-btn:hover { transform: translateY(-5px) scale(1.1); }
         
         /* ========== SECTION 2: ACTIVITIES ========== */
-        .activities { background:linear-gradient(180deg,#a29bfe 0%,#6c5ce7 100%); padding:60px 20px; }
-
-        .activity-icon {
-            width: 90px;
-            height: 90px;
-            object-fit: contain;
-            margin-bottom: 15px;
-            transition: transform 0.3s ease;
-            filter: drop-shadow(0 6px 10px rgba(0,0,0,0.2));
-            animation: float 3s ease-in-out infinite;
+        .activities {
+            background: linear-gradient(180deg, #f6f8ff 0%, #e9f0ff 40%, #d1e8ff 100%);
+            padding: 72px 24px;
+            position: relative;
+            overflow: visible;
         }
 
-        @keyframes float { 0%,100%{transform:translateY(0);}50%{transform:translateY(-6px);} }
-
-        .activity-card:hover .activity-icon { transform: scale(1.15) rotate(-5deg); }
-
+        /* Decorative playful header accent */
         .activities::before {
-            content: '🎈 ⭐ 🖍️ 🌈 🧩';
+            content: '';
             position: absolute;
-            font-size: 80px;
-            opacity: 0.08;
-            top: 10%;
-            left: 5%;
-            transform: rotate(-10deg);
+            left: -6%;
+            top: -40px;
+            width: 36%;
+            height: 220px;
+            background: radial-gradient(circle at 20% 20%, rgba(108,92,231,0.08), transparent 20%), linear-gradient(90deg, rgba(253,121,168,0.06), transparent);
+            transform: rotate(-6deg);
             pointer-events: none;
         }
 
-        .game-section::before,
-        .game-section::after {
-            content: "";
-            position: absolute;
-            width: 280px;
-            height: 90px;
-            background: #ffffff;
-            border-radius: 100px;
-            opacity: 0.75;
-            pointer-events: none;
-            filter: blur(0.5px);
+        .activities-header { background: rgba(255,255,255,0.06); padding: 18px; border-radius: 14px; display:flex; align-items:center; gap:16px; }
+        .activities .section-title { font-family: 'Fredoka One', cursive; color: #2d2b8a; font-size: 2.6rem; }
+        .activities .section-subtitle { color: #3b3f6b; margin-top:6px; }
+
+        /* Make icons more prominent and playful */
+        .activity-icon {
+            width: 92px;
+            height: 92px;
+            object-fit: contain;
+            margin-bottom: 12px;
+            transition: transform 280ms cubic-bezier(.2,1,.2,1), filter 280ms ease;
+            filter: drop-shadow(0 10px 20px rgba(61,66,115,0.12));
         }
 
-        .game-section::before {
-            top: 12%;
-            left: -120px;
-            box-shadow:
-                60px 10px 0 10px #fff,
-                120px -10px 0 15px #fff,
-                180px 5px 0 5px #fff;
-            animation: cloudMove 60s linear infinite;
+        /* Icon background bubble */
+        .activity-icon-wrap {
+            width: 120px;
+            height: 120px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, rgba(253,121,168,0.12), rgba(108,92,231,0.06));
+            box-shadow: 0 12px 30px rgba(61,66,115,0.08);
+            margin-bottom: 14px;
+            transition: transform 260ms ease, box-shadow 260ms ease;
         }
 
-        .game-section::after {
-            top: 38%;
-            left: -160px;
-            width: 360px;
-            height: 110px;
-            opacity: 0.6;
-            box-shadow:
-                80px 20px 0 12px #fff,
-                160px -12px 0 18px #fff,
-                240px 10px 0 6px #fff;
-            animation: cloudMove 90s linear infinite;
-        }
+        .activity-card:hover .activity-icon-wrap { transform: translateY(-6px) scale(1.03); box-shadow: 0 24px 50px rgba(61,66,115,0.12); }
+        .activity-card:hover .activity-icon { transform: rotate(-8deg) scale(1.06); }
 
-        .mountain, .mountain-two, .mountain-three, .mountain-four, .mountain-five {
-            position: absolute;
-            bottom: 0;
-            border-left: 150px solid transparent;
-            border-right: 150px solid transparent;
-            border-bottom: 180px solid #7ac1e4;
-            z-index: 1;
-        }
-        .mountain-two { 
-            left: 80px;
-            bottom: -20px;
-            opacity: .3;
-            z-index: 0;
-        }
-        .mountain-three {
-            left: -60px;
-            bottom:-10px;
-            opacity: .5;
-            z-index: 0;
-        }
-        .mountain-four {
-            left: 1180px;
-            bottom: -20px;
-            opacity: .5;
-            z-index: 0;
-        }
-        .mountain-five {
-            left: 1350px;
-            bottom: -10px;
-            opacity: .5;
-            z-index: 0;
-        }
-        .mountain-top {
-            position: absolute;
-            right: -65px;
-            border-left: 65px solid transparent;
-            border-right: 65px solid transparent;
-            border-bottom: 77px solid #ceeaf6;
-            z-index: 2;
-        }
-        .mountain-cap-1, .mountain-cap-2, .mountain-cap-3 {
-            position: absolute;
-            top: 70px;
-            border-left: 25px solid transparent;
-            border-right: 25px solid transparent;
-            border-top: 25px solid #ceeaf6;
-        }
-        .mountain-cap-1 { left: -55px; }
-        .mountain-cap-2 { left: -25px; }
-        .mountain-cap-3 { left: 5px; }
-        .cloud, .cloud:before, .cloud:after {
-        position: absolute;
-        width: 70px;
-            height: 30px;
-            background: #fff;
-            -webkit-border-radius: 100px / 50px;
-            border-radius: 100px / 50px;
-        }
-        .cloud { 
-        bottom: 100px;
-        -webkit-animation: cloud 50s infinite linear;
-                animation: cloud 50s infinite linear;
-        }
-        @-webkit-keyframes cloud {
-            0%   { left: -100px; }
-            100% { left: 1000px; } 
-        }
-        @keyframes cloud {
-        
-            0%   { left: -100px; }
-            100% { left: 1000px; } 
-        }
-        .cloud:before {
-        content: '';
-        left: 50px;
-        }
-        .cloud:after {
-        content: '';
-        left: 25px;
-        top: -10px;
-        }
-
-        @keyframes cloudMove {
-            from {
-                transform: translateX(0);
-            }
-            to {
-                transform: translateX(120vw);
-            }
-        }
-
-
-
-        @keyframes floaty {
-            0%, 100% { transform: translateY(0) rotate(0deg); }
-            50% { transform: translateY(-20px) rotate(5deg); }
-        }
-
-        /* 3D Flip Cards */
-        .activity-grid { display:grid; grid-template-columns:repeat(4,280px); gap:30px; justify-content:center; perspective:1000px; }
-
-        .activity-card {
-            width: 280px;
-            height: 350px;
+        /* Activity grid uses responsive auto-fit layout for a lively mosaic */
+        .activity-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 28px;
+            max-width: 1100px;
+            margin: 24px auto 0;
+            align-items: stretch;
             perspective: 1000px;
+        }
+
+        /* Card base styles (kept class names and sizing to preserve JS behavior) */
+        .activity-card {
+            min-height: 360px;
+            display: flex;
+            align-items: stretch;
             cursor: pointer;
             position: relative;
             transform-style: preserve-3d;
-            transition: transform 0.8s ease;
+            transition: transform 260ms cubic-bezier(.2,1,.2,1), box-shadow 260ms ease;
+            border-radius: 22px;
+            overflow: hidden;
+            background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(250,250,255,0.95));
+            box-shadow: 0 16px 40px rgba(31,41,61,0.06);
+            border: 1px solid rgba(108,92,231,0.06);
         }
 
-        /* Flip the card when hovering the container */
-        .activity-card:hover {
-            transform: rotateY(180deg);
-        }
-
-        /* Front and back sides */
-        .card-front,
-        .card-back {
+        /* Playful decorative accent on cards */
+        .activity-card::after {
+            content: '';
             position: absolute;
+            width: 120px;
+            height: 120px;
+            right: -28px;
+            bottom: -24px;
+            background: radial-gradient(circle at 25% 25%, rgba(253,121,168,0.12), transparent 25%), radial-gradient(circle at 75% 75%, rgba(108,92,231,0.08), transparent 25%);
+            border-radius: 50%;
+            transform: rotate(20deg);
+            pointer-events: none;
+            opacity: 0.95;
+        }
+
+        /* Subtle lift on hover, keep flip behavior (rotation preserved for click-based flips only) */
+        .activity-card:hover {
+            transform: translateY(-10px) rotate(-1deg) scale(1.01);
+            box-shadow: 0 30px 70px rgba(31,41,61,0.12);
+        }
+        /* Interactive hover: subtle tilt and scale for feedback (no rotateY so click state is authoritative) */
+        .activity-card:hover .activity-card-inner {
+            transform: translateY(-6px) rotateX(3deg) scale(1.01);
+        }
+        /* Provide focus styles for keyboard users */
+        .activity-card:focus-within, .activity-card:focus {
+            outline: 3px solid rgba(108,92,231,0.16);
+            transform: translateY(-10px) scale(1.01);
+            box-shadow: 0 30px 70px rgba(31,41,61,0.12);
+        }
+
+        /* Card inner (3D flip controlled by .flipped class + hover still flips visually) */
+        .activity-card-inner {
+            width: 100%;
+            height: 100%;
+            transition: transform 640ms cubic-bezier(.2,1,.2,1);
+            transform-style: preserve-3d;
+            border-radius: inherit;
+            display:flex;
+            flex-direction:column;
+            overflow:hidden;
+        }
+
+        .activity-card.flipped .activity-card-inner { transform: rotateY(180deg); }
+
+        .card-front, .card-back {
+            position: absolute;
+            top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
             backface-visibility: hidden;
-            border-radius: 25px;
+            -webkit-backface-visibility: hidden;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            padding: 25px;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
-            pointer-events: none; /* ensures hover applies to the whole card */
+            padding: 28px;
         }
 
-        /* Front stays normal */
-        .card-front {
-            background: white;
-        }
+        .card-front { background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(250,250,255,0.98)); }
+        .card-back { transform: rotateY(180deg); color: white; background: linear-gradient(135deg, #fd79a8, #e84393); }
 
-        /* Back rotated */
-        .card-back {
-            transform: rotateY(180deg);
-            background: linear-gradient(135deg, #fd79a8, #e84393);
+        /* Activity title and lead visual improvements */
+        .activity-title { font-size: 1.25rem; color: #3b3f6b; font-weight: 800; margin-top: 6px; }
+        .activity-lead { color: #6b7280; font-size: 0.98rem; text-align: center; margin-top: 8px; }
+
+        /* Small corner badge */
+        .activity-badge {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            background: linear-gradient(90deg,#ffb86b,#fd79a8);
             color: white;
+            font-weight: 800;
+            padding: 6px 10px;
+            border-radius: 999px;
+            font-size: 0.85rem;
+            box-shadow: 0 8px 24px rgba(253,121,168,0.12);
         }
+
+        /* Back content button style (kept existing class) */
+        .card-back .btn-small { padding: 10px 16px; border-radius: 999px; background: rgba(255,255,255,0.16); color: #fff; font-weight:700; text-decoration:none; }
+
+        /* Make list-view presentable for the layout toggle (preserve toggle behavior) */
+        .activity-grid.list-view { display: block; max-width: 900px; margin: 18px auto; }
+        .activity-grid.list-view .activity-card { display:flex; gap:18px; align-items:center; padding:18px; min-height:120px; }
+        .activity-grid.list-view .card-front, .activity-grid.list-view .card-back { position:relative; transform:none; width:100%; height:auto; padding:0; }
+        .activity-grid.list-view .activity-icon-wrap { width:72px; height:72px; border-radius:12px; flex:0 0 72px; }
+
+        /* Responsive */
+        @media (max-width: 992px) { .activity-grid { gap:20px; } }
+        @media (max-width: 768px) { .activities { padding:48px 18px; } .activity-grid { grid-template-columns: 1fr; } .activity-card { min-height: 320px; } }
+        @media (max-width: 480px) { .activity-icon { width: 68px; height: 68px; } .activity-icon-wrap { width:84px; height:84px; } }
 
         /* Optional: allow clicks inside card content */
         .card-front * , .card-back * {
@@ -639,109 +604,7 @@
             margin-bottom: 50px;
         }
         
-        /* 3D Flip Cards */
-        .activity-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 280px);
-            gap: 30px;
-            justify-content: center;
-            perspective: 1000px;
-        }
-        
-        .activity-card {
-            height: 350px;
-            position: relative;
-            transform-style: preserve-3d;
-            transition: transform 0.6s ease;
-            cursor: pointer;
-        }
-        
-        /* Hover flips the card forward the same way */
-        .activity-card:hover {
-            transform: rotateY(180deg);
-        }
-
-        /* Cute wobble instead of stiff hover */
-        @keyframes wobble {
-            0% { transform: rotate(0deg); }
-            25% { transform: rotate(2deg); }
-            50% { transform: rotate(-2deg); }
-            75% { transform: rotate(1deg); }
-            100% { transform: rotate(0deg); }
-        }
-
-        /* .activity-card:hover {
-            animation: wobble 0.6s ease;
-        } */
-
-        /* Flip effect (already mostly in your CSS) */
-        .activity-card {
-            perspective: 1000px;
-            transition: transform 0.8s ease;
-            transform-style: preserve-3d;
-        }
-
-        .card-front, .card-back {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            backface-visibility: hidden;
-            border-radius: 25px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 25px;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
-        }
-
-        /* Front stays normal */
-        .card-front { 
-            background: white; 
-        }
-
-        /* Back is rotated by 180° */
-        .card-back {
-            transform: rotateY(180deg);
-            color: white;
-        }
-
-        .card-back-art {
-            background: linear-gradient(135deg, #fd79a8, #e84393); /* pink gradient */
-        }
-
-        .card-back-story {
-            background: linear-gradient(135deg, #74b9ff, #0984e3); /* blue gradient */
-        }
-
-        .card-back-music {
-            background: linear-gradient(135deg, #ffeaa7, #fab1a0); /* yellow-orange */
-        }
-
-        .card-back-play {
-            background: linear-gradient(135deg, #55efc4, #00b894); /* green gradient */
-        }
-
-
-        /* Hover flips the card forward the same way */
-        .activity-card:hover {
-            transform: rotateY(180deg);
-        }
-  
-        .card-front, .card-back {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            backface-visibility: hidden;
-            -webkit-backface-visibility: hidden;
-            border-radius: 25px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 25px;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
-        }
+        /* Activity styles consolidated above to avoid duplication. See the primary Activity block earlier for the new, updated styles. */
 
         /* Softer cards */
         .card-front, .card-back,
@@ -765,92 +628,7 @@
         .card-back li { padding: 6px 0; font-size: 1rem; }
         .card-back li::before { content: '✨ '; }
         
-        /* Card interaction improvements */
-        .activity-card {
-            width: 280px;
-            height: 350px;
-            position: relative;
-            cursor: pointer;
-            transition: transform 220ms ease, box-shadow 220ms ease;
-            border-radius: 25px;
-            background: transparent;
-            will-change: transform;
-        }
-
-        /* Pop-up effect on hover */
-        .activity-card:hover {
-            transform: translateY(-14px) scale(1.03) rotate(-0.5deg);
-            box-shadow: 0 30px 70px rgba(0,0,0,0.16);
-        }
-
-        /* Inner element handles the 3D flip (controlled via class, not hover) */
-        .activity-card-inner {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            transition: transform 640ms cubic-bezier(.2,1,.2,1);
-            transform-style: preserve-3d;
-            border-radius: inherit;
-            background: linear-gradient(180deg, rgba(255,255,255,0.95), rgba(255,255,255,0.96));
-            overflow: hidden;
-        }
-
-        /* Flip only when the card has the `flipped` class */
-        .activity-card.flipped .activity-card-inner {
-            transform: rotateY(180deg);
-        }
-
-        .card-front, .card-back {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            backface-visibility: hidden;
-            -webkit-backface-visibility: hidden;
-            border-radius: inherit;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 26px;
-        }
-
-        /* Activity icon wrap */
-        .activity-icon-wrap {
-            width: 110px;
-            height: 110px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: linear-gradient(135deg, rgba(108,92,231,0.12), rgba(253,121,168,0.12));
-            box-shadow: 0 10px 30px rgba(0,0,0,0.06) inset;
-            margin-bottom: 14px;
-        }
-
-        .activity-icon { width: 68px; height: 68px; object-fit: contain; }
-
-        .activity-title { font-size: 1.2rem; color: #6c5ce7; margin-bottom: 6px; }
-        .activity-lead { font-size: 0.95rem; color: #6b7280; text-align: center; }
-
-        /* Small badge (corner) */
-        .activity-badge {
-            position: absolute;
-            top: 14px;
-            right: 14px;
-            background: linear-gradient(135deg,#ffb86b,#fd79a8);
-            color: white;
-            font-weight: 700;
-            padding: 6px 10px;
-            border-radius: 999px;
-            font-size: 0.85rem;
-            box-shadow: 0 6px 18px rgba(253,121,168,0.18);
-        }
-
-        /* Back content */
-        .card-back { color: white; padding: 22px; }
-        .card-back h3 { margin-bottom: 12px; font-size: 1.1rem; }
+        /* Activity styles consolidated above — duplicates removed to avoid conflicting rules. */
         .card-back ul { margin-bottom: 14px; }
         .card-back .btn-small { padding: 8px 14px; border-radius: 999px; font-size: 0.9rem; font-weight: 700; color: white; background: linear-gradient(90deg, rgba(0,206,201,0.95), rgba(0,184,148,0.95)); box-shadow: 0 10px 30px rgba(0,206,201,0.12); text-decoration: none; display: inline-block; }
 
@@ -1512,14 +1290,16 @@
         
         /* Responsive */
         @media (max-width: 1200px) {
-            .activity-grid { grid-template-columns: repeat(2, 280px); }
+            .activity-grid { gap: 20px; }
         }
         
         @media (max-width: 768px) {
             .hero-title { font-size: 2.8rem; }
             .mascot { font-size: 100px; }
             .section-title { font-size: 2.2rem; }
-            .activity-grid { grid-template-columns: 280px; }
+            .activities { padding:48px 18px; }
+            .activity-grid { grid-template-columns: 1fr; gap: 18px; }
+            .activity-card { min-height: 320px; }
             .nav-float { top: 10px; right: 10px; }
             .nav-btn { padding: 10px 20px; font-size: 0.9rem; }
             .cta-section h2 { font-size: 2.2rem; }

@@ -73,6 +73,7 @@
                 #b8e7ff
             );
             clip-path: polygon(0 0, 55% 0, 45% 100%, 0 100%);
+            transition: clip-path 0.5s ease;
         }
 
         /* Night sky */
@@ -83,6 +84,25 @@
                 #0c1445
             );
             clip-path: polygon(55% 0, 100% 0, 100% 100%, 45% 100%);
+            transition: clip-path 0.5s ease;
+        }
+
+        /* Dark mode styles */
+        body.dark-mode .day-sky {
+            clip-path: polygon(0 0, 0 0, 0 100%, 0 100%);
+        }
+        
+        body.dark-mode .night-sky {
+            clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+        }
+        
+        /* Light mode styles */
+        body.light-mode .day-sky {
+            clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+        }
+        
+        body.light-mode .night-sky {
+            clip-path: polygon(100% 0, 100% 0, 100% 100%, 100% 100%);
         }
 
 
@@ -104,12 +124,20 @@
         .cloud-1 {
             top: 18%;
             left: 10%;
+            transition: opacity 0.5s ease, transform 0.8s ease;
         }
 
         .cloud-2 {
             top: 28%;
             left: 28%;
             transform: scale(0.8);
+            transition: opacity 0.5s ease, transform 0.8s ease;
+        }
+
+        body.dark-mode .cloud-1,
+        body.dark-mode .cloud-2 {
+            opacity: 0;
+            transform: translateX(-50px);
         }
 
         .birds {
@@ -119,6 +147,11 @@
             font-size: 22px;
             opacity: 0.6;
             z-index: 3;
+            transition: opacity 0.5s ease;
+        }
+        
+        body.dark-mode .birds {
+            opacity: 0;
         }
 
 
@@ -140,6 +173,7 @@
                 0 0 70px 30px #FF8A65; /* glow layers */
             z-index: 3;
             animation: sunGlow 3s infinite alternate;
+            transition: opacity 0.5s ease, transform 0.8s ease;
         }
 
         @keyframes sunGlow {
@@ -147,6 +181,10 @@
             100% { box-shadow: 0 0 40px 15px #FFD93B, 0 0 60px 25px #FFB74D, 0 0 80px 35px #FF8A65; }
         }
 
+        body.dark-mode .sun {
+            opacity: 0;
+            transform: translateX(-50px) translateY(-50px);
+        }
 
         .moon {
             position: absolute;
@@ -154,12 +192,17 @@
             right: 18%;
             width: 100px;
             height: 100px;
-            
             background-color: transparent;
             border-radius: 50%;
             box-shadow: 25px 10px 0px 0px #d6cbb8;
             opacity: 0.9;
             z-index: 3;
+            transition: opacity 0.5s ease, transform 0.8s ease;
+        }
+
+        body.light-mode .moon {
+            opacity: 0;
+            transform: translateX(50px) translateY(-50px);
         }
 
         .stars {
@@ -174,6 +217,15 @@
             background-size: 80px 80px, 120px 120px;
             opacity: 0.4;
             z-index: 1;
+            transition: opacity 0.5s ease, width 0.5s ease;
+        }
+        
+        body.light-mode .stars {
+            opacity: 0;
+        }
+        
+        body.dark-mode .stars {
+            width: 100%;
         }
 
         /* .ground {
@@ -288,6 +340,19 @@
         
         .nav-btn-login { background: white; color: #6c5ce7; box-shadow: 0 5px 20px rgba(0,0,0,0.2); }
         .nav-btn-register { background: linear-gradient(135deg, #fd79a8, #e84393); color: white; box-shadow: 0 5px 20px rgba(253,121,168,0.5); }
+        .nav-btn-toggle { 
+            background: linear-gradient(135deg, #FFD93B, #0c1445); 
+            color: white; 
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 15px 20px;
+        }
+        .toggle-icon {
+            font-size: 1.2rem;
+        }
         .nav-btn:hover { transform: translateY(-5px) scale(1.1); }
         
         /* ========== SECTION 2: ACTIVITIES ========== */
@@ -991,16 +1056,16 @@
     <!-- Brand header -->
     <div class="fixed z-50 left-6 top-6">
         <a href="/" class="flex items-center gap-3 text-white no-underline">
-            <!-- <x-application-logo class="w-10 h-10" />
-            <div class="hidden md:block">
-                <div class="font-bold text-white text-lg">Little Stars</div>
-                <div class="text-xs text-white/80">Nurturing bright beginnings</div>
-            </div> -->
         </a>
     </div>
 
     <!-- Floating Navigation -->
     <div class="nav-float">
+        <button id="theme-toggle" class="nav-btn nav-btn-toggle" aria-label="Toggle light/dark theme">
+            <span class="toggle-icon">☀️</span>
+            <span class="toggle-icon">🌙</span>
+        </button>
+        
         @if (Route::has('login'))
             @auth
                 <a href="{{ url('/dashboard') }}" class="nav-btn nav-btn-login">Dashboard</a>
@@ -1363,6 +1428,49 @@
     </footer>
     
     <script>
+        // Theme toggle functionality
+        const themeToggle = document.getElementById('theme-toggle');
+        const body = document.body;
+        const prefersDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        
+        // Check for saved theme preference or use device preference
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme) {
+            body.classList.add(savedTheme + '-mode');
+            updateThemeIcon(savedTheme);
+        } else if (prefersDarkMode) {
+            body.classList.add('dark-mode');
+            updateThemeIcon('dark');
+        } else {
+            body.classList.add('light-mode');
+            updateThemeIcon('light');
+        }
+        
+        // Toggle theme when button is clicked
+        themeToggle.addEventListener('click', () => {
+            if (body.classList.contains('light-mode')) {
+                body.classList.replace('light-mode', 'dark-mode');
+                localStorage.setItem('theme', 'dark');
+                updateThemeIcon('dark');
+            } else {
+                body.classList.replace('dark-mode', 'light-mode');
+                localStorage.setItem('theme', 'light');
+                updateThemeIcon('light');
+            }
+        });
+        
+        // Update button appearance based on current theme
+        function updateThemeIcon(theme) {
+            const icons = themeToggle.querySelectorAll('.toggle-icon');
+            if (theme === 'dark') {
+                icons[0].style.opacity = '0.3';
+                icons[1].style.opacity = '1';
+            } else {
+                icons[0].style.opacity = '1';
+                icons[1].style.opacity = '0.3';
+            }
+        }
+        
         // Generate stars for CTA section
         const ctaStars = document.getElementById('ctaStars');
         for (let i = 0; i < 30; i++) {

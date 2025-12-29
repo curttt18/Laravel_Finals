@@ -3,11 +3,11 @@
 @tailwind utilities;
 
 :root {
-  --color-primary: #6c5ce7;
-  --color-secondary: #fd79a8;
-  --color-accent: #00cec9;
+  --color-primary: #ff6b6b; /* coral */
+  --color-secondary: #1b4965; /* deep navy */
+  --color-accent: #ffe66d; /* sunny yellow */
   --radius-pill: 9999px;
-  --shadow-soft: 0 15px 40px rgba(0,0,0,0.12);
+  --shadow-soft: 0 18px 60px rgba(0,0,0,0.12);
 }
 
 @layer base {

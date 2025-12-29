@@ -16,19 +16,20 @@ export default {
                 display: ['Fredoka One'],
             },
             colors: {
-                primary: '#6c5ce7', /* deep purple */
-                secondary: '#fd79a8', /* warm pink */
-                accent: '#00cec9', /* teal */
+                /* New palette: coral / navy / sunny yellow */
+                primary: '#ff6b6b', /* coral */
+                secondary: '#1b4965', /* deep navy */
+                accent: '#ffe66d', /* sunny yellow */
                 brand: {
-                    DEFAULT: '#6c5ce7',
-                    muted: '#a29bfe',
-                    warm: '#e84393'
+                    DEFAULT: '#ff6b6b',
+                    muted: '#ffd6c2',
+                    warm: '#ff8fa3'
                 },
                 neutral: {
-                    100: '#f8f9fb',
+                    100: '#f6f7f9',
                     200: '#eef2f6',
                     500: '#6b7280',
-                    700: '#374151'
+                    700: '#2d3748'
                 }
             },
             boxShadow: {

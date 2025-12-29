@@ -766,17 +766,28 @@
     
     <!-- SECTION 2: Activities -->
     <section class="activities">
-        <h2 class="section-title">🎨 Fun Activities</h2>
-        <p class="section-subtitle">Hover over the cards to flip them!</p>
+        <div class="activities-header" style="display:flex;align-items:center;gap:14px;width:100%;max-width:1100px;margin:0 auto;">
+            <div>
+                <h2 class="section-title">Activities</h2>
+                <p class="section-subtitle" style="margin:6px 0 0 0;">Explore our programs — tap a card for details.</p>
+            </div>
+
+            <div class="view-toggle" style="margin-left:auto;">
+                <button id="layoutToggle" class="nav-btn nav-btn-register" aria-pressed="false" aria-label="Toggle activity layout">Switch to list</button>
+            </div>
+        </div>
         
         <div class="activity-grid">
             <div class="activity-card" role="button" tabindex="0" aria-pressed="false" aria-label="Art & Crafts details">
                 <div class="activity-card-inner">
                     <div class="card-front">
                         <span class="activity-badge">Popular</span>
-                        <div class="activity-icon-wrap">
-                            <img src="/img/creativity.png" alt="Art & Crafts" class="activity-icon" />
-                        </div>
+                        <div class="activity-icon-wrap" aria-hidden="true">
+                            <svg class="activity-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Art icon">
+                                <path fill="#ff6b6b" d="M2 21c0 .6.4 1 1 1h3l7-7-4-4L2 17v4z" />
+                                <path fill="#1b4965" d="M14.3 8.7l1-1 4 4-1 1z" />
+                            </svg>
+                        </div> 
                         <h3 class="activity-title">Art & Crafts</h3>
                         <p class="activity-lead muted-text">Hands-on creative play and simple projects.</p>
                     </div>
@@ -799,9 +810,12 @@
             <div class="activity-card" role="button" tabindex="0" aria-pressed="false" aria-label="Story Time details">
                 <div class="activity-card-inner">
                     <div class="card-front">
-                        <div class="activity-icon-wrap">
-                            <img src="/img/book.png" alt="Story Time" class="activity-icon" />
-                        </div>
+                        <div class="activity-icon-wrap" aria-hidden="true">
+                            <svg class="activity-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Book icon">
+                                <path fill="#1b4965" d="M3 6v12a1 1 0 0 0 1 1h12V6H4a1 1 0 0 0-1 0z" />
+                                <path fill="#ff6b6b" d="M21 6v11a1 1 0 0 1-1 1H9V6h11z" />
+                            </svg>
+                        </div> 
                         <h3 class="activity-title">Story Time</h3>
                         <p class="activity-lead muted-text">Interactive reading and puppetry to spark imagination.</p>
                     </div>
@@ -822,9 +836,12 @@
             <div class="activity-card" role="button" tabindex="0" aria-pressed="false" aria-label="Music & Dance details">
                 <div class="activity-card-inner">
                     <div class="card-front">
-                        <div class="activity-icon-wrap">
-                            <img src="/img/music.png" alt="Music & Dance" class="activity-icon" />
-                        </div>
+                        <div class="activity-icon-wrap" aria-hidden="true">
+                            <svg class="activity-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Music icon">
+                                <path fill="#ff6b6b" d="M9 17V5l10-2v12" />
+                                <circle fill="#1b4965" cx="7" cy="17" r="2" />
+                            </svg>
+                        </div> 
                         <h3 class="activity-title">Music & Dance</h3>
                         <p class="activity-lead muted-text">Sing-along and movement to build confidence.</p>
                     </div>
@@ -845,9 +862,13 @@
             <div class="activity-card" role="button" tabindex="0" aria-pressed="false" aria-label="Outdoor Play details">
                 <div class="activity-card-inner">
                     <div class="card-front">
-                        <div class="activity-icon-wrap">
-                            <img src="/img/playground.png" alt="Outdoor Play" class="activity-icon" />
-                        </div>
+                        <div class="activity-icon-wrap" aria-hidden="true">
+                            <svg class="activity-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Outdoor icon">
+                                <path fill="#1b4965" d="M4 20h16v2H4z" />
+                                <circle fill="#ff6b6b" cx="8" cy="8" r="2" />
+                                <path fill="#ff6b6b" d="M12 4v12" />
+                            </svg>
+                        </div> 
                         <h3 class="activity-title">Outdoor Play</h3>
                         <p class="activity-lead muted-text">Playground, nature walks, and group games.</p>
                     </div>
@@ -885,21 +906,39 @@
         <div class="testimonial-grid" role="list">
             <div class="testimonial-card" tabindex="0" role="listitem" aria-label="Testimonial by Maria and Family">
                 <div class="avatar"><img src="https://images.unsplash.com/photo-1542037104857-ffbb0b9155fb?q=80&w=1954&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Maria's Family"></div>
-                <div class="stars">⭐⭐⭐⭐⭐</div>
+                <div class="stars" aria-hidden="true">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" class="star text-yellow-400 inline-block mr-1"><path d="M12 .587l3.668 7.431L23.5 9.748l-5.75 5.6L19.336 23 12 18.897 4.664 23 6.75 15.348.999 9.748l7.832-1.73L12 .587z"/></svg>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" class="star text-yellow-400 inline-block mr-1"><path d="M12 .587l3.668 7.431L23.5 9.748l-5.75 5.6L19.336 23 12 18.897 4.664 23 6.75 15.348.999 9.748l7.832-1.73L12 .587z"/></svg>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" class="star text-yellow-400 inline-block mr-1"><path d="M12 .587l3.668 7.431L23.5 9.748l-5.75 5.6L19.336 23 12 18.897 4.664 23 6.75 15.348.999 9.748l7.832-1.73L12 .587z"/></svg>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" class="star text-yellow-400 inline-block mr-1"><path d="M12 .587l3.668 7.431L23.5 9.748l-5.75 5.6L19.336 23 12 18.897 4.664 23 6.75 15.348.999 9.748l7.832-1.73L12 .587z"/></svg>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" class="star text-yellow-400 inline-block mr-0"><path d="M12 .587l3.668 7.431L23.5 9.748l-5.75 5.6L19.336 23 12 18.897 4.664 23 6.75 15.348.999 9.748l7.832-1.73L12 .587z"/></svg>
+                </div>
                 <p class="testimonial-text">My daughter looks forward to every day at Little Stars — she’s grown more confident and curious.</p>
                 <p class="testimonial-name">— Maria & Family</p>
             </div>
 
             <div class="testimonial-card" tabindex="0" role="listitem" aria-label="Testimonial by Juan's Parents">
                 <div class="avatar"><img src="https://images.unsplash.com/photo-1588979355313-6711a095465f?q=80&w=972&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Juan's Family"></div>
-                <div class="stars">⭐⭐⭐⭐⭐</div>
+                <div class="stars" aria-hidden="true">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" class="star text-yellow-400 inline-block mr-1"><path d="M12 .587l3.668 7.431L23.5 9.748l-5.75 5.6L19.336 23 12 18.897 4.664 23 6.75 15.348.999 9.748l7.832-1.73L12 .587z"/></svg>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" class="star text-yellow-400 inline-block mr-1"><path d="M12 .587l3.668 7.431L23.5 9.748l-5.75 5.6L19.336 23 12 18.897 4.664 23 6.75 15.348.999 9.748l7.832-1.73L12 .587z"/></svg>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" class="star text-yellow-400 inline-block mr-1"><path d="M12 .587l3.668 7.431L23.5 9.748l-5.75 5.6L19.336 23 12 18.897 4.664 23 6.75 15.348.999 9.748l7.832-1.73L12 .587z"/></svg>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" class="star text-yellow-400 inline-block mr-1"><path d="M12 .587l3.668 7.431L23.5 9.748l-5.75 5.6L19.336 23 12 18.897 4.664 23 6.75 15.348.999 9.748l7.832-1.73L12 .587z"/></svg>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" class="star text-yellow-400 inline-block mr-0"><path d="M12 .587l3.668 7.431L23.5 9.748l-5.75 5.6L19.336 23 12 18.897 4.664 23 6.75 15.348.999 9.748l7.832-1.73L12 .587z"/></svg>
+                </div>
                 <p class="testimonial-text">The teachers are caring and communicate well — I feel like my child is in good hands.</p>
                 <p class="testimonial-name">— Juan's Parents</p>
             </div>
 
             <div class="testimonial-card" tabindex="0" role="listitem" aria-label="Testimonial by The Garcia Family">
                 <div class="avatar"><img src="https://images.unsplash.com/photo-1559734840-f9509ee5677f?q=80&w=987&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Garcia's Family"></div>
-                <div class="stars">⭐⭐⭐⭐⭐</div>
+                <div class="stars" aria-hidden="true">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" class="star text-yellow-400 inline-block mr-1"><path d="M12 .587l3.668 7.431L23.5 9.748l-5.75 5.6L19.336 23 12 18.897 4.664 23 6.75 15.348.999 9.748l7.832-1.73L12 .587z"/></svg>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" class="star text-yellow-400 inline-block mr-1"><path d="M12 .587l3.668 7.431L23.5 9.748l-5.75 5.6L19.336 23 12 18.897 4.664 23 6.75 15.348.999 9.748l7.832-1.73L12 .587z"/></svg>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" class="star text-yellow-400 inline-block mr-1"><path d="M12 .587l3.668 7.431L23.5 9.748l-5.75 5.6L19.336 23 12 18.897 4.664 23 6.75 15.348.999 9.748l7.832-1.73L12 .587z"/></svg>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" class="star text-yellow-400 inline-block mr-1"><path d="M12 .587l3.668 7.431L23.5 9.748l-5.75 5.6L19.336 23 12 18.897 4.664 23 6.75 15.348.999 9.748l7.832-1.73L12 .587z"/></svg>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" class="star text-yellow-400 inline-block mr-0"><path d="M12 .587l3.668 7.431L23.5 9.748l-5.75 5.6L19.336 23 12 18.897 4.664 23 6.75 15.348.999 9.748l7.832-1.73L12 .587z"/></svg>
+                </div>
                 <p class="testimonial-text">Choosing Little Stars was the best decision — they balance learning and play perfectly.</p>
                 <p class="testimonial-name">— The Garcia Family</p>
             </div>
@@ -928,7 +967,12 @@
             <div>
                 <h3 style="font-family: 'Fredoka One', cursive; color: white; margin-bottom:8px;">Little Stars</h3>
                 <p style="color: rgba(255,255,255,0.8); max-width:600px;">We provide a safe, caring, and imaginative space for early childhood development. Contact us for visits and enrollment information.</p>
-                <p style="margin-top:12px; color: rgba(255,255,255,0.85);">Phone: <a href="tel:+1234567890">+1 (234) 567-890</a> • Email: <a href="mailto:hello@littlestars.example">hello@littlestars.example</a></p>
+                <p style="margin-top:12px; color: rgba(255,255,255,0.85);">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="vertical-align:middle;margin-right:6px;color:var(--color-accent);"><path d="M6.6 10.2a15.05 15.05 0 006.2 6.2l2.2-2.2a1 1 0 01.9-.3c1 .2 2 .3 2.8.3a1 1 0 011 1v3a1 1 0 01-1 1C10.9 20.7 3.3 13.1 3.3 4a1 1 0 011-1h3a1 1 0 011 1c0 .9.1 1.8.3 2.7.1.4 0 .9-.3 1.2l-2 2z" fill="currentColor"/></svg>
+                    <a href="tel:+1234567890">+1 (234) 567-890</a> • 
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="vertical-align:middle;margin-right:6px;color:var(--color-accent);"><path d="M3 6.5v11A2.5 2.5 0 005.5 20h13a2.5 2.5 0 002.5-2.5v-11A2.5 2.5 0 0018.5 4h-13A2.5 2.5 0 003 6.5z" stroke="currentColor" stroke-width="1.2" fill="none"/></svg>
+                    <a href="mailto:hello@littlestars.example">hello@littlestars.example</a>
+                </p> 
             </div>
             <div style="display:flex;flex-direction:column;gap:10px;align-items:flex-end;">
                 <div>
@@ -1129,6 +1173,35 @@
                 }
             });
         });
+
+        // Layout toggle for activities (persist in localStorage)
+        (function() {
+            const toggle = document.getElementById('layoutToggle');
+            const grid = document.querySelector('.activity-grid');
+            if (!toggle || !grid) return;
+
+            function applyLayout(mode) {
+                if (mode === 'list') {
+                    grid.classList.add('list-view');
+                    toggle.textContent = 'Switch to grid';
+                    toggle.setAttribute('aria-pressed', 'true');
+                } else {
+                    grid.classList.remove('list-view');
+                    toggle.textContent = 'Switch to list';
+                    toggle.setAttribute('aria-pressed', 'false');
+                }
+            }
+
+            // Restore saved preference
+            const saved = localStorage.getItem('activityLayout');
+            if (saved === 'list') applyLayout('list');
+
+            toggle.addEventListener('click', () => {
+                const isList = grid.classList.toggle('list-view');
+                applyLayout(isList ? 'list' : 'grid');
+                localStorage.setItem('activityLayout', isList ? 'list' : 'grid');
+            });
+        })();
     </script>
 </body>
 </html>

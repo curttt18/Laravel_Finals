@@ -12,7 +12,27 @@ export default {
     theme: {
         extend: {
             fontFamily: {
-                sans: ['Figtree', ...defaultTheme.fontFamily.sans],
+                sans: ['Nunito', ...defaultTheme.fontFamily.sans],
+                display: ['Fredoka One'],
+            },
+            colors: {
+                primary: '#6c5ce7', /* deep purple */
+                secondary: '#fd79a8', /* warm pink */
+                accent: '#00cec9', /* teal */
+                brand: {
+                    DEFAULT: '#6c5ce7',
+                    muted: '#a29bfe',
+                    warm: '#e84393'
+                },
+                neutral: {
+                    100: '#f8f9fb',
+                    200: '#eef2f6',
+                    500: '#6b7280',
+                    700: '#374151'
+                }
+            },
+            boxShadow: {
+                'brand-lg': '0 20px 60px rgba(108,92,231,0.18)'
             },
         },
     },

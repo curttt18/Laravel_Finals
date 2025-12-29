@@ -11,8 +11,8 @@
 
             <!-- Name -->
             <div class="form-group">
-                <label for="name" class="form-label"><span class="emoji">👤</span> Full Name</label>
-                <input id="name" class="form-input" type="text" name="name" value="{{ old('name') }}" required autofocus autocomplete="name" placeholder="Enter your name">
+                <label for="name" class="form-label">Full name</label>
+                <input id="name" class="form-input" type="text" name="name" value="{{ old('name') }}" required autofocus autocomplete="name" placeholder="First and last name">
                 @error('name')
                     <p class="error-message">{{ $message }}</p>
                 @enderror
@@ -20,8 +20,8 @@
 
             <!-- Email Address -->
             <div class="form-group">
-                <label for="email" class="form-label"><span class="emoji">📧</span> Email Address</label>
-                <input id="email" class="form-input" type="email" name="email" value="{{ old('email') }}" required autocomplete="username" placeholder="Enter your email">
+                <label for="email" class="form-label">Email address</label>
+                <input id="email" class="form-input" type="email" name="email" value="{{ old('email') }}" required autocomplete="username" placeholder="you@domain.com">
                 @error('email')
                     <p class="error-message">{{ $message }}</p>
                 @enderror
@@ -45,10 +45,10 @@
                 @enderror
             </div>
 
-            <button type="submit" class="login-btn">✨ Create Account</button>
+            <button type="submit" class="login-btn">Create account</button>
             
             <p class="register-link">
-                Already registered? <a href="{{ route('login') }}">Login here</a> 🚀
+                Already registered? <a href="{{ route('login') }}">Log in</a>
             </p>
         </form>
     </div>

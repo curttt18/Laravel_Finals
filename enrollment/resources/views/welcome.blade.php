@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>🌈 Little Stars Daycare - Adventure Awaits!</title>
+    <title>Little Stars Daycare — Nurturing Bright Beginnings</title>
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=fredoka-one:400|nunito:400,600,700,800,900&display=swap" rel="stylesheet" />
     
@@ -11,20 +11,20 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
         html {
-            overflow: hidden;
             height: 100%;
+            scroll-behavior: smooth;
         }
         
         body {
             font-family: 'Nunito', sans-serif;
             overflow-x: hidden;
-            overflow-y: scroll;
-            height: 100vh;
+            min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
         }
         
-        /* Hide scrollbar for cleaner look */
-        body::-webkit-scrollbar { width: 0; display: none; }
-        body { -ms-overflow-style: none; scrollbar-width: none; }
+        /* Keep system scrollbar for accessibility */
+        body::-webkit-scrollbar { width: 8px; }
+        body { -ms-overflow-style: auto; scrollbar-width: auto; }
         
         /* Each section is full viewport */
         section {
@@ -160,7 +160,7 @@
         
         .hero-title {
             font-family: 'Fredoka One', cursive;
-            font-size: 5rem;
+            font-size: 3.5rem;
             color: white;
             text-shadow: 4px 4px 0 #6c5ce7, 8px 8px 0 rgba(0,0,0,0.1);
             margin-bottom: 20px;
@@ -476,6 +476,62 @@
         .card-back li { padding: 6px 0; font-size: 1rem; }
         .card-back li::before { content: '✨ '; }
         
+        /* Card interaction improvements */
+        .activity-card {
+            width: 280px;
+            height: 350px;
+            position: relative;
+            cursor: pointer;
+            transition: transform 220ms ease, box-shadow 220ms ease;
+            border-radius: 25px;
+            background: transparent;
+        }
+
+        /* Pop-up effect on hover */
+        .activity-card:hover {
+            transform: translateY(-12px) scale(1.02);
+            box-shadow: 0 25px 60px rgba(0,0,0,0.18);
+        }
+
+        /* Inner element handles the 3D flip (controlled via class, not hover) */
+        .activity-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 700ms cubic-bezier(.2,1,.2,1);
+            transform-style: preserve-3d;
+            border-radius: inherit;
+        }
+
+        /* Flip only when the card has the `flipped` class */
+        .activity-card.flipped .activity-card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .card-front, .card-back {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+            border-radius: inherit;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 25px;
+        }
+
+        .card-back {
+            transform: rotateY(180deg);
+        }
+
+        .card-front { transform: rotateY(0); }
+
+        .card-front *, .card-back * { pointer-events: auto; }
+
         /* ========== SECTION 3: GAME ========== */
         .game-section {
             background: linear-gradient(180deg, #ffeaa7 0%, #fdcb6e 100%);
@@ -607,15 +663,26 @@
     <!-- Minimal Confetti Canvas -->
     <canvas id="confetti-canvas"></canvas>
     
+    <!-- Brand header -->
+    <div class="fixed z-50 left-6 top-6">
+        <a href="/" class="flex items-center gap-3 text-white no-underline">
+            <x-application-logo class="w-10 h-10" />
+            <div class="hidden md:block">
+                <div class="font-bold text-white text-lg">Little Stars</div>
+                <div class="text-xs text-white/80">Nurturing bright beginnings</div>
+            </div>
+        </a>
+    </div>
+
     <!-- Floating Navigation -->
     <div class="nav-float">
         @if (Route::has('login'))
             @auth
-                <a href="{{ url('/dashboard') }}" class="nav-btn nav-btn-login">🎯 Dashboard</a>
+                <a href="{{ url('/dashboard') }}" class="nav-btn nav-btn-login">Dashboard</a>
             @else
-                <a href="{{ route('login') }}" class="nav-btn nav-btn-login">Login</a>
+                <a href="{{ route('login') }}" class="nav-btn nav-btn-login" aria-label="Login">Login</a>
                 @if (Route::has('register'))
-                    <a href="{{ route('register') }}" class="nav-btn nav-btn-register">Join</a>
+                    <a href="{{ route('register') }}" class="nav-btn nav-btn-register" aria-label="Register">Join</a>
                 @endif
             @endauth
         @endif
@@ -629,13 +696,13 @@
         <div class="sun">😊</div>
         
         <div class="hero-content">
-            <h1 class="hero-title">Little Stars Daycare 🌟</h1>
-            <p class="hero-subtitle">Where Every Day is a New Adventure!</p>
+            <h1 class="hero-title">Little Stars Daycare</h1>
+            <p class="hero-subtitle">A safe, playful environment for early learning.</p>
         </div>
         
         <div class="mascot-container">
-            <div class="speech-bubble" id="speech">Click me! 🎁</div>
-            <div class="mascot" id="mascot" onclick="mascotClick()">🧸</div>
+            <div class="speech-bubble" id="speech">Tap the mascot</div>
+            <div class="mascot" id="mascot" onclick="mascotClick()" role="button" aria-label="Mascot" tabindex="0">🧸</div>
         </div>
         
         <!-- Ground -->
@@ -648,85 +715,93 @@
         <p class="section-subtitle">Hover over the cards to flip them!</p>
         
         <div class="activity-grid">
-            <div class="activity-card">
-                <div class="card-front">
-                    <img
-                        src="/img/creativity.png"
-                        alt="Art & Crafts"
-                        class="activity-icon"
-                    />
-                    <h3>Art & Crafts</h3>
-                    <p>Express yourself!</p>
-                </div>
+            <div class="activity-card" role="button" tabindex="0" aria-pressed="false" aria-label="Art & Crafts details">
+                <div class="activity-card-inner">
+                    <div class="card-front">
+                        <img
+                            src="/img/creativity.png"
+                            alt="Art & Crafts"
+                            class="activity-icon"
+                        />
+                        <h3>Art & Crafts</h3>
+                        <p>Express yourself!</p>
+                    </div>
 
-                <div class="card-back card-back-art">
-                    <h3>What You'll Create:</h3>
-                    <ul>
-                        <li>Finger painting</li>
-                        <li>Paper craft animals</li>
-                        <li>Colorful collages</li>
-                    </ul>
+                    <div class="card-back card-back-art">
+                        <h3>What You'll Create:</h3>
+                        <ul>
+                            <li>Finger painting</li>
+                            <li>Paper craft animals</li>
+                            <li>Colorful collages</li>
+                        </ul>
+                    </div>
                 </div>
             </div>
 
             
-            <div class="activity-card">
-                <div class="card-front">
-                    <img
-                        src="/img/book.png"
-                        alt="Story Time"
-                        class="activity-icon"
-                    />
-                    <h3>Story Time</h3>
-                    <p>Adventure awaits!</p>
-                </div>
-                <div class="card-back card-back-story">
-                    <h3>Magical Stories:</h3>
-                    <ul>
-                        <li>Fairy tales</li>
-                        <li>Interactive stories</li>
-                        <li>Puppet shows</li>
-                    </ul>
-                </div>
-            </div>
-            
-            <div class="activity-card">
-                <div class="card-front">
-                    <img
-                        src="/img/music.png"
-                        alt="Music & Dance"
-                        class="activity-icon"
-                    />
-                    <h3>Music & Dance</h3>
-                    <p>Let's groove!</p>
-                </div>
-                <div class="card-back card-back-music">
-                    <h3>Get Moving:</h3>
-                    <ul>
-                        <li>Sing-along sessions</li>
-                        <li>Dance parties</li>
-                        <li>Instruments</li>
-                    </ul>
+            <div class="activity-card" role="button" tabindex="0" aria-pressed="false" aria-label="Story Time details">
+                <div class="activity-card-inner">
+                    <div class="card-front">
+                        <img
+                            src="/img/book.png"
+                            alt="Story Time"
+                            class="activity-icon"
+                        />
+                        <h3>Story Time</h3>
+                        <p>Adventure awaits!</p>
+                    </div>
+                    <div class="card-back card-back-story">
+                        <h3>Magical Stories:</h3>
+                        <ul>
+                            <li>Fairy tales</li>
+                            <li>Interactive stories</li>
+                            <li>Puppet shows</li>
+                        </ul>
+                    </div>
                 </div>
             </div>
             
-            <div class="activity-card">
-                <div class="card-front">
-                    <img
-                        src="/img/playground.png"
-                        alt="Outdoor Play"
-                        class="activity-icon"
-                    />
-                    <h3>Outdoor Play</h3>
-                    <p>Fresh air fun!</p>
+            <div class="activity-card" role="button" tabindex="0" aria-pressed="false" aria-label="Music & Dance details">
+                <div class="activity-card-inner">
+                    <div class="card-front">
+                        <img
+                            src="/img/music.png"
+                            alt="Music & Dance"
+                            class="activity-icon"
+                        />
+                        <h3>Music & Dance</h3>
+                        <p>Let's groove!</p>
+                    </div>
+                    <div class="card-back card-back-music">
+                        <h3>Get Moving:</h3>
+                        <ul>
+                            <li>Sing-along sessions</li>
+                            <li>Dance parties</li>
+                            <li>Instruments</li>
+                        </ul>
+                    </div>
                 </div>
-                <div class="card-back card-back-play">
-                    <h3>Outside Fun:</h3>
-                    <ul>
-                        <li>Playground</li>
-                        <li>Nature walks</li>
-                        <li>Sports games</li>
-                    </ul>
+            </div>
+            
+            <div class="activity-card" role="button" tabindex="0" aria-pressed="false" aria-label="Outdoor Play details">
+                <div class="activity-card-inner">
+                    <div class="card-front">
+                        <img
+                            src="/img/playground.png"
+                            alt="Outdoor Play"
+                            class="activity-icon"
+                        />
+                        <h3>Outdoor Play</h3>
+                        <p>Fresh air fun!</p>
+                    </div>
+                    <div class="card-back card-back-play">
+                        <h3>Outside Fun:</h3>
+                        <ul>
+                            <li>Playground</li>
+                            <li>Nature walks</li>
+                            <li>Sports games</li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
@@ -783,38 +858,7 @@
                     <p class="testimonial-name">- The Santos Family</p>
                 </div>
 
-                <!-- DUPLICATE SET (exact same order) -->
-                <div class="testimonial-card">
-                    <div class="testimonial-avatar-wrap">
-                        <img src="https://images.unsplash.com/photo-1542037104857-ffbb0b9155fb?q=80&w=1954&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Maria's Family">
-                    </div>
-                    <p class="testimonial-text">"My daughter can't wait to go to school every day!"</p>
-                    <p class="testimonial-name">- Maria & Family</p>
-                </div>
 
-                <div class="testimonial-card">
-                    <div class="testimonial-avatar-wrap">
-                        <img src="https://images.unsplash.com/photo-1588979355313-6711a095465f?q=80&w=972&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Juan's Family">
-                    </div>
-                    <p class="testimonial-text">"The teachers are amazing and truly care!"</p>
-                    <p class="testimonial-name">- Juan's Parents</p>
-                </div>
-
-                <div class="testimonial-card">
-                    <div class="testimonial-avatar-wrap">
-                        <img src="https://images.unsplash.com/photo-1559734840-f9509ee5677f?q=80&w=987&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Garcia's Family">
-                    </div>
-                    <p class="testimonial-text">"Best decision we ever made for our kids!"</p>
-                    <p class="testimonial-name">- The Garcia Family</p>
-                </div>
-
-                <div class="testimonial-card">
-                    <div class="testimonial-avatar-wrap">
-                        <img src="https://images.unsplash.com/photo-1529518152792-d08317b26e22?q=80&w=987&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Santos's Family">
-                    </div>
-                    <p class="testimonial-text">"Safe, fun, and educational!"</p>
-                    <p class="testimonial-name">- The Santos Family</p>
-                </div>
 
             </div>
         </div>
@@ -827,8 +871,8 @@
         <div class="cta-content">
             <h2>Ready for an Adventure? 🚀</h2>
             <p>Join Little Stars and watch your child shine!</p>
-            <a href="{{ route('register') }}" class="mega-btn">🌟 Enroll Now! 🌟</a>
-            <p class="footer-text">Made with 💖 | <a href="{{ route('login') }}">Staff Portal</a></p>
+            <a href="{{ route('register') }}" class="btn-primary text-2xl py-5 px-10">Enroll now</a>
+            <p class="footer-text">© {{ date('Y') }} Little Stars Daycare | <a href="{{ route('login') }}">Staff Portal</a></p>
         </div>
     </section>
     
@@ -906,7 +950,7 @@
         // Mascot interaction
         const mascots = ['🧸', '🐰', '🦁', '🐱', '🐶', '🦊', '🐼', '🐨'];
         let mascotIndex = 0;
-        const speeches = ["Hi friend! 👋", "Want to play? 🎮", "Learning is fun! 📚", "Let's be friends! 💖", "You're amazing! ⭐"];
+        const speeches = ["Tap me for a surprise!", "Let's explore together.", "Ready to learn?"];
         
         function mascotClick() {
             mascotIndex = (mascotIndex + 1) % mascots.length;
@@ -918,6 +962,17 @@
             triggerConfetti(rect.left + rect.width / 2, rect.top);
             
             setTimeout(() => { document.getElementById('speech').style.opacity = 0; }, 2000);
+        }
+        
+        // Enable keyboard activation for mascot (Enter / Space)
+        const mascotEl = document.getElementById('mascot');
+        if (mascotEl) {
+            mascotEl.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    mascotClick();
+                }
+            });
         }
         
         // Star catching game
@@ -955,93 +1010,47 @@
         
         setInterval(spawnStar, 1200);
         
-        // Smooth scroll between sections
+        // Simple, accessible section navigation
         const sections = document.querySelectorAll('section');
-        let currentSection = 0;
-        let isScrolling = false;
-        
-        function smoothScrollTo(element, duration) {
-            const targetPosition = element.offsetTop;
-            const startPosition = document.body.scrollTop;
-            const distance = targetPosition - startPosition;
-            let startTime = null;
-            
-            function easeInOutCubic(t) {
-                return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
-            }
-            
-            function animation(currentTime) {
-                if (startTime === null) startTime = currentTime;
-                const elapsed = currentTime - startTime;
-                const progress = Math.min(elapsed / duration, 1);
-                const easeProgress = easeInOutCubic(progress);
-                
-                document.body.scrollTop = startPosition + (distance * easeProgress);
-                
-                if (elapsed < duration) {
-                    requestAnimationFrame(animation);
-                } else {
-                    isScrolling = false;
-                }
-            }
-            
-            requestAnimationFrame(animation);
-        }
+        let currentSection = Array.from(sections).findIndex(s => Math.abs(s.getBoundingClientRect().top) < 50);
+        if (currentSection === -1) currentSection = 0;
         
         function scrollToSection(index) {
-            if (index < 0 || index >= sections.length || isScrolling) return;
-            isScrolling = true;
+            if (index < 0 || index >= sections.length) return;
+            sections[index].scrollIntoView({ behavior: 'smooth' });
             currentSection = index;
-            smoothScrollTo(sections[index], 800);
         }
         
-        // Handle wheel events
-        let wheelTimeout;
-        document.body.addEventListener('wheel', (e) => {
-            e.preventDefault();
-            
-            if (isScrolling) return;
-            
-            clearTimeout(wheelTimeout);
-            wheelTimeout = setTimeout(() => {
-                if (e.deltaY > 0 && currentSection < sections.length - 1) {
-                    scrollToSection(currentSection + 1);
-                } else if (e.deltaY < 0 && currentSection > 0) {
-                    scrollToSection(currentSection - 1);
-                }
-            }, 50);
-        }, { passive: false });
-        
-        // Handle touch events for mobile
-        let touchStartY = 0;
-        document.body.addEventListener('touchstart', (e) => {
-            touchStartY = e.touches[0].clientY;
-        }, { passive: true });
-        
-        document.body.addEventListener('touchend', (e) => {
-            if (isScrolling) return;
-            const touchEndY = e.changedTouches[0].clientY;
-            const diff = touchStartY - touchEndY;
-            
-            if (Math.abs(diff) > 50) {
-                if (diff > 0 && currentSection < sections.length - 1) {
-                    scrollToSection(currentSection + 1);
-                } else if (diff < 0 && currentSection > 0) {
-                    scrollToSection(currentSection - 1);
-                }
-            }
-        }, { passive: true });
-        
-        // Handle keyboard navigation
         document.addEventListener('keydown', (e) => {
-            if (isScrolling) return;
             if (e.key === 'ArrowDown' || e.key === 'PageDown') {
                 e.preventDefault();
-                scrollToSection(currentSection + 1);
+                scrollToSection(Math.min(currentSection + 1, sections.length - 1));
             } else if (e.key === 'ArrowUp' || e.key === 'PageUp') {
                 e.preventDefault();
-                scrollToSection(currentSection - 1);
+                scrollToSection(Math.max(currentSection - 1, 0));
             }
+        });
+
+        // Activity card interactions — click or keyboard toggles flip; hover only pops up
+        document.querySelectorAll('.activity-card').forEach(card => {
+            // Toggle flip on click (ignore clicks on links inside the card)
+            card.addEventListener('click', (e) => {
+                if (e.target.closest('a')) return;
+                card.classList.toggle('flipped');
+                card.setAttribute('aria-pressed', card.classList.contains('flipped'));
+            });
+
+            // Keyboard support (Enter / Space to toggle, Escape to close)
+            card.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    card.classList.toggle('flipped');
+                    card.setAttribute('aria-pressed', card.classList.contains('flipped'));
+                } else if (e.key === 'Escape' && card.classList.contains('flipped')) {
+                    card.classList.remove('flipped');
+                    card.setAttribute('aria-pressed', 'false');
+                }
+            });
         });
     </script>
 </body>

@@ -1,3 +1,48 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root {
+  --color-primary: #6c5ce7;
+  --color-secondary: #fd79a8;
+  --color-accent: #00cec9;
+  --radius-pill: 9999px;
+  --shadow-soft: 0 15px 40px rgba(0,0,0,0.12);
+}
+
+@layer base {
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Nunito', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial; }
+  h1, h2, h3 { font-family: 'Fredoka One', system-ui, sans-serif; }
+}
+
+@layer components {
+  .btn-primary {
+    @apply inline-block px-6 py-3 rounded-full text-white font-extrabold bg-gradient-to-r from-primary to-secondary shadow-brand-lg;
+  }
+  .card-soft {
+    @apply bg-white rounded-2xl shadow-lg p-6;
+  }
+  .muted-text { @apply text-neutral-500; }
+  .hero-title { @apply text-4xl md:text-5xl lg:text-6xl; }
+
+  /* Login components */
+  .login-card {
+    @apply bg-white/95 rounded-2xl p-8 shadow-[0_25px_80px_rgba(0,0,0,0.12)] backdrop-blur;
+  }
+  .login-header { @apply text-center mb-6; }
+  .login-mascot { @apply text-5xl mb-3; animation: bounce 2s ease-in-out infinite; }
+  .login-title { @apply text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary; }
+  .login-subtitle { @apply text-neutral-600; }
+
+  .form-input {
+    @apply w-full px-4 py-3 rounded-lg border-2 border-neutral-200 bg-neutral-100 focus:border-primary focus:bg-white focus:ring-0;
+  }
+
+  .login-btn { @apply w-full py-4 rounded-lg font-semibold text-white bg-gradient-to-r from-primary to-secondary shadow-lg hover:translate-y-[-3px] transition; }
+
+  .register-link { @apply text-center mt-5 text-neutral-600 font-semibold; }
+
+  .status-message { @apply bg-green-100 text-green-800 px-4 py-3 rounded-lg mb-4 font-semibold; }
+  .error-message { @apply text-red-600 text-sm mt-2 font-semibold; }
+}

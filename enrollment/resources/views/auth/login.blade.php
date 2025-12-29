@@ -16,8 +16,8 @@
 
             <!-- Email Address -->
             <div class="form-group">
-                <label for="email" class="form-label"><span class="emoji">📧</span> Email Address</label>
-                <input id="email" class="form-input" type="email" name="email" value="{{ old('email') }}" required autofocus autocomplete="username" placeholder="Enter your email">
+                <label for="email" class="form-label">Email address</label>
+                <input id="email" class="form-input" type="email" name="email" value="{{ old('email') }}" required autofocus autocomplete="username" placeholder="you@domain.com">
                 @error('email')
                     <p class="error-message">{{ $message }}</p>
                 @enderror
@@ -46,11 +46,11 @@
                 @endif
             </div>
 
-            <button type="submit" class="login-btn">🚀 Let's Go!</button>
+            <button type="submit" class="login-btn">Sign in</button>
             
             @if (Route::has('register'))
                 <p class="register-link">
-                    New here? <a href="{{ route('register') }}">Create an account</a> ✨
+                    New here? <a href="{{ route('register') }}">Create an account</a>
                 </p>
             @endif
         </form>

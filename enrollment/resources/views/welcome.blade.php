@@ -1091,7 +1091,7 @@
             width: max-content;
         }
         
-        /* .testimonial-track:hover { animation-play-state: paused; } */
+        .testimonial-track:hover { animation-play-state: paused; }
         
         @keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
         
@@ -1103,11 +1103,153 @@
             min-width: 320px;
             box-shadow: 0 15px 40px rgba(0,0,0,0.2);
             text-align: center;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .testimonial-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
         }
         
         .testimonial-avatar { font-size: 60px; margin-bottom: 15px; }
         .testimonial-text { font-size: 1rem; color: #666; line-height: 1.7; margin-bottom: 15px; }
         .testimonial-name { font-weight: 800; color: #6c5ce7; font-size: 1.1rem; }
+        
+        /* Testimonial Modal */
+        .testimonial-modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 2000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+        
+        .testimonial-modal {
+            background: white;
+            width: 90%;
+            max-width: 600px;
+            border-radius: 30px;
+            padding: 40px;
+            position: relative;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            transform: scale(0.9);
+            opacity: 0;
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.3s ease;
+        }
+        
+        .testimonial-modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .testimonial-modal-overlay.active .testimonial-modal {
+            transform: scale(1);
+            opacity: 1;
+        }
+        
+        .testimonial-modal-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 24px;
+            color: #e84393;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 5px 10px;
+            border-radius: 50%;
+            transition: background-color 0.3s ease;
+        }
+        
+        .testimonial-modal-close:hover {
+            background-color: rgba(232, 67, 147, 0.1);
+        }
+        
+        .modal-header {
+            text-align: center;
+            margin-bottom: 20px;
+            border-bottom: 2px dashed rgba(108, 92, 231, 0.2);
+            padding-bottom: 20px;
+        }
+        
+        .modal-avatar-wrap {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            padding: 6px;
+            background: linear-gradient(135deg, #fd79a8, #6c5ce7);
+        }
+        
+        .modal-avatar-wrap img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        
+        .modal-name {
+            font-family: 'Fredoka One', cursive;
+            font-size: 1.8rem;
+            color: #6c5ce7;
+            margin: 0;
+        }
+        
+        .modal-title {
+            font-size: 1rem;
+            color: #fd79a8;
+            margin-top: 5px;
+        }
+        
+        .modal-content {
+            color: #4b5563;
+            line-height: 1.7;
+        }
+        
+        .modal-quote {
+            font-size: 1.1rem;
+            font-style: italic;
+            color: #2d3748;
+            border-left: 4px solid #6c5ce7;
+            padding-left: 15px;
+            margin: 20px 0;
+        }
+        
+        .modal-children-info {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 2px dashed rgba(108, 92, 231, 0.2);
+        }
+        
+        .child-icon {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            line-height: 40px;
+            text-align: center;
+            background: linear-gradient(135deg, #fd79a8, #6c5ce7);
+            border-radius: 50%;
+            color: white;
+            font-size: 20px;
+            margin-right: 10px;
+        }
+        
+        .stars-row {
+            color: #FFD93B;
+            font-size: 1.2rem;
+            margin: 15px 0;
+        }
         
         /* ========== SECTION 5: CTA ========== */
         .cta-section {
@@ -1515,7 +1657,26 @@
             </div>
         </div>
     </section>
-
+    
+    <!-- Testimonial Modal Container -->
+    <div class="testimonial-modal-overlay" id="testimonial-modal-overlay">
+        <div class="testimonial-modal">
+            <button class="testimonial-modal-close" aria-label="Close modal">×</button>
+            <div class="modal-header">
+                <div class="modal-avatar-wrap">
+                    <img src="" alt="" id="modal-avatar">
+                </div>
+                <h2 class="modal-name" id="modal-name"></h2>
+                <p class="modal-title" id="modal-title"></p>
+                <div class="stars-row" id="modal-stars"></div>
+            </div>
+            <div class="modal-content">
+                <div class="modal-quote" id="modal-quote"></div>
+                <p id="modal-full-testimonial"></p>
+                <div class="modal-children-info" id="modal-children-info"></div>
+            </div>
+        </div>
+    </div>
     
     <!-- SECTION 5: CTA -->
     <section class="cta-section">
@@ -1790,17 +1951,164 @@
             });
         });
 
-        // Testimonial interactions — toggle expanded state on click/keyboard
-        document.querySelectorAll('.testimonial-card').forEach(card => {
+        // Testimonial Modal Functionality
+        const testimonialData = [
+            {
+                name: "Maria & Family",
+                title: "Parents of Sofia, Age 4",
+                stars: 5,
+                avatar: "https://images.unsplash.com/photo-1542037104857-ffbb0b9155fb?q=80&w=1954&auto=format&fit=crop&ixlib=rb-4.1.0",
+                quote: "My daughter can't wait to go to school every day!",
+                fullTestimonial: "From the first day, Sofia has been excited to attend Little Stars Daycare. The teachers create such an engaging environment that she's always eager to tell us about the new things she learned. The art projects she brings home are beautiful, and we can see her confidence growing every day.",
+                children: [
+                    { name: "Sofia", age: 4, icon: "👧" }
+                ]
+            },
+            {
+                name: "Juan's Parents",
+                title: "Parents of Juan, Age 3.5",
+                stars: 5,
+                avatar: "https://images.unsplash.com/photo-1588979355313-6711a095465f?q=80&w=972&auto=format&fit=crop&ixlib=rb-4.1.0",
+                quote: "The teachers are amazing and truly care!",
+                fullTestimonial: "We've tried several daycares before finding Little Stars, and the difference is remarkable. The teachers genuinely care about each child's development and well-being. They always take time to discuss Juan's progress with us and offer suggestions for activities we can do at home to support his learning.",
+                children: [
+                    { name: "Juan", age: 3.5, icon: "👦" }
+                ]
+            },
+            {
+                name: "The Garcia Family",
+                title: "Parents of Twins Luis & Mia, Age 5",
+                stars: 5,
+                avatar: "https://images.unsplash.com/photo-1559734840-f9509ee5677f?q=80&w=987&auto=format&fit=crop&ixlib=rb-4.1.0",
+                quote: "Best decision we ever made for our kids!",
+                fullTestimonial: "Having twins can be challenging, but Little Stars has made it so much easier for us. The staff understands that while Luis and Mia are twins, they have different personalities and learning styles. They've helped both kids develop their unique strengths while ensuring they're both prepared for kindergarten next year.",
+                children: [
+                    { name: "Luis", age: 5, icon: "👦" },
+                    { name: "Mia", age: 5, icon: "👧" }
+                ]
+            },
+            {
+                name: "The Santos Family",
+                title: "Parents of Emma, Age 4",
+                stars: 5,
+                avatar: "https://images.unsplash.com/photo-1529518152792-d08317b26e22?q=80&w=987&auto=format&fit=crop&ixlib=rb-4.1.0",
+                quote: "Safe, fun, and educational!",
+                fullTestimonial: "Safety was our top concern when looking for a daycare, and Little Stars exceeds our expectations. The facility is always clean, secure, and well-maintained. Beyond that, Emma is learning so much through play and structured activities. She's already counting to 20 and writing her name!",
+                children: [
+                    { name: "Emma", age: 4, icon: "👧" }
+                ]
+            }
+        ];
+        
+        // Modal elements
+        const modalOverlay = document.getElementById('testimonial-modal-overlay');
+        const modalClose = modalOverlay.querySelector('.testimonial-modal-close');
+        const modalAvatar = document.getElementById('modal-avatar');
+        const modalName = document.getElementById('modal-name');
+        const modalTitle = document.getElementById('modal-title');
+        const modalStars = document.getElementById('modal-stars');
+        const modalQuote = document.getElementById('modal-quote');
+        const modalFullTestimonial = document.getElementById('modal-full-testimonial');
+        const modalChildrenInfo = document.getElementById('modal-children-info');
+        
+        // Open modal with testimonial data
+        function openTestimonialModal(index) {
+            const data = testimonialData[index % testimonialData.length];
+            
+            // Set modal content
+            modalAvatar.src = data.avatar;
+            modalAvatar.alt = data.name;
+            modalName.textContent = data.name;
+            modalTitle.textContent = data.title;
+            
+            // Set stars
+            modalStars.innerHTML = '★'.repeat(data.stars) + '☆'.repeat(5 - data.stars);
+            
+            // Set quote and full testimonial
+            modalQuote.textContent = `"${data.quote}"`;
+            modalFullTestimonial.textContent = data.fullTestimonial;
+            
+            // Set children info
+            modalChildrenInfo.innerHTML = '';
+            if (data.children && data.children.length > 0) {
+                const childrenHeading = document.createElement('h3');
+                childrenHeading.textContent = 'Our Little Stars:';
+                childrenHeading.style.marginBottom = '15px';
+                childrenHeading.style.fontSize = '1.1rem';
+                childrenHeading.style.color = '#6c5ce7';
+                modalChildrenInfo.appendChild(childrenHeading);
+                
+                const childrenContainer = document.createElement('div');
+                childrenContainer.style.display = 'flex';
+                childrenContainer.style.flexWrap = 'wrap';
+                childrenContainer.style.gap = '15px';
+                
+                data.children.forEach(child => {
+                    const childDiv = document.createElement('div');
+                    childDiv.style.display = 'flex';
+                    childDiv.style.alignItems = 'center';
+                    
+                    const iconSpan = document.createElement('span');
+                    iconSpan.className = 'child-icon';
+                    iconSpan.textContent = child.icon;
+                    
+                    const infoSpan = document.createElement('span');
+                    infoSpan.textContent = `${child.name}, ${child.age} years`;
+                    
+                    childDiv.appendChild(iconSpan);
+                    childDiv.appendChild(infoSpan);
+                    childrenContainer.appendChild(childDiv);
+                });
+                
+                modalChildrenInfo.appendChild(childrenContainer);
+            }
+            
+            // Show modal
+            modalOverlay.classList.add('active');
+            
+            // Prevent body scrolling
+            document.body.style.overflow = 'hidden';
+        }
+        
+        // Close modal
+        function closeTestimonialModal() {
+            modalOverlay.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+        
+        // Set up event listeners
+        modalClose.addEventListener('click', closeTestimonialModal);
+        modalOverlay.addEventListener('click', (e) => {
+            if (e.target === modalOverlay) {
+                closeTestimonialModal();
+            }
+        });
+        
+        // Escape key to close
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && modalOverlay.classList.contains('active')) {
+                closeTestimonialModal();
+            }
+        });
+        
+        // Add click event to testimonial cards
+        document.querySelectorAll('.testimonial-card').forEach((card, index) => {
             card.addEventListener('click', () => {
-                card.classList.toggle('expanded');
+                openTestimonialModal(index % testimonialData.length);
             });
+            
+            // Keyboard support
             card.addEventListener('keydown', (e) => {
                 if (e.key === 'Enter' || e.key === ' ') {
                     e.preventDefault();
-                    card.classList.toggle('expanded');
+                    openTestimonialModal(index % testimonialData.length);
                 }
             });
+            
+            // Make cards focusable
+            card.setAttribute('tabindex', '0');
+            card.setAttribute('role', 'button');
+            card.setAttribute('aria-label', `View full testimonial from ${testimonialData[index % testimonialData.length].name}`);
         });
 
         // Layout toggle for activities (persist in localStorage)

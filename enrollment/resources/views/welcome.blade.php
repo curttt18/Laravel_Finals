@@ -880,9 +880,133 @@
         .testimonial-actions { margin-top: 14px; }
 
         /* Footer */
-        .site-footer { background: linear-gradient(180deg,#2d3436 0%, #2b2f36 100%); color: rgba(255,255,255,0.92); padding: 48px 20px; }
-        .site-footer a { color: rgba(255,255,255,0.9); text-decoration: none; }
+        .site-footer { 
+            background: linear-gradient(180deg, #a29bfe 0%, #6c5ce7 100%);
+            color: rgba(255,255,255,0.92); 
+            padding: 48px 20px 20px; 
+            position: relative;
+            overflow: hidden;
+            border-top: 12px solid #fd79a8;
+            border-top-left-radius: 40% 30px;
+            border-top-right-radius: 40% 30px;
+        }
+        
+        .site-footer::before {
+            content: "👶 🎈 🎨 🎵 🎮";
+            position: absolute;
+            top: 10px;
+            left: 0;
+            width: 100%;
+            font-size: 20px;
+            opacity: 0.2;
+            display: flex;
+            justify-content: space-around;
+            transform: translateY(-50%);
+            pointer-events: none;
+        }
+        
+        .site-footer a { 
+            color: #fff; 
+            text-decoration: none; 
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        
+        .site-footer a:hover {
+            color: #FFD93B;
+            transform: scale(1.05);
+        }
+        
         .site-footer .col { min-width: 200px; }
+        
+        .footer-heading {
+            font-family: 'Fredoka One', cursive; 
+            color: #fff; 
+            margin-bottom: 15px;
+            font-size: 1.8rem;
+            text-shadow: 2px 2px 0 rgba(0,0,0,0.1);
+        }
+        
+        .footer-text {
+            color: rgba(255,255,255,0.9);
+            line-height: 1.6;
+            font-size: 1.05rem;
+        }
+        
+        .footer-contact {
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 20px;
+            padding: 15px 20px;
+            margin-top: 15px;
+            box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .footer-bubble {
+            position: absolute;
+            bottom: -20px;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            animation: bubbleFloat 8s infinite ease-in-out;
+        }
+        
+        .footer-bubble:nth-child(1) {
+            left: 10%;
+            width: 30px;
+            height: 30px;
+            animation-delay: 0s;
+        }
+        
+        .footer-bubble:nth-child(2) {
+            left: 30%;
+            width: 25px;
+            height: 25px;
+            animation-delay: 2s;
+        }
+        
+        .footer-bubble:nth-child(3) {
+            left: 50%;
+            width: 35px;
+            height: 35px;
+            animation-delay: 4s;
+        }
+        
+        .footer-bubble:nth-child(4) {
+            left: 70%;
+            width: 20px;
+            height: 20px;
+            animation-delay: 6s;
+        }
+        
+        .footer-bubble:nth-child(5) {
+            left: 90%;
+            width: 30px;
+            height: 30px;
+            animation-delay: 8s;
+        }
+        
+        @keyframes bubbleFloat {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-40px);
+            }
+        }
+        
+        .copyright {
+            font-family: 'Nunito', sans-serif;
+            background: rgba(0, 0, 0, 0.1);
+            padding: 15px;
+            border-radius: 30px;
+            margin-top: 25px;
+            text-align: center;
+            font-size: 0.9rem;
+            width: fit-content;
+            margin-left: auto;
+            margin-right: auto;
+        }
 
         @media (max-width: 992px) {
             .testimonial-grid { grid-template-columns: repeat(2, minmax(0,1fr)); }
@@ -1406,24 +1530,43 @@
 
     <!-- SITE FOOTER -->
     <footer class="site-footer">
+        <!-- Decorative bubbles -->
+        <div class="footer-bubble"></div>
+        <div class="footer-bubble"></div>
+        <div class="footer-bubble"></div>
+        <div class="footer-bubble"></div>
+        <div class="footer-bubble"></div>
+        
         <div style="max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 240px;gap:30px;align-items:flex-start;">
             <div>
-                <h3 style="font-family: 'Fredoka One', cursive; color: white; margin-bottom:8px;">Little Stars</h3>
-                <p style="color: rgba(255,255,255,0.8); max-width:600px;">We provide a safe, caring, and imaginative space for early childhood development. Contact us for visits and enrollment information.</p>
-                <p style="margin-top:12px; color: rgba(255,255,255,0.85);">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="vertical-align:middle;margin-right:6px;color:var(--color-accent);"><path d="M6.6 10.2a15.05 15.05 0 006.2 6.2l2.2-2.2a1 1 0 01.9-.3c1 .2 2 .3 2.8.3a1 1 0 011 1v3a1 1 0 01-1 1C10.9 20.7 3.3 13.1 3.3 4a1 1 0 011-1h3a1 1 0 011 1c0 .9.1 1.8.3 2.7.1.4 0 .9-.3 1.2l-2 2z" fill="currentColor"/></svg>
-                    <a href="tel:+1234567890">+1 (234) 567-890</a> • 
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="vertical-align:middle;margin-right:6px;color:var(--color-accent);"><path d="M3 6.5v11A2.5 2.5 0 005.5 20h13a2.5 2.5 0 002.5-2.5v-11A2.5 2.5 0 0018.5 4h-13A2.5 2.5 0 003 6.5z" stroke="currentColor" stroke-width="1.2" fill="none"/></svg>
-                    <a href="mailto:hello@littlestars.example">hello@littlestars.example</a>
-                </p> 
-            </div>
-            <div style="display:flex;flex-direction:column;gap:10px;align-items:flex-end;">
-                <div>
-                    <a class="btn-primary" href="{{ route('register') }}">Enroll now</a>
+                <h3 class="footer-heading">✨ Little Stars ✨</h3>
+                <p class="footer-text">We provide a safe, caring, and imaginative space for early childhood development. Our colorful world is designed to inspire young minds!</p>
+                
+                <div class="footer-contact">
+                    <p style="margin-bottom:10px; font-weight:bold;">Contact our friendly staff:</p>
+                    <p style="margin:8px 0;">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="vertical-align:middle;margin-right:8px;color:#FFD93B;"><path d="M6.6 10.2a15.05 15.05 0 006.2 6.2l2.2-2.2a1 1 0 01.9-.3c1 .2 2 .3 2.8.3a1 1 0 011 1v3a1 1 0 01-1 1C10.9 20.7 3.3 13.1 3.3 4a1 1 0 011-1h3a1 1 0 011 1c0 .9.1 1.8.3 2.7.1.4 0 .9-.3 1.2l-2 2z" fill="currentColor"/></svg>
+                        <a href="tel:+1234567890">+1 (234) 567-890</a>
+                    </p>
+                    <p style="margin:8px 0;"> 
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="vertical-align:middle;margin-right:8px;color:#FFD93B;"><path d="M3 6.5v11A2.5 2.5 0 005.5 20h13a2.5 2.5 0 002.5-2.5v-11A2.5 2.5 0 0018.5 4h-13A2.5 2.5 0 003 6.5z" stroke="currentColor" stroke-width="1.2" fill="none"/></svg>
+                        <a href="mailto:hello@littlestars.example">hello@littlestars.example</a>
+                    </p>
                 </div>
-                <div style="margin-top:8px; color: rgba(255,255,255,0.7); font-size:0.95rem;">Staff portal: <a href="{{ route('login') }}">Sign in</a></div>
-                <div style="margin-top:18px; color: rgba(255,255,255,0.7); font-size:0.85rem;">Made with care in our community.</div>
             </div>
+            <div style="display:flex;flex-direction:column;gap:2rem;align-items:flex-end;">
+                <div>
+                    <a class="nav-btn nav-btn-register" style="animation: float 3s ease-in-out infinite;" href="{{ route('register') }}">Join Our Family! 🚀</a>
+                </div>
+                <div style="padding:12px 18px; background:rgba(255,255,255,0.2); border-radius:20px; text-align:center;">
+                    <div style="margin-bottom:8px; font-weight:bold;">Are you a teacher?</div>
+                    <a href="{{ route('login') }}" style="display:inline-block; padding:8px 15px; background:#fff; color:#6c5ce7; border-radius:20px; font-weight:bold;">Staff Login</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="copyright">
+            © {{ date('Y') }} Little Stars Daycare • Made with ❤️ for happy kids
         </div>
     </footer>
     

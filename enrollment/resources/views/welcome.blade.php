@@ -146,13 +146,68 @@
         .ic-1 { background-color: var(--c-coral); } .ic-2 { background-color: var(--c-blue); } .ic-3 { background-color: var(--c-teal); } .ic-4 { background-color: var(--c-yellow); color: var(--c-dark); }
 
         /* Game Section */
-        .game-section { background-color: var(--c-blue); padding: 120px 0; color: white; position: relative; }
-        .game-container { max-width: 900px; margin: 0 auto; text-align: center; position: relative; z-index: 2; }
-        .game-board { background: white; border: var(--border-thick); border-radius: 28px; height: 450px; position: relative; overflow: hidden; margin-top: 40px; box-shadow: var(--shadow-hard); cursor: crosshair; }
-        .game-target { position: absolute; width: 70px; height: 70px; display: flex; align-items: center; justify-content: center; font-size: 3rem; cursor: pointer; user-select: none; transition: transform 0.1s; animation: popUp 0.6s cubic-bezier(0.34, 1.56, 0.64, 1); border: var(--border-thick); border-radius: 50%; box-shadow: 4px 4px 0px var(--c-dark); }
-        .game-target:active { transform: scale(0.9); }
+        .game-section { background: linear-gradient(135deg, var(--c-blue) 0%, #5bb3c1 50%, #87d1cf 100%); padding: 140px 0; color: white; position: relative; overflow: hidden; }
+        .game-section::before, .game-section::after { content: ''; position: absolute; z-index:1; pointer-events:none; filter: blur(28px); }
+        .game-section::before { width: 420px; height: 420px; background: radial-gradient(circle at 30% 30%, rgba(255,226,175,0.55), transparent 40%); top: -80px; left: -80px; transform: rotate(15deg); }
+        .game-section::after { width: 520px; height: 520px; background: radial-gradient(circle at 70% 70%, rgba(249,110,91,0.25), transparent 40%); bottom: -120px; right: -120px; transform: rotate(-10deg); }
+        .game-container { max-width: 980px; margin: 0 auto; text-align: center; position: relative; z-index: 2; }
+        .game-bg { position: absolute; inset: 20px 0 auto 0; top: 70px; left: 0; right: 0; height: 360px; z-index: 1; pointer-events: none; }
+        .play-shape { position: absolute; width: 84px; height: 84px; border-radius: 20%; opacity: 0.95; transform-origin: center; animation: floatPlay 6s ease-in-out infinite; box-shadow: 4px 6px 0 rgba(0,0,0,0.08); }
+        .ps-1 { background: rgba(255,226,175,0.95); top: -20px; left: 6%; transform: rotate(-12deg); animation-duration: 7s; }
+        .ps-2 { background: rgba(249,110,91,0.95); top: 18%; right: 18%; width: 120px; height: 120px; border-radius: 50%; animation-duration: 9s; }
+        .ps-3 { background: rgba(121,201,197,0.95); bottom: -10px; left: 16%; width: 100px; height: 100px; border-radius: 28%; animation-duration: 6s; }
+        .ps-4 { background: rgba(63,154,174,0.95); bottom: -28px; right: 22%; width: 70px; height: 70px; border-radius: 18px; animation-duration: 8s; }
+        .ps-5 { background: rgba(121,201,197,0.85); top: 8%; left: 42%; width: 60px; height: 60px; border-radius: 16px; animation-duration: 6.5s; transform: rotate(10deg); }
+        .ps-6 { background: rgba(255,226,175,0.85); top: 40%; right: 34%; width: 40px; height: 40px; border-radius: 10px; animation-duration: 7.5s; transform: rotate(-8deg); }
+        .ps-7 { background: rgba(249,110,91,0.75); bottom: 18%; left: 60%; width: 48px; height: 48px; border-radius: 50%; animation-duration: 5.8s; }
+        .ps-8 { background: rgba(255,255,255,0.12); top: 28%; left: 20%; width: 140px; height: 140px; border-radius: 28%; filter: blur(6px); transform: rotate(-6deg); animation-duration: 11s; }
+        @keyframes floatPlay { 0% { transform: translateY(0) rotate(0deg); } 25% { transform: translateY(-10px) rotate(-4deg); } 50% { transform: translateY(-22px) rotate(6deg); } 75% { transform: translateY(-8px) rotate(-3deg); } 100% { transform: translateY(0) rotate(0deg); } }
+        /* decorative star accents */
+        .game-section .accent-star { position: absolute; color: rgba(255,255,255,0.85); font-size: 2.2rem; opacity: 0.25; transform: rotate(-10deg); text-shadow: 2px 2px 0 rgba(0,0,0,0.03); }
+        .star-1 { left: 10%; top: 18%; }
+        .star-2 { right: 12%; top: 24%; font-size: 1.6rem; opacity: 0.18; }
+        .ribbon { position: absolute; width: 220px; height: 18px; background: rgba(255,226,175,0.12); top: 6%; right: 28%; border-radius: 12px; opacity: 0.9; transform: rotate(-16deg); }
+        .game-board { background: linear-gradient(180deg, #fff 0%, #f7fbfb 100%); border: var(--border-thick); border-radius: 28px; height: 520px; position: relative; overflow: hidden; margin-top: 40px; box-shadow: 12px 12px 0 rgba(0,0,0,0.08); cursor: crosshair; z-index: 2; }
+        .game-board::after { content: ''; position: absolute; width: 220px; height: 220px; right: -60px; top: -60px; background: radial-gradient(circle, rgba(121,201,197,0.08), transparent 50%); transform: rotate(15deg); pointer-events: none; }
+        .game-board.game-started { box-shadow: 0 0 60px rgba(255,255,255,0.05), 12px 12px 0 rgba(0,0,0,0.08); }
+        .game-target { position: absolute; width: 80px; height: 80px; display: flex; align-items: center; justify-content: center; font-size: 3rem; cursor: pointer; user-select: none; transition: transform 0.15s, opacity 0.2s; animation: popUp 0.6s cubic-bezier(0.34, 1.56, 0.64, 1); border: 6px solid rgba(45,55,72,0.12); border-radius: 50%; box-shadow: 6px 6px 0px rgba(45,55,72,0.15); }
+        .game-target:active { transform: scale(0.95); }
         @keyframes popUp { from { transform: scale(0) rotate(-180deg); } to { transform: scale(1) rotate(0deg); } }
-        .score-board { font-family: 'Fredoka', sans-serif; font-size: 2.5rem; background: var(--c-yellow); color: var(--c-dark); padding: 12px 40px; border-radius: 50px; border: var(--border-thick); display: inline-block; margin-bottom: 20px; box-shadow: 6px 6px 0px var(--c-dark); transform: rotate(-2deg); }
+        .score-board { font-family: 'Fredoka', sans-serif; font-size: 2.8rem; background-color: var(--c-yellow); color: var(--c-dark); padding: 12px 36px; border-radius: 999px; border: var(--border-thick); display: inline-block; margin-bottom: 20px; box-shadow: 10px 10px 0px rgba(0,0,0,0.08); transform: rotate(-4deg); }
+        .start-btn { background-color: var(--c-coral); color: white; font-weight: 800; padding: 18px 44px; font-size: 1.1rem; border-radius: 100px; border: 4px solid var(--c-dark); box-shadow: 6px 8px 0 rgba(0,0,0,0.08); transition: transform 0.12s ease, box-shadow 0.12s ease; }
+        .start-btn:hover { transform: translateY(-6px); box-shadow: 12px 12px 0 rgba(0,0,0,0.12); filter: brightness(0.98); }
+        .start-btn:active { transform: translateY(0); box-shadow: 6px 8px 0 rgba(0,0,0,0.08); filter: brightness(0.94); }
+        .control-btn { font-weight: 800; padding: 12px 14px; border-radius: 12px; border: 3px solid rgba(45,55,72,0.08); margin-left: 6px; display: inline-flex; align-items: center; justify-content: center; }
+        .board-controls { position: absolute; top: 16px; right: 16px; z-index: 1000; display: flex; align-items: center; gap: 12px; background: var(--bg-white); border: var(--border-thick); border-radius: 12px; padding: 8px 12px; box-shadow: 6px 6px 0 rgba(0,0,0,0.06); }
+        .board-controls i { font-size: 1.15rem; color: var(--c-dark); }
+        .control-btn { font-weight: 800; padding: 10px 12px; border-radius: 12px; border: 3px solid rgba(45,55,72,0.08); margin-left: 6px; display: inline-flex; align-items: center; justify-content: center; background: var(--bg-cream); }
+        .control-btn:hover { filter: brightness(0.97); }
+        .control-btn:active { filter: brightness(0.92); }
+        .board-score { font-family: 'Fredoka', sans-serif; font-size: 1.1rem; color: var(--c-dark); padding: 6px 8px; background: transparent; border-radius: 8px; }
+        .controls-row { display: flex; gap: 8px; align-items: center; }
+        .start-btn:hover { transform: translateY(-6px); box-shadow: 12px 12px 0 rgba(0,0,0,0.12); }
+        .start-btn:active { transform: translateY(0); box-shadow: 6px 8px 0 rgba(0,0,0,0.08); }
+        @keyframes confettiFall { 0% { transform: translateY(-10px) rotate(0deg); opacity: 1; } 100% { transform: translateY(300px) rotate(360deg); opacity: 0; } }
+        .confetti { position: absolute; width: 10px; height: 14px; border-radius: 3px; opacity: 0.95; transform: translateY(-20px); animation: confettiFall 1.2s linear forwards; z-index: 3; }
+
+        /* Responsive tweaks */
+        @media (max-width: 768px) {
+            .game-board { height: 380px; }
+            .start-btn { width: 100%; padding: 16px; }
+            .control-btn { width: 100%; display: block; margin: 8px 0 0 0; }
+            .game-bg { height: 240px; top: 60px; }
+            .ps-2, .ps-8 { display: none; }
+            .board-controls { position: absolute; left: 50%; transform: translateX(-50%); bottom: 12px; top: auto; right: auto; width: calc(100% - 40px); justify-content: space-between; padding: 12px; }
+        }
+
+        /* Responsive tweaks */
+        @media (max-width: 768px) {
+            .game-board { height: 380px; }
+            .start-btn { width: 100%; padding: 16px; }
+            .control-btn { width: 100%; display: block; margin: 8px 0 0 0; }
+            .game-bg { height: 240px; top: 60px; }
+            .ps-2, .ps-8 { display: none; }
+        }
 
         /* Reviews */
         .reviews-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
@@ -239,7 +294,6 @@
                 </p>
                 <div class="hero-btns reveal stagger-3">
                     <a href="{{ route('register') }}" class="btn btn-primary" style="padding: 18px 40px; font-size: 1.2rem;">Start The Adventure <i class="ri-arrow-right-line" style="margin-left: 10px;"></i></a>
-                    <button class="btn btn-secondary" style="padding: 18px 36px; font-size: 1.2rem;">Virtual Tour</button>
                 </div>
             </section>
         </div>
@@ -283,14 +337,35 @@
         <div class="container game-container">
             <h2 style="font-size: 4rem; margin-bottom: 10px; font-family: 'Fredoka'; text-shadow: 3px 3px 0px rgba(0,0,0,0.1);" class="reveal">Play Zone!</h2>
             <p style="font-size: 1.4rem; margin-bottom: 30px; font-weight: 600;" class="reveal stagger-1">Can you catch the floating toys?</p>
-            
-            <div class="score-board reveal stagger-2">Score: <span id="score">0</span></div>
 
-            <div class="game-board reveal stagger-3" id="gameBoard">
-                <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 10;" id="startMsg">
-                    <button class="btn btn-secondary" style="font-size: 1.8rem; padding: 24px 48px; box-shadow: 0 10px 20px rgba(0,0,0,0.2);" onclick="startGame()">Start Game ▶</button>
-                </div>
+            <div class="game-bg" aria-hidden="true">
+                <div class="play-shape ps-1"></div>
+                <div class="play-shape ps-2"></div>
+                <div class="play-shape ps-3"></div>
+                <div class="play-shape ps-4"></div>
+                <div class="play-shape ps-5"></div>
+                <div class="play-shape ps-6"></div>
+                <div class="play-shape ps-7"></div>
+                <div class="play-shape ps-8"></div>
+                <div class="accent-star star-1">★</div>
+                <div class="accent-star star-2">★</div>
+                <div class="ribbon" aria-hidden="true"></div>
             </div>
+            
+            <div class="game-board reveal stagger-3" id="gameBoard" aria-live="polite">
+                <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 10;" id="startMsg">
+                    <button class="btn start-btn" style="font-size: 1.8rem;" onclick="startGame()" id="startButton">Start Game ▶</button>
+                </div>
+
+                <div class="board-controls" id="boardControls" style="display:none;" role="region" aria-label="Game controls">
+                    <div class="board-score">Score: <span id="score">0</span></div>
+                    <div class="controls-row" role="toolbar" aria-label="game control buttons">
+                        <button class="btn control-btn" id="pauseBtn" style="display:none;" onclick="pauseGame()" title="Pause" aria-label="Pause"><i class="ri-pause-line"></i></button>
+                        <button class="btn control-btn" id="resumeBtn" style="display:none;" onclick="resumeGame()" title="Resume" aria-label="Resume"><i class="ri-play-line"></i></button>
+                        <button class="btn btn-secondary control-btn" id="stopBtn" style="display:none;" onclick="stopGame()" title="Stop" aria-label="Stop"><i class="ri-stop-line"></i></button>
+                    </div>
+                </div>
+            </div>    
         </div>
 
         <div class="wave-bottom">
@@ -391,12 +466,97 @@
         const scoreDisplay = document.getElementById('score');
         const items = ['🎈', '⭐', '🚀', '🎨', '🧸', '🍭', '🍦', '🌞'];
 
+        let spawnTimer = null;
+
         function startGame() {
+            // hide center start overlay
             document.getElementById('startMsg').style.display = 'none';
+            // show control panel
+            document.getElementById('boardControls').style.display = 'flex';
+            document.getElementById('pauseBtn').style.display = 'inline-flex';
+            document.getElementById('resumeBtn').style.display = 'none';
+            document.getElementById('stopBtn').style.display = 'inline-flex';
+
+            // ensure decorative play-shapes are not overlapping the control area
+            setTimeout(() => {
+                const controlsRect = getBoardControlRect();
+                if (controlsRect) {
+                    document.querySelectorAll('.play-shape, .accent-star').forEach(el => {
+                        const r = el.getBoundingClientRect();
+                        if (rectsOverlap(r, controlsRect)) {
+                            // nudge left/up to avoid controls
+                            el.style.transform = (el.style.transform || '') + ' translateX(-80px) translateY(20px)';
+                        }
+                    });
+                }
+            }, 80);
+
             score = 0;
             scoreDisplay.innerText = score;
             gameActive = true;
+            document.getElementById('gameBoard').classList.add('game-started');
+            spawnConfetti(14);
             spawnItem();
+        }
+
+        function pauseGame() {
+            if (!gameActive) return;
+            gameActive = false;
+            if (spawnTimer) { clearTimeout(spawnTimer); spawnTimer = null; }
+            document.getElementById('pauseBtn').style.display = 'none';
+            document.getElementById('resumeBtn').style.display = 'inline-flex';
+            document.getElementById('gameBoard').style.filter = 'grayscale(10%) brightness(0.95)';
+        }
+
+        function resumeGame() {
+            if (gameActive) return;
+            gameActive = true;
+            document.getElementById('resumeBtn').style.display = 'none';
+            document.getElementById('pauseBtn').style.display = 'inline-flex';
+            document.getElementById('gameBoard').style.filter = '';
+            spawnItem();
+        }
+
+        function stopGame() {
+            gameActive = false;
+            if (spawnTimer) { clearTimeout(spawnTimer); spawnTimer = null; }
+            // remove remaining targets
+            document.querySelectorAll('.game-target').forEach(n => n.remove());
+            score = 0;
+            scoreDisplay.innerText = score;
+            document.getElementById('pauseBtn').style.display = 'none';
+            document.getElementById('resumeBtn').style.display = 'none';
+            document.getElementById('stopBtn').style.display = 'none';
+            document.getElementById('startButton').style.display = 'inline-flex';
+            document.getElementById('startMsg').style.display = 'block';
+            document.getElementById('boardControls').style.display = 'none';
+            document.getElementById('gameBoard').classList.remove('game-started');
+            document.getElementById('gameBoard').style.filter = '';
+        }
+
+        function spawnConfetti(count = 12) {
+            const board = document.getElementById('gameBoard');
+            const colors = ['#F96E5B', '#3F9AAE', '#79C9C5', '#FFE2AF', '#FFFFFF'];
+            for (let i = 0; i < count; i++) {
+                const c = document.createElement('div');
+                c.className = 'confetti';
+                c.style.left = Math.random() * (board.clientWidth - 10) + 'px';
+                c.style.top = (Math.random() * 40) + 'px';
+                c.style.background = colors[Math.floor(Math.random() * colors.length)];
+                c.style.transform = `rotate(${Math.random() * 360}deg)`;
+                board.appendChild(c);
+                setTimeout(() => { if (c.parentNode) c.remove(); }, 1400);
+            }
+        }
+
+        function rectsOverlap(a, b) {
+            return !(a.right < b.left || a.left > b.right || a.bottom < b.top || a.top > b.bottom);
+        }
+
+        function getBoardControlRect() {
+            const bc = document.getElementById('boardControls');
+            if (!bc || bc.style.display === 'none') return null;
+            return bc.getBoundingClientRect();
         }
 
         function spawnItem() {
@@ -404,13 +564,40 @@
             const item = document.createElement('div');
             item.classList.add('game-target');
             item.innerText = items[Math.floor(Math.random() * items.length)];
-            const x = Math.random() * (gameBoard.clientWidth - 90);
-            const y = Math.random() * (gameBoard.clientHeight - 90);
-            item.style.left = `${x}px`;
-            item.style.top = `${y}px`;
+
             const colors = ['#3F9AAE', '#79C9C5', '#FFE2AF', '#F96E5B'];
             item.style.background = colors[Math.floor(Math.random() * colors.length)];
-            
+
+            // choose a random position but avoid overlapping the board controls
+            const boardRect = gameBoard.getBoundingClientRect();
+            const controlsRect = getBoardControlRect();
+            let x, y, attempts = 0;
+            const itemW = 80, itemH = 80;
+            do {
+                x = Math.random() * (gameBoard.clientWidth - itemW);
+                y = Math.random() * (gameBoard.clientHeight - itemH);
+                attempts++;
+                // compute absolute rect for the item
+                const itemRect = {
+                    left: boardRect.left + x,
+                    top: boardRect.top + y,
+                    right: boardRect.left + x + itemW,
+                    bottom: boardRect.top + y + itemH
+                };
+                // if there is no control or they don't overlap, break
+                if (!controlsRect || !rectsOverlap(itemRect, controlsRect)) break;
+            } while (attempts < 30);
+
+            // fallback: if attempts exhausted and overlap still happened, nudge item below controls
+            if (attempts >= 30 && controlsRect) {
+                // place item below controls
+                const newY = Math.min(gameBoard.clientHeight - itemH, controlsRect.bottom - boardRect.top + 12);
+                y = newY;
+            }
+
+            item.style.left = `${x}px`;
+            item.style.top = `${y}px`;
+
             item.onclick = () => {
                 score++;
                 scoreDisplay.innerText = score;
@@ -418,7 +605,10 @@
                 item.style.opacity = '0';
                 setTimeout(() => item.remove(), 200);
             };
+
             gameBoard.appendChild(item);
+
+            // auto remove old items
             setTimeout(() => {
                 if (item.parentNode) {
                     item.style.opacity = '0';
@@ -426,10 +616,13 @@
                     setTimeout(() => { if(item.parentNode) item.remove() }, 300);
                 }
             }, 1500);
+
             let speed = 900;
             if(score > 5) speed = 700;
             if(score > 10) speed = 500;
-            setTimeout(spawnItem, speed);
+            spawnTimer = setTimeout(() => {
+                if (gameActive) spawnItem();
+            }, speed);
         }
     </script>
 </body>

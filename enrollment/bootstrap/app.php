@@ -15,6 +15,9 @@ return Application::configure(basePath: dirname(__DIR__))
             'role' => \App\Http\Middleware\RoleMiddleware::class,
             'verified.account' => \App\Http\Middleware\CheckPendingAccount::class,
         ]);
+        
+        // Trust all proxies (required for Render, Railway, etc.)
+        $middleware->trustProxies(at: '*');
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //

@@ -19,16 +19,31 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+// Student-specific login page (colorful/playful design)
+Route::get('/student/login', function () {
+    return view('auth.student-login');
+})->middleware('guest')->name('student.login');
+
+// Pending verification page for new accounts
+Route::get('/pending', function () {
+    return view('auth.pending');
+})->middleware(['auth'])->name('pending');
+
 // Redirect to appropriate dashboard based on role
 Route::get('/dashboard', function () {
     $user = auth()->user();
+    
+    // Redirect pending users to verification page
+    if ($user->isPending()) {
+        return redirect()->route('pending');
+    }
     
     return match($user->role) {
         'admin' => redirect()->route('admin.dashboard'),
         'registrar' => redirect()->route('registrar.dashboard'),
         'cashier' => redirect()->route('cashier.dashboard'),
         'student' => redirect()->route('student.dashboard'),
-        default => redirect()->route('login'),
+        default => redirect()->route('pending'),
     };
 })->middleware(['auth', 'verified'])->name('dashboard');
 

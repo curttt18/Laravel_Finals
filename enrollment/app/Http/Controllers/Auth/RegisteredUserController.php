@@ -50,7 +50,7 @@ class RegisteredUserController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'role' => 'student', // Default role for new registrations
+            'role' => 'pending', // Accounts need admin verification before accessing system
         ]);
 
         event(new Registered($user));

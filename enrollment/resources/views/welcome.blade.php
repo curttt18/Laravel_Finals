@@ -193,7 +193,7 @@
                     @auth
                         <a href="{{ url('/dashboard') }}" class="btn btn-primary">Dashboard</a>
                     @else
-                        <a href="{{ route('login') }}" style="margin-right: 8px; font-weight: 800;">Log in</a>
+                        <a href="{{ route('student.login') }}" style="margin-right: 8px; font-weight: 800;">Log in</a>
                         @if (Route::has('register'))
                             <a href="{{ route('register') }}" class="btn btn-secondary" style="padding: 10px 24px;">Enroll Now</a>
                         @endif
@@ -363,6 +363,9 @@
                 </div>
             </div>
             <div style="text-align: center; border-top: 2px solid rgba(255,255,255,0.1); padding-top: 30px;">
+                <a href="{{ route('login') }}" style="opacity: 0.4; font-size: 0.85rem; margin-bottom: 16px; display: inline-block; transition: opacity 0.2s;" onmouseover="this.style.opacity='0.8'" onmouseout="this.style.opacity='0.4'">
+                    <i class="ri-shield-keyhole-line" style="margin-right: 4px;"></i> Staff Portal
+                </a>
                 <p style="opacity: 0.6; font-size: 0.9rem;">&copy; {{ date('Y') }} Little Stars Daycare. Built with joy.</p>
             </div>
         </div>

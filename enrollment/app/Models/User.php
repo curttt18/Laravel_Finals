@@ -97,4 +97,12 @@ class User extends Authenticatable
     {
         return $this->role === 'student';
     }
+
+    /**
+     * Check if user account is pending verification.
+     */
+    public function isPending(): bool
+    {
+        return $this->role === 'pending';
+    }
 }

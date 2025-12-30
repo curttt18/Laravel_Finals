@@ -28,6 +28,34 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
+        $user = auth()->user();
+        $isStudentPortal = $request->has('student_portal');
+        
+        // Check if user is using the correct portal
+        if ($isStudentPortal) {
+            // Student portal - only students and pending users allowed
+            if (!in_array($user->role, ['student', 'pending'])) {
+                Auth::logout();
+                $request->session()->invalidate();
+                $request->session()->regenerateToken();
+                
+                throw \Illuminate\Validation\ValidationException::withMessages([
+                    'email' => 'Staff members should use the Staff Portal to login.',
+                ]);
+            }
+        } else {
+            // Staff portal - only staff members allowed
+            if (in_array($user->role, ['student'])) {
+                Auth::logout();
+                $request->session()->invalidate();
+                $request->session()->regenerateToken();
+                
+                throw \Illuminate\Validation\ValidationException::withMessages([
+                    'email' => 'Students should use the Student Login page.',
+                ]);
+            }
+        }
+
         return redirect()->intended(route('dashboard', absolute: false));
     }
 

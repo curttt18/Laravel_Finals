@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->enum('role', ['admin', 'registrar', 'cashier', 'student'])->default('student')->after('password');
+            $table->enum('role', ['admin', 'registrar', 'cashier', 'student', 'pending'])->default('pending')->after('password');
             $table->unsignedBigInteger('student_id')->nullable()->after('role');
             
             $table->foreign('student_id')->references('student_id')->on('students')->onDelete('set null');

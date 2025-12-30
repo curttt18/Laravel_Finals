@@ -28,7 +28,12 @@
             <!-- Password -->
             <div class="form-group">
                 <label for="password" class="form-label">Password</label>
-                <input id="password" class="form-input" type="password" name="password" required autocomplete="current-password" placeholder="Enter your password">
+                <div style="position: relative;">
+                    <input id="password" class="form-input" type="password" name="password" required autocomplete="current-password" placeholder="Enter your password" style="padding-right: 45px;">
+                    <button type="button" id="togglePassword" style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; padding: 4px; color: #64748b;">
+                        <i class="ri-eye-off-line" id="eyeIcon" style="font-size: 1.2rem;"></i>
+                    </button>
+                </div>
                 @error('password')
                     <p class="error-message">{{ $message }}</p>
                 @enderror
@@ -59,4 +64,21 @@
             @endif
         </form>
     </div>
+
+    <script>
+        document.getElementById('togglePassword').addEventListener('click', function() {
+            const passwordInput = document.getElementById('password');
+            const eyeIcon = document.getElementById('eyeIcon');
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                eyeIcon.classList.remove('ri-eye-off-line');
+                eyeIcon.classList.add('ri-eye-line');
+            } else {
+                passwordInput.type = 'password';
+                eyeIcon.classList.remove('ri-eye-line');
+                eyeIcon.classList.add('ri-eye-off-line');
+            }
+        });
+    </script>
 </x-guest-layout>

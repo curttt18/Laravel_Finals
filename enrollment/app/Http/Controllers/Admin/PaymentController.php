@@ -118,6 +118,13 @@ class PaymentController extends Controller
             ])->withInput();
         }
 
+        // For full payment, amount must equal remaining balance
+        if ($validated['payment_type'] === 'full' && $validated['payment_amount'] < $remainingBalance) {
+            return back()->withErrors([
+                'payment_amount' => 'Full payment requires the complete remaining balance of ₱' . number_format($remainingBalance, 2) . '. Select "Installment" for partial payments.',
+            ])->withInput();
+        }
+
         $payment->update($validated);
 
         ActivityLog::create([
@@ -140,5 +147,19 @@ class PaymentController extends Controller
         ]);
 
         return redirect()->route($this->routeName('payments.index'))->with('success', 'Payment deleted successfully!');
+    }
+    public function checkBalance(Student $student, Fee $fee)
+    {
+        $existingPayments = Payment::where('student_id', $student->student_id)
+            ->where('fee_id', $fee->fee_id)
+            ->sum('payment_amount');
+            
+        $remainingBalance = $fee->amount - $existingPayments;
+        
+        return response()->json([
+            'fee_amount' => $fee->amount,
+            'total_paid' => $existingPayments,
+            'remaining_balance' => max(0, $remainingBalance)
+        ]);
     }
 }

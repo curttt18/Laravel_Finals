@@ -75,6 +75,33 @@
         
         <!-- Right Column -->
         <div class="right-column">
+            <!-- Outstanding Fees Card -->
+            <div class="card" style="margin-bottom: 24px;">
+                <div class="card-header">
+                    <i class="ri-wallet-3-line" style="color: var(--danger);"></i>
+                    <h3>Outstanding Fees</h3>
+                    @if($outstandingFees->count() > 0)
+                        <span class="card-badge" style="background: var(--danger); color: white;">{{ $outstandingFees->count() }} Due</span>
+                    @endif
+                </div>
+                @forelse($outstandingFees as $fee)
+                    <div class="enrollment-item" style="display: flex; justify-content: space-between; align-items: center;">
+                        <div class="enrollment-info">
+                            <span class="school-year">{{ $fee->fee_name }}</span>
+                            <span class="enrollment-date" style="color: var(--danger); font-weight: 600;">Balance: ₱{{ number_format($fee->remaining, 2) }}</span>
+                        </div>
+                        <a href="{{ route('student.payments.create', $fee->fee_id) }}" class="btn btn-sm btn-primary" style="text-decoration: none; font-size: 0.8rem; padding: 6px 12px; border-radius: 8px;">
+                            Pay Now <i class="ri-arrow-right-line" style="margin-left: 4px;"></i>
+                        </a>
+                    </div>
+                @empty
+                    <div class="empty-state">
+                        <i class="ri-checkbox-circle-line" style="color: var(--success); opacity: 1;"></i>
+                        <p style="margin-top: 12px; color: var(--success); font-weight: 600;">All fees are paid!</p>
+                    </div>
+                @endforelse
+            </div>
+
             <!-- Enrollment Status Card -->
             <div class="card">
                 <div class="card-header">

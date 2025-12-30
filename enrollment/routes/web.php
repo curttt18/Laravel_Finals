@@ -12,6 +12,9 @@ use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\Admin\ActivityLogController as AdminActivityLogController;
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\Student\DashboardController as StudentDashboardController;
+use App\Http\Controllers\Student\PaymentController as StudentPaymentController;
+
 Route::get('/', function () {
     return view('welcome');
 });
@@ -47,6 +50,7 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     Route::resource('fees', AdminFeeController::class)->except(['show'])->parameters(['fees' => 'fee:fee_id']);
     
     // Payments CRUD
+    Route::get('payments/check-balance/{student}/{fee}', [AdminPaymentController::class, 'checkBalance'])->name('payments.check-balance');
     Route::resource('payments', AdminPaymentController::class)->except(['show'])->parameters(['payments' => 'payment:payment_id']);
     
     // Grades CRUD
@@ -134,6 +138,7 @@ Route::middleware(['auth', 'role:cashier'])->prefix('cashier')->name('cashier.')
     Route::get('/students', [AdminStudentController::class, 'index'])->name('students.index');
     Route::get('/students/{student:student_id}', [AdminStudentController::class, 'show'])->name('students.show');
     // Cashier can create and edit payments, but NOT delete (for audit trail)
+    Route::get('payments/check-balance/{student}/{fee}', [AdminPaymentController::class, 'checkBalance'])->name('payments.check-balance');
     Route::resource('payments', AdminPaymentController::class)
         ->except(['show', 'destroy'])
         ->parameters(['payments' => 'payment:payment_id']);
@@ -141,20 +146,9 @@ Route::middleware(['auth', 'role:cashier'])->prefix('cashier')->name('cashier.')
 
 // Student Portal Routes
 Route::middleware(['auth', 'role:student'])->prefix('student')->name('student.')->group(function () {
-    Route::get('/dashboard', function () {
-        $user = auth()->user();
-        $student = $user->student;
-        
-        if (!$student) {
-            return view('student.no-profile');
-        }
-        
-        $enrollments = $student->enrollments()->orderBy('created_at', 'desc')->get();
-        $payments = $student->payments()->with('fee')->orderBy('created_at', 'desc')->get();
-        $grades = $student->grades()->with('teacher')->orderBy('created_at', 'desc')->get();
-        
-        return view('student.dashboard', compact('student', 'enrollments', 'payments', 'grades'));
-    })->name('dashboard');
+    Route::get('/dashboard', [StudentDashboardController::class, 'index'])->name('dashboard');
+    Route::get('/payments/create/{fee}', [StudentPaymentController::class, 'create'])->name('payments.create');
+    Route::post('/payments', [StudentPaymentController::class, 'store'])->name('payments.store');
 });
 
 Route::middleware('auth')->group(function () {

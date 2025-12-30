@@ -229,7 +229,7 @@
         <div class="container">
             <section class="hero">
                 <div class="hero-badge reveal">
-                    <i class="ri-rocket-2-fill"></i> Enrollment Open for 2025!
+                    <i class="ri-rocket-2-fill"></i> Enrollment Open for 2026!
                 </div>
                 <h1 class="hero-title reveal stagger-1">
                     Spark Your Child's <br> <span>Imagination!</span>

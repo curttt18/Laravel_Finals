@@ -25,8 +25,12 @@ WORKDIR /var/www/html
 # Copy application files
 COPY enrollment/ .
 
-# Install PHP dependencies
-RUN composer install --no-dev --optimize-autoloader --no-interaction
+# Copy the SSL certificate
+RUN mkdir -p /var/www/html/storage/certs
+COPY enrollment/storage/certs/tidb-ca.pem /var/www/html/storage/certs/tidb-ca.pem
+
+# Install PHP dependencies (without running artisan commands that need DB)
+RUN composer install --no-dev --optimize-autoloader --no-interaction --no-scripts
 
 # Set permissions
 RUN chown -R www-data:www-data /var/www/html \
@@ -38,13 +42,15 @@ ENV APACHE_DOCUMENT_ROOT=/var/www/html/public
 RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf
 RUN sed -ri -e 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf
 
-# Cache Laravel configs
-RUN php artisan config:cache \
-    && php artisan route:cache \
-    && php artisan view:cache
+# Create a startup script that caches config at runtime (when env vars are available)
+RUN echo '#!/bin/bash\n\
+php artisan config:clear\n\
+php artisan cache:clear\n\
+php artisan view:clear\n\
+apache2-foreground' > /var/www/html/start.sh && chmod +x /var/www/html/start.sh
 
 # Expose port 80
 EXPOSE 80
 
-# Start Apache
-CMD ["apache2-foreground"]
+# Start with our script
+CMD ["/var/www/html/start.sh"]

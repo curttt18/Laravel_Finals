@@ -62,7 +62,7 @@
             </button>
             
             <p class="auth-footer">
-                Already registered? <a href="{{ route('login') }}">Log in</a>
+                Already registered? <a href="{{ route('login') }}">Login</a>
             </p>
         </form>
     </div>

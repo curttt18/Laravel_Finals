@@ -84,6 +84,24 @@
         .nav-links a::after { content: ''; position: absolute; bottom: -5px; left: 0; width: 0%; height: 4px; background: var(--c-teal); transition: width 0.2s; border-radius: 4px; }
         .nav-links a:hover::after { width: 100%; }
         .nav-actions { display: flex; align-items: center; gap: 16px; }
+        .nav-login { 
+            font-weight: 800; 
+            color: var(--c-blue); 
+            padding: 10px 20px; 
+            border-radius: 100px; 
+            border: 3px solid transparent;
+            transition: all 0.2s ease; 
+            position: relative;
+        }
+        .nav-login:hover { 
+            color: var(--c-coral); 
+            background: rgba(63, 154, 174, 0.1);
+            transform: translateY(-3px) scale(1.05);
+        }
+        .nav-login:active { 
+            transform: translateY(0) scale(0.98); 
+            background: rgba(63, 154, 174, 0.2);
+        }
 
         .btn { display: inline-flex; align-items: center; justify-content: center; padding: 14px 32px; font-weight: 700; border-radius: 100px; border: var(--border-thick); font-size: 1.05rem; cursor: pointer; transition: all 0.2s; text-transform: uppercase; }
         .btn:hover { transform: translate(-4px, -4px); box-shadow: var(--shadow-hard); }
@@ -147,27 +165,25 @@
         .ic-1 { background-color: var(--c-coral); } .ic-2 { background-color: var(--c-blue); } .ic-3 { background-color: var(--c-teal); } .ic-4 { background-color: var(--c-yellow); color: var(--c-dark); }
 
         /* Game Section */
-        .game-section { background: linear-gradient(135deg, var(--c-blue) 0%, #5bb3c1 50%, #87d1cf 100%); padding: 140px 0; color: white; position: relative; overflow: hidden; }
-        .game-section::before, .game-section::after { content: ''; position: absolute; z-index:1; pointer-events:none; filter: blur(28px); }
-        .game-section::before { width: 420px; height: 420px; background: radial-gradient(circle at 30% 30%, rgba(255,226,175,0.55), transparent 40%); top: -80px; left: -80px; transform: rotate(15deg); }
-        .game-section::after { width: 520px; height: 520px; background: radial-gradient(circle at 70% 70%, rgba(249,110,91,0.25), transparent 40%); bottom: -120px; right: -120px; transform: rotate(-10deg); }
+        .game-section { background: var(--c-blue); padding: 140px 0; color: white; position: relative; overflow: hidden; }
         .game-container { max-width: 980px; margin: 0 auto; text-align: center; position: relative; z-index: 2; }
         .game-bg { position: absolute; inset: 20px 0 auto 0; top: 70px; left: 0; right: 0; height: 360px; z-index: 1; pointer-events: none; }
-        .play-shape { position: absolute; width: 84px; height: 84px; border-radius: 20%; opacity: 0.95; transform-origin: center; animation: floatPlay 6s ease-in-out infinite; box-shadow: 4px 6px 0 rgba(0,0,0,0.08); }
-        .ps-1 { background: rgba(255,226,175,0.95); top: -20px; left: 6%; transform: rotate(-12deg); animation-duration: 7s; }
-        .ps-2 { background: rgba(249,110,91,0.95); top: 18%; right: 18%; width: 120px; height: 120px; border-radius: 50%; animation-duration: 9s; }
-        .ps-3 { background: rgba(121,201,197,0.95); bottom: -10px; left: 16%; width: 100px; height: 100px; border-radius: 28%; animation-duration: 6s; }
-        .ps-4 { background: rgba(63,154,174,0.95); bottom: -28px; right: 22%; width: 70px; height: 70px; border-radius: 18px; animation-duration: 8s; }
-        .ps-5 { background: rgba(121,201,197,0.85); top: 8%; left: 42%; width: 60px; height: 60px; border-radius: 16px; animation-duration: 6.5s; transform: rotate(10deg); }
-        .ps-6 { background: rgba(255,226,175,0.85); top: 40%; right: 34%; width: 40px; height: 40px; border-radius: 10px; animation-duration: 7.5s; transform: rotate(-8deg); }
-        .ps-7 { background: rgba(249,110,91,0.75); bottom: 18%; left: 60%; width: 48px; height: 48px; border-radius: 50%; animation-duration: 5.8s; }
-        .ps-8 { background: rgba(255,255,255,0.12); top: 28%; left: 20%; width: 140px; height: 140px; border-radius: 28%; filter: blur(6px); transform: rotate(-6deg); animation-duration: 11s; }
+        .play-shape { position: absolute; width: 84px; height: 84px; border-radius: 20%; opacity: 0.7; transform-origin: center; animation: floatPlay 6s ease-in-out infinite; box-shadow: 4px 6px 0 rgba(0,0,0,0.08); }
+        /* Floating shapes - positioned far outside on left and right */
+        .ps-1 { background: rgba(255,226,175,0.85); top: 2%; left: -12%; width: 70px; height: 70px; transform: rotate(-12deg); animation-duration: 7s; }
+        .ps-2 { background: rgba(249,110,91,0.85); top: 25%; right: -14%; width: 90px; height: 90px; border-radius: 50%; animation-duration: 9s; }
+        .ps-3 { background: rgba(121,201,197,0.85); bottom: 2%; left: -10%; width: 80px; height: 80px; border-radius: 28%; animation-duration: 6s; }
+        .ps-4 { background: rgba(63,154,174,0.85); bottom: 60%; right: -11%; width: 60px; height: 60px; border-radius: 18px; animation-duration: 8s; }
+        .ps-5 { background: rgba(121,201,197,0.7); top: 85%; right: -13%; width: 50px; height: 50px; border-radius: 16px; animation-duration: 6.5s; transform: rotate(10deg); }
+        .ps-6 { background: rgba(255,226,175,0.7); top: 50%; left: -11%; width: 55px; height: 55px; border-radius: 10px; animation-duration: 7.5s; transform: rotate(-8deg); }
+        .ps-7 { display: none; }
+        .ps-8 { display: none; }
         @keyframes floatPlay { 0% { transform: translateY(0) rotate(0deg); } 25% { transform: translateY(-10px) rotate(-4deg); } 50% { transform: translateY(-22px) rotate(6deg); } 75% { transform: translateY(-8px) rotate(-3deg); } 100% { transform: translateY(0) rotate(0deg); } }
-        /* decorative star accents */
+        /* decorative star accents - sides only */
         .game-section .accent-star { position: absolute; color: rgba(255,255,255,0.85); font-size: 2.2rem; opacity: 0.25; transform: rotate(-10deg); text-shadow: 2px 2px 0 rgba(0,0,0,0.03); }
-        .star-1 { left: 10%; top: 18%; }
-        .star-2 { right: 12%; top: 24%; font-size: 1.6rem; opacity: 0.18; }
-        .ribbon { position: absolute; width: 220px; height: 18px; background: rgba(255,226,175,0.12); top: 6%; right: 28%; border-radius: 12px; opacity: 0.9; transform: rotate(-16deg); }
+        .star-1 { left: 5%; top: 20%; }
+        .star-2 { right: 5%; top: 30%; font-size: 1.6rem; opacity: 0.18; }
+        .ribbon { display: none; }
         .game-board { background: linear-gradient(180deg, #fff 0%, #f7fbfb 100%); border: var(--border-thick); border-radius: 28px; height: 520px; position: relative; overflow: hidden; margin-top: 40px; box-shadow: 12px 12px 0 rgba(0,0,0,0.08); cursor: crosshair; z-index: 2; }
         .game-board::after { content: ''; position: absolute; width: 220px; height: 220px; right: -60px; top: -60px; background: radial-gradient(circle, rgba(121,201,197,0.08), transparent 50%); transform: rotate(15deg); pointer-events: none; }
         .game-board.game-started { box-shadow: 0 0 60px rgba(255,255,255,0.05), 12px 12px 0 rgba(0,0,0,0.08); }
@@ -249,7 +265,7 @@
                     @auth
                         <a href="{{ url('/dashboard') }}" class="btn btn-primary">Dashboard</a>
                     @else
-                        <a href="{{ route('student.login') }}" style="margin-right: 8px; font-weight: 800;">Log in</a>
+                        <a href="{{ route('student.login') }}" class="nav-login">Login</a>
                         @if (Route::has('register'))
                             <a href="{{ route('register') }}" class="btn btn-secondary" style="padding: 10px 24px;">Enroll Now</a>
                         @endif

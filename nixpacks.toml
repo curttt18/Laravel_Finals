@@ -1,0 +1,19 @@
+# Laravel/PHP nixpacks configuration for Railway
+[phases.setup]
+nixPkgs = ["php83", "php83Extensions.pdo", "php83Extensions.pdo_mysql", "php83Extensions.mbstring", "php83Extensions.openssl", "php83Extensions.tokenizer", "php83Extensions.xml", "php83Extensions.ctype", "php83Extensions.json", "php83Extensions.bcmath", "php83Extensions.fileinfo", "php83Extensions.curl"]
+
+[phases.install]
+cmds = [
+    "curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer",
+    "cd enrollment && composer install --no-dev --optimize-autoloader"
+]
+
+[phases.build]
+cmds = [
+    "cd enrollment && php artisan config:cache",
+    "cd enrollment && php artisan route:cache",
+    "cd enrollment && php artisan view:cache"
+]
+
+[start]
+cmd = "cd enrollment && php artisan serve --host=0.0.0.0 --port=${PORT:-8080}"

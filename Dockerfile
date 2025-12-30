@@ -32,21 +32,36 @@ COPY enrollment/storage/certs/tidb-ca.pem /var/www/html/storage/certs/tidb-ca.pe
 # Install PHP dependencies (without running artisan commands that need DB)
 RUN composer install --no-dev --optimize-autoloader --no-interaction --no-scripts
 
-# Set permissions
+# Create all required storage directories
+RUN mkdir -p /var/www/html/storage/framework/sessions \
+    && mkdir -p /var/www/html/storage/framework/views \
+    && mkdir -p /var/www/html/storage/framework/cache/data \
+    && mkdir -p /var/www/html/storage/logs \
+    && mkdir -p /var/www/html/bootstrap/cache
+
+# Set permissions (777 for session storage to ensure writes work)
 RUN chown -R www-data:www-data /var/www/html \
-    && chmod -R 755 /var/www/html/storage \
-    && chmod -R 755 /var/www/html/bootstrap/cache
+    && chmod -R 777 /var/www/html/storage \
+    && chmod -R 777 /var/www/html/bootstrap/cache
 
 # Configure Apache document root
 ENV APACHE_DOCUMENT_ROOT=/var/www/html/public
 RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf
 RUN sed -ri -e 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf
 
-# Create a startup script that caches config at runtime (when env vars are available)
+# Create a startup script
 RUN echo '#!/bin/bash\n\
+# Ensure storage directories exist and are writable\n\
+mkdir -p /var/www/html/storage/framework/sessions\n\
+mkdir -p /var/www/html/storage/framework/views\n\
+mkdir -p /var/www/html/storage/framework/cache/data\n\
+chmod -R 777 /var/www/html/storage\n\
+chmod -R 777 /var/www/html/bootstrap/cache\n\
+# Clear caches\n\
 php artisan config:clear\n\
 php artisan cache:clear\n\
 php artisan view:clear\n\
+# Start Apache\n\
 apache2-foreground' > /var/www/html/start.sh && chmod +x /var/www/html/start.sh
 
 # Expose port 80
